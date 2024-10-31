@@ -10,7 +10,6 @@ public abstract class CharacterData : MonoBehaviour
     [SerializeField] protected int _attackpower;
     [SerializeField] protected float _attackspeed;
     [SerializeField] protected int _damage;
-
 }
 
 public abstract class CharacterController : MonoBehaviour

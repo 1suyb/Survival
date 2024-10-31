@@ -4,12 +4,12 @@ using UnityEngine;
 
 public abstract class CharacterController : MonoBehaviour
 {
-    [SerializeField] private int _health;
-    [SerializeField] private float _speed;
+    [SerializeField] protected int _health;
+    [SerializeField] protected float _speed;
 
-    [SerializeField] private int _attackpower;
-    [SerializeField] private float _attackspeed;
-    [SerializeField] private int _damage;
+    [SerializeField] protected int _attackpower;
+    [SerializeField] protected float _attackspeed;
+    [SerializeField] protected int _damage;
 
     public abstract void Move();
     public abstract void Look();
@@ -17,3 +17,4 @@ public abstract class CharacterController : MonoBehaviour
     public abstract void TakeDamage();
     public abstract void Die();
 }
+

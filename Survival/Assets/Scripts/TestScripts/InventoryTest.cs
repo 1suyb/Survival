@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class InventoryTest : MonoBehaviour
 {
+    [SerializeField] private InventoryPresenter presenter;
+    [SerializeField] private UIInventory inventoryUI;
+
     private Inventory inventory;
     void Start()
     {
-		inventory = new Inventory();
+        inventory = new Inventory();
+        presenter.Init(inventory);
+        presenter.TestUI(inventoryUI);
+		inventoryUI.SetPresenter(presenter);
 	}
 
     public void AddItemInventoryTest()
@@ -18,9 +24,14 @@ public class InventoryTest : MonoBehaviour
         data.Description = "description";
         data.ISStackable= true;
         data.MaxQuantity = 30;
+        data.SpritePath = "Sprites/1";
 
-        inventory.AddItem(data, 5);
+        ItemObject itemObject = new ItemObject();
+        itemObject.Init(data, 5);
+
+		presenter.AddItem(itemObject);
     }
+
 	public void AddItemInventoryTest2()
 	{
 		ItemData data = new ItemData();
@@ -29,8 +40,13 @@ public class InventoryTest : MonoBehaviour
 		data.Description = "description";
 		data.ISStackable = false;
 		data.MaxQuantity = 0;
+		data.SpritePath = "Sprites/2";
 
-		inventory.AddItem(data, 0);
+
+		ItemObject itemObject = new ItemObject();
+		itemObject.Init(data, 0);
+
+		presenter.AddItem(itemObject);
 	}
 
     public void ShowInventoryList()

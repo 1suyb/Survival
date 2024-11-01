@@ -31,7 +31,7 @@ public class MonsterAI : MonoBehaviour
     [Header("Return")]
     private Vector3 _wayPoint;
 
-    [Header("Death")]
+    //[Header("Death")]
     void Start()
     {
         

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e276eaddda7fdcd47a8a99d5937d426e, type: 3}
+  m_Name: BuildItemData
+  m_EditorClassIdentifier: 
+  BuildItem:
+  - Id: 1
+    Name: "\uC791\uC5C5\uB300"
+    Description: "\uBB34\uC5B8\uAC00\uB97C \uB9CC\uB4E4 \uC218 \uC788\uC744 \uAC83
+      \uAC19\uB2E4."
+    Type: Build
+    MaxStackAmount: 1
+    RequireResourceName: "\uB098\uBB34"
+    RequireCount: 20
+    SpritePath: 
+    PrefabPath: 
+  - Id: 2
+    Name: "\uC624\uB450\uB9C9 "
+    Description: "\uAC04\uC774\uB85C \uC9C0\uC740 \uAC83 \uCE58\uACE0\uB294 \uD2BC\uD2BC\uD558\uB2E4."
+    Type: Build
+    MaxStackAmount: 1
+    RequireResourceName: "\uB098\uBB34"
+    RequireCount: 10
+    SpritePath: 
+    PrefabPath: 
+  - Id: 3
+    Name: "\uCE68\uB300"
+    Description: "\uCE68\uB300 \uBC16\uC740 \uC704\uD5D8\uD574"
+    Type: Build
+    MaxStackAmount: 1
+    RequireResourceName: "\uB098\uBB34"
+    RequireCount: 5
+    SpritePath: 
+    PrefabPath: 

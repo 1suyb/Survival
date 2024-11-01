@@ -22,6 +22,9 @@ public class PoolingSystem
 			return _pool;
 		}
 	}
+	public bool IsPoolEmpty => _pool.Count == 0;
+
+
 	public PoolingSystem(GameObject targetObject, int minSize=0, int maxSize = 100, int id = 0, Transform poolManagerTransform = null)
 	{
 		_targetObject = targetObject;
@@ -43,13 +46,13 @@ public class PoolingSystem
 		Poolable poolable = go.AddUniqueComponent<Poolable>();
 		poolable.Init(this, _id);
 		go.SetActive(false);
-		Push(go);
 		return go;
 	}
 
 	public GameObject TakeFromPool()
 	{
-		if(_pool.Count == 0)
+		Debug.Log(_pool.Count);
+		if(IsPoolEmpty)
 		{
 			CreatePooledItem();
 		}

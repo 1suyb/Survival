@@ -15,6 +15,7 @@ public class AreaRespawnSystem : MonoBehaviour
 	[SerializeField] private int _spawnCount;
 
 	private PoolingSystem _pool;
+	private GameObject[] _spawnedObjects;
 
 	private void Awake()
 	{
@@ -22,6 +23,7 @@ public class AreaRespawnSystem : MonoBehaviour
 									minSize: _spawnCount,
 									id:_id,
 									poolManagerTransform:this.transform);
+
 	}
 
 	public void Spawn()
@@ -31,11 +33,14 @@ public class AreaRespawnSystem : MonoBehaviour
 		{
 			positions.Add(GetRandomPosition());
 		}
-		foreach(Vector2 position in positions)
-		{
+		Debug.Log(positions.Count);
+        foreach (Vector3 position in positions)
+        {
+			if (_pool.IsPoolEmpty) { break; }
 			GameObject go = _pool.TakeFromPool();
 			go.transform.position = position;
 		}
+
 	}
 
 	private Vector3 GetRandomPosition()

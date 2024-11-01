@@ -6,26 +6,25 @@ public interface ILoadable
 	public void Load(int id);
 }
 
-
-
-public class PoolingSystem<T> where T : MonoBehaviour
+public class PoolingSystem
 {
+	private GameObject _targetObject;
 	private Transform _poolManagerTransform;
-	private Stack<T> _pool;
+	private Stack<GameObject> _pool;
 	private readonly int MAXSIZE;
 	private readonly int MINSIZE;
 	private int _poolSize;
 	private int _id;
-	public Stack<T> Pool
+	public Stack<GameObject> Pool
 	{
 		get
 		{
 			return _pool;
 		}
 	}
-	public PoolingSystem(int minSize, int maxSize, int id = 0, Transform poolManagerTransform = null)
+	public PoolingSystem(GameObject _targetObject, int minSize=0, int maxSize = 100, int id = 0, Transform poolManagerTransform = null)
 	{
-		_pool = new Stack<T>();
+		_pool = new Stack<GameObject>();
 		_poolManagerTransform = poolManagerTransform;
 		MAXSIZE = maxSize;
 		MINSIZE = minSize;
@@ -37,29 +36,28 @@ public class PoolingSystem<T> where T : MonoBehaviour
 		}
 	}
 
-	private T CreatePooledItem()
+	private GameObject CreatePooledItem()
 	{
-		GameObject go = ResourceManager.Instantiate<T>(_poolManagerTransform);
-		Poolable<T> poolable = go.AddUniqueComponent<Poolable<T>>();
+		GameObject go = ResourceManager.Instantiate(_targetObject,_poolManagerTransform);
+		Poolable poolable = go.AddUniqueComponent<Poolable>();
 		poolable.Init(this, _id);
 		go.SetActive(false);
-		T item = go.GetComponent<T>();
-		Push(item);
-		return item;
+		Push(go);
+		return go;
 	}
 
-	public T TakeFromPool()
+	public GameObject TakeFromPool()
 	{
 		if(_pool.Count == 0)
 		{
 			CreatePooledItem();
 		}
-		T item = _pool.Pop();
-		item.gameObject.SetActive(true);
+		GameObject item = _pool.Pop();
+		item.SetActive(true);
 		return item;
 	}
 
-	public void Release(T item)
+	public void Release(GameObject item)
 	{
 		if (_poolSize == MAXSIZE)
 		{
@@ -69,7 +67,7 @@ public class PoolingSystem<T> where T : MonoBehaviour
 		Push(item);
 	}
 
-	private void Push(T item)
+	private void Push(GameObject item)
 	{
 		_poolSize++;
 		_pool.Push(item);

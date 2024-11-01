@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Poolable<T> : MonoBehaviour where T : MonoBehaviour
+public class Poolable : MonoBehaviour
 {
-	private PoolingSystem<T> _pool;
-	public void Init(PoolingSystem<T> pool, int id = 0)
+	private PoolingSystem _pool;
+	public void Init(PoolingSystem pool, int id = 0)
 	{
 		_pool = pool;
 		if (gameObject.TryGetComponent<ILoadable>(out ILoadable lodable))
@@ -13,6 +13,6 @@ public class Poolable<T> : MonoBehaviour where T : MonoBehaviour
 	}
 	private void OnDisable()
 	{
-		_pool.Release(this.GetComponent<T>());
+		_pool.Release(this.gameObject);
 	}
 }

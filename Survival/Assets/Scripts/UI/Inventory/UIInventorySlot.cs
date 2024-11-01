@@ -9,11 +9,15 @@ public class UIInventorySlot : UI, IDragHandler, IPointerDownHandler, IEndDragHa
 	[SerializeField] private Image _itemIcon;
 	private UIInventory _inventoryUI;
 	public InventoryItem Item { get; private set; }
+	private int _index;
+	public int Index => _index;
 
 
-	public void Init(UIInventory inventoryUI)
+	public void Init(UIInventory inventoryUI, int index)
 	{
 		_inventoryUI = inventoryUI;
+		_index = index;
+		UpdateSlot();
 	}
 
 	public void SetItem(InventoryItem item)
@@ -39,11 +43,10 @@ public class UIInventorySlot : UI, IDragHandler, IPointerDownHandler, IEndDragHa
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-		if(Item != null)
-		{
-			_itemIcon.transform.SetParent(this.transform, false);
-			_itemIcon.transform.position = this.transform.position;
-		}
+
+		_itemIcon.transform.SetParent(this.transform, false);
+		_itemIcon.transform.position = this.transform.position;
+
 	}
 	public void OnDrag(PointerEventData eventData)
 	{

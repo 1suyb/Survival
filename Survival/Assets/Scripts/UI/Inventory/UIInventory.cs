@@ -5,35 +5,39 @@ using UnityEngine;
 
 public class UIInventory : UI
 {
+	private InventoryPresenter _presenter;
 	[SerializeField] private Transform _inventoryPanel;
-
-	private Inventory _inventory;
-
 	private UIInventorySlot[] _slots;
 	private UIInventorySlot _selectedSlot;
 
 	private void Awake()
 	{
 		_slots = _inventoryPanel.GetComponentsInChildren<UIInventorySlot>();
-		foreach(UIInventorySlot slot in _slots)
+		for (int i = 0; i < _slots.Length; i++)
 		{
-			slot.Init(this);
+			_slots[i].Init(this, i);
 		}
 	}
+
+	public void SetPresenter(InventoryPresenter presenter)
+	{
+		_presenter = presenter;
+	}
+
 	public void SelectSlot(UIInventorySlot slot)
 	{
 		_selectedSlot = slot;
 	}
 	public void SwapSlot(UIInventorySlot slot)
 	{
-		InventoryItem tempItem = slot.Item;
-		slot.SetItem(_selectedSlot.Item);
-		_selectedSlot.SetItem(tempItem);
+		_presenter.Swap(_selectedSlot.Index, slot.Index);
 	}
 
-	public void UpdateInventory()
+	public void UpdateInventoryUI(in InventoryItem[] items)
 	{
-
+		for (int i = 0; i < _slots.Length; i++)
+		{
+			_slots[i].SetItem(items[i]);
+		}
 	}
-
 }

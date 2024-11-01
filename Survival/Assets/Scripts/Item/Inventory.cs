@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Inventory
 {
-	private InventoryItem[] _inventoryItem = new InventoryItem[GameConfig.INVENTORYSIZE];
+	private InventoryItem[] _inventoryItems = new InventoryItem[GameConfig.INVENTORYSIZE];
+	public InventoryItem[] InventoryItems => _inventoryItems;
 
-	public int InventorySize => GameConfig.INVENTORYSIZE;
+	public int Size => GameConfig.INVENTORYSIZE;
 	public bool IsFull => IndexOfEmptySlot() == -1;
 
 	public bool HasThisItem(InventoryItem item)
@@ -19,7 +20,7 @@ public class Inventory
 	}
 	public bool HasThisItem(int targetItemID)
 	{
-		foreach (InventoryItem item in _inventoryItem)
+		foreach (InventoryItem item in _inventoryItems)
 		{
 			if(item != null)
 			{
@@ -42,11 +43,11 @@ public class Inventory
 	}
 	public int IndexOf(int id)
 	{
-		for (int i = 0; i < _inventoryItem.Length; i++)
+		for (int i = 0; i < _inventoryItems.Length; i++)
 		{
 			if (!IsNull(i))
 			{
-				if (id == _inventoryItem[i].Data.ID)
+				if (id == _inventoryItems[i].Data.ID)
 				{
 					return i;
 				}
@@ -59,11 +60,11 @@ public class Inventory
 	public List<int> Indices(int id)
 	{
 		List<int> indices = new List<int>();
-		for (int i = 0; i< _inventoryItem.Length; i++)
+		for (int i = 0; i< _inventoryItems.Length; i++)
 		{
 			if (!IsNull(i))
 			{
-				if (id == _inventoryItem[i].Data.ID)
+				if (id == _inventoryItems[i].Data.ID)
 				{
 					indices.Add(i);
 				}
@@ -74,11 +75,11 @@ public class Inventory
 
 	public InventoryItem At(int i)
 	{
-		return _inventoryItem[i];
+		return _inventoryItems[i];
 	}
 	public int IndexOfEmptySlot()
 	{
-		for(int i = 0; i<_inventoryItem.Length; i++)
+		for(int i = 0; i<_inventoryItems.Length; i++)
 		{
             if (IsNull(i))
             {
@@ -88,7 +89,7 @@ public class Inventory
 		return -1;
 	}
 
-	private bool IsNull(int i) { return _inventoryItem[i] == null; }
+	private bool IsNull(int i) { return _inventoryItems[i] == null; }
 
 	public void AddItem(ItemData itemData,int count)
 	{
@@ -138,14 +139,14 @@ public class Inventory
 
 	private void AddItemQuantity(int index, int count)
 	{
-		_inventoryItem[index].AddCount(count);
+		_inventoryItems[index].AddCount(count);
 	}
 	private void AddNewItem(ItemData data,int count)
 	{
 		int index = IndexOfEmptySlot();
 		if (IsNull(index))
 		{
-			_inventoryItem[index] = new InventoryItem(data, count);
+			_inventoryItems[index] = new InventoryItem(data, count);
 			if (count > data.MaxQuantity)
 			{
 				count -= data.MaxQuantity;
@@ -154,20 +155,20 @@ public class Inventory
 		}
 		else
 		{
-			_inventoryItem[index].SetData(data);
+			_inventoryItems[index].SetData(data);
 			count--;
 		}
 		
 		if(count > 0)
 		{
-			if (count <= _inventoryItem[index].RemainCapacity)
+			if (count <= _inventoryItems[index].RemainCapacity)
 			{
-				_inventoryItem[index].AddCount(count);
+				_inventoryItems[index].AddCount(count);
 			}
 			else
 			{
-				_inventoryItem[index].AddCount(_inventoryItem[index].RemainCapacity);
-				AddItem(_inventoryItem[index].Data, count - (data.MaxQuantity-1));
+				_inventoryItems[index].AddCount(_inventoryItems[index].RemainCapacity);
+				AddItem(_inventoryItems[index].Data, count - (data.MaxQuantity-1));
 			}
 			
 		}
@@ -177,53 +178,11 @@ public class Inventory
 		Debug.Log("아이템 버리기");
 	}
 
-}
-public class InventoryItem
-{
-	private ItemData _data;
-	private int _count;
-	public ItemData Data => _data;
-	public int Count => _count;
-	public int RemainCapacity => _data.MaxQuantity - Count;
-	public bool IsFull => RemainCapacity == 0;
-
-	public InventoryItem(ItemData data, int count)
+	public void SwapItem(int i, int j)
 	{
-		_data = data;
-		_count = count<data.MaxQuantity ? count : data.MaxQuantity;
+		InventoryItem tempItem = _inventoryItems[i];
+		_inventoryItems[i] = _inventoryItems[j];
+		_inventoryItems[j] = tempItem;
 	}
 
-	public void SetData(ItemData data)
-	{
-		_data = data;
-		_count = 1;
-	}
-	public void AddCount(int count)
-	{
-		if (!_data.ISStackable)
-		{
-			Debug.LogError("쌓을 수 없는 아이템!");
-			return;
-		}
-		if((Count + count) > _data.MaxQuantity)
-		{
-			Debug.LogError("용량초과!");
-			return;
-		}
-		_count += count;
-	}
-	public void SubtractCount(int count)
-	{
-		if ((Count - count) < 0)
-		{
-			Debug.LogError("개수 부족!");
-		}
-		_count -= count;
-	}
-
-
-	public void Use()
-	{
-
-	}
 }

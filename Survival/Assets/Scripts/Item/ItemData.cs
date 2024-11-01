@@ -12,5 +12,4 @@ public class ItemData
 	public string SpritePath;
 	public bool ISStackable;
 	public int MaxQuantity;
-
 }

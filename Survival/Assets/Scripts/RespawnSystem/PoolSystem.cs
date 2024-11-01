@@ -21,10 +21,9 @@ public class Poolable<T> : MonoBehaviour where T : MonoBehaviour
 	}
 	private void OnDisable()
 	{
-		_pool.Release(this);
+		_pool.Release(this.GetComponent<T>());
 	}
 }
-
 
 public class PoolingSystem<T> where T : MonoBehaviour
 {
@@ -34,9 +33,17 @@ public class PoolingSystem<T> where T : MonoBehaviour
 	private readonly int MINSIZE;
 	private int _poolSize;
 	private int _id;
-
-	public PoolingSystem(int minSize, int maxSize, int id = 0)
+	public Stack<T> Pool
 	{
+		get
+		{
+			return _pool;
+		}
+	}
+	public PoolingSystem(int minSize, int maxSize, int id = 0, Transform poolManagerTransform = null)
+	{
+		_pool = new Stack<T>();
+		_poolManagerTransform = poolManagerTransform;
 		MAXSIZE = maxSize;
 		MINSIZE = minSize;
 		_id = id;
@@ -47,34 +54,41 @@ public class PoolingSystem<T> where T : MonoBehaviour
 		}
 	}
 
-	public Stack<T> Pool
-	{
-		get
-		{
-			return _pool;
-		}
-	}
-
 	private T CreatePooledItem()
 	{
 		GameObject go = ResourceManager.Instantiate<T>(_poolManagerTransform);
-		Poolable<T> poolable = go.AddComponent<Poolable<T>>();
+		Poolable<T> poolable = go.AddUniqueComponent<Poolable<T>>();
 		poolable.Init(this, _id);
 		go.SetActive(false);
 		T item = go.GetComponent<T>();
+		Push(item);
 		return item;
 	}
 
 	public T TakeFromPool()
 	{
+		if(_pool.Count == 0)
+		{
+			CreatePooledItem();
+		}
 		T item = _pool.Pop();
 		item.gameObject.SetActive(true);
 		return item;
 	}
 
-	public void Release(Poolable<T> item)
+	public void Release(T item)
 	{
-		_pool.Push(item.GetComponent<T>());
+		if (_poolSize == MAXSIZE)
+		{
+			GameObject.Destroy(item.gameObject);
+			return;
+		}
+		Push(item);
 	}
 
+	private void Push(T item)
+	{
+		_poolSize++;
+		_pool.Push(item);
+	}
 }

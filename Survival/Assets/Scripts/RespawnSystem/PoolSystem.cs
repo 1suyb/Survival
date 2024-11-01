@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public interface ILoadable
@@ -8,22 +6,7 @@ public interface ILoadable
 	public void Load(int id);
 }
 
-public class Poolable<T> : MonoBehaviour where T : MonoBehaviour
-{
-	private PoolingSystem<T> _pool;
-	public void Init(PoolingSystem<T> pool, int id = 0)
-	{
-		_pool = pool;
-		if(gameObject.TryGetComponent<ILoadable>(out ILoadable lodable))
-		{
-			lodable.Load(id);
-		}
-	}
-	private void OnDisable()
-	{
-		_pool.Release(this.GetComponent<T>());
-	}
-}
+
 
 public class PoolingSystem<T> where T : MonoBehaviour
 {

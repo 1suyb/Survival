@@ -1,17 +1,17 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 public class AreaRespawnSystem : MonoBehaviour
 {
-	[Header("¸®½ºÆù ¹İ°æ")]
+	[Tooltip("ë¦¬ìŠ¤í° ë°˜ê²½")]
 	[SerializeField] private float _spawnAreaRadius;
-	[Header("±âÁØ ³ôÀÌ. ÁöÇüÀÌ ÆòÆòÇÏÁö ¾ÊÀ» °æ¿ì ³Ë³ËÇÏ°Ô ³ô°Ô ¼³Á¤ÇØÁÖ¼¼¿ä.")]
+	[Tooltip("ê¸°ì¤€ ë†’ì´. ì§€í˜•ì´ í‰í‰í•˜ì§€ ì•Šì„ ê²½ìš° ë„‰ë„‰í•˜ê²Œ ë†’ê²Œ ì„¤ì •í•´ì£¼ì„¸ìš”.")]
 	[SerializeField] private float _standardHeight = 10;
-	[Header("ÇØ´ç À§Ä¡¿¡ ½ºÆùµÉ ¿ÀºêÁ§Æ®")]
+	[Tooltip("í•´ë‹¹ ìœ„ì¹˜ì— ìŠ¤í°ë  ì˜¤ë¸Œì íŠ¸")]
 	[SerializeField] private GameObject _targetObject;
-	[Header("¸¸¾à µ¥ÀÌÅÍ¸¦ DB¿¡¼­ °ü¸®ÇÑ´Ù¸é ¿øÇÏ´Â ¿ÀºêÁ§Æ®ÀÇ id")]
+	[Tooltip("ë§Œì•½ ë°ì´í„°ë¥¼ DBì—ì„œ ê´€ë¦¬í•œë‹¤ë©´ ì›í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ì˜ id")]
 	[SerializeField] private int _id;
-	[Header("½ºÆùµÉ ¿ÀºêÁ§Æ®ÀÇ °³¼ö")]
+	[Tooltip("ìŠ¤í°ë  ì˜¤ë¸Œì íŠ¸ì˜ ê°œìˆ˜")]
 	[SerializeField] private int _spawnCount;
 
 	private PoolingSystem _pool;

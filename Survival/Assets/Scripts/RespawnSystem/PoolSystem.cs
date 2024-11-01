@@ -22,8 +22,9 @@ public class PoolingSystem
 			return _pool;
 		}
 	}
-	public PoolingSystem(GameObject _targetObject, int minSize=0, int maxSize = 100, int id = 0, Transform poolManagerTransform = null)
+	public PoolingSystem(GameObject targetObject, int minSize=0, int maxSize = 100, int id = 0, Transform poolManagerTransform = null)
 	{
+		_targetObject = targetObject;
 		_pool = new Stack<GameObject>();
 		_poolManagerTransform = poolManagerTransform;
 		MAXSIZE = maxSize;

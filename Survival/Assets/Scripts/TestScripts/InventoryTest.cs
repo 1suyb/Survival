@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class InventoryTest : MonoBehaviour
 {
-    [SerializeField] private Inventory inventory;
+    private Inventory inventory;
     void Start()
     {
-        
-    }
+		inventory = new Inventory();
+	}
 
     public void AddItemInventoryTest()
     {
@@ -32,5 +32,20 @@ public class InventoryTest : MonoBehaviour
 
 		inventory.AddItem(data, 0);
 	}
+
+    public void ShowInventoryList()
+    {
+        for(int i = 0; i<GameConfig.INVENTORYSIZE; i++)
+        {
+            if (inventory.At(i) == null)
+            {
+                Debug.Log($"{i} : null");
+            }
+            else
+            {
+                Debug.Log($"{i} : {inventory.At(i).Data.ID} / {inventory.At(i).Count}");
+			}
+        }
+    }
 
 }

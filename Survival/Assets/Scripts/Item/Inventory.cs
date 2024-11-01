@@ -1,18 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
-public class Inventory : MonoBehaviour
+public class Inventory
 {
 	private InventoryItem[] _inventoryItem = new InventoryItem[GameConfig.INVENTORYSIZE];
 
-	private void Start()
-	{
-		//_inventoryItem = new InventoryItem[GameConfig.INVENTORYSIZE];
-	}
 	public int InventorySize => GameConfig.INVENTORYSIZE;
-	public bool IsFull => !HasThisItem(0);
+	public bool IsFull => IndexOfEmptySlot() == -1;
 
 	public bool HasThisItem(InventoryItem item)
 	{
@@ -26,9 +21,12 @@ public class Inventory : MonoBehaviour
 	{
 		foreach (InventoryItem item in _inventoryItem)
 		{
-			if (targetItemID == item.Data.ID)
+			if(item != null)
 			{
-				return true;
+				if (targetItemID == item.Data.ID)
+				{
+					return true;
+				}
 			}
 		}
 		return false;
@@ -46,10 +44,14 @@ public class Inventory : MonoBehaviour
 	{
 		for (int i = 0; i < _inventoryItem.Length; i++)
 		{
-			if (id == _inventoryItem[i].Data.ID)
+			if (!IsNull(i))
 			{
-				return i;
+				if (id == _inventoryItem[i].Data.ID)
+				{
+					return i;
+				}
 			}
+
 		}
 		return -1;
 	}
@@ -59,9 +61,12 @@ public class Inventory : MonoBehaviour
 		List<int> indices = new List<int>();
 		for (int i = 0; i< _inventoryItem.Length; i++)
 		{
-			if(id == _inventoryItem[i].Data.ID)
+			if (!IsNull(i))
 			{
-				indices.Add(i);
+				if (id == _inventoryItem[i].Data.ID)
+				{
+					indices.Add(i);
+				}
 			}
 		}
 		return indices;
@@ -73,8 +78,17 @@ public class Inventory : MonoBehaviour
 	}
 	public int IndexOfEmptySlot()
 	{
-		return IndexOf(0);
+		for(int i = 0; i<_inventoryItem.Length; i++)
+		{
+            if (IsNull(i))
+            {
+				return i;
+            }
+        }
+		return -1;
 	}
+
+	private bool IsNull(int i) { return _inventoryItem[i] == null; }
 
 	public void AddItem(ItemData itemData,int count)
 	{
@@ -129,8 +143,21 @@ public class Inventory : MonoBehaviour
 	private void AddNewItem(ItemData data,int count)
 	{
 		int index = IndexOfEmptySlot();
-		_inventoryItem[index].SetData(data);
-		count--;
+		if (IsNull(index))
+		{
+			_inventoryItem[index] = new InventoryItem(data, count);
+			if (count > data.MaxQuantity)
+			{
+				count -= data.MaxQuantity;
+			}
+			count = 0;
+		}
+		else
+		{
+			_inventoryItem[index].SetData(data);
+			count--;
+		}
+		
 		if(count > 0)
 		{
 			if (count <= _inventoryItem[index].RemainCapacity)
@@ -151,18 +178,25 @@ public class Inventory : MonoBehaviour
 	}
 
 }
-[Serializable]
 public class InventoryItem
 {
 	private ItemData _data;
+	private int _count;
 	public ItemData Data => _data;
-	public int Count { get;private set; }
+	public int Count => _count;
 	public int RemainCapacity => _data.MaxQuantity - Count;
 	public bool IsFull => RemainCapacity == 0;
+
+	public InventoryItem(ItemData data, int count)
+	{
+		_data = data;
+		_count = count<data.MaxQuantity ? count : data.MaxQuantity;
+	}
+
 	public void SetData(ItemData data)
 	{
 		_data = data;
-		Count = 1;
+		_count = 1;
 	}
 	public void AddCount(int count)
 	{
@@ -176,7 +210,7 @@ public class InventoryItem
 			Debug.LogError("용량초과!");
 			return;
 		}
-		Count += count;
+		_count += count;
 	}
 	public void SubtractCount(int count)
 	{
@@ -184,7 +218,7 @@ public class InventoryItem
 		{
 			Debug.LogError("개수 부족!");
 		}
-		Count -= count;
+		_count -= count;
 	}
 
 

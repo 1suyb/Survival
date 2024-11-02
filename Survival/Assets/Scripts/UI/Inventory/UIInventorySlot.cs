@@ -36,7 +36,7 @@ public class UIInventorySlot : UI, IDragHandler, IPointerDownHandler, IEndDragHa
 		else
 		{
 			_itemIcon.enabled = true;
-			_itemCount.text = Item.Count.ToString();
+			_itemCount.text = Item.Count == 1 ? "" : Item.Count.ToString();
 			_itemIcon.sprite = Resources.Load<Sprite>(Item.Data.SpritePath);
 		}
 	}

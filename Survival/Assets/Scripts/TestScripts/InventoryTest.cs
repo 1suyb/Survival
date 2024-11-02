@@ -26,10 +26,8 @@ public class InventoryTest : MonoBehaviour
         data.MaxQuantity = 30;
         data.SpritePath = "Sprites/1";
 
-        ItemObject itemObject = new ItemObject();
-        itemObject.Init(data, 5);
 
-		presenter.AddItem(itemObject);
+		presenter.AddItem(data, 5);
     }
 
 	public void AddItemInventoryTest2()
@@ -39,14 +37,10 @@ public class InventoryTest : MonoBehaviour
 		data.Name = "name";
 		data.Description = "description";
 		data.ISStackable = false;
-		data.MaxQuantity = 0;
+		data.MaxQuantity = 1;
 		data.SpritePath = "Sprites/2";
 
-
-		ItemObject itemObject = new ItemObject();
-		itemObject.Init(data, 0);
-
-		presenter.AddItem(itemObject);
+		presenter.AddItem(data, 1);
 	}
 
     public void ShowInventoryList()

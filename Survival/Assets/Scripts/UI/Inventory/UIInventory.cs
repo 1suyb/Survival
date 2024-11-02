@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UIInventory : UI
 {
-	private InventoryPresenter _presenter;
+	private IInventoryPresenter _presenter;
 	[SerializeField] private Transform _inventoryPanel;
 	private UIInventorySlot[] _slots;
 	private UIInventorySlot _selectedSlot;
@@ -19,7 +19,8 @@ public class UIInventory : UI
 		}
 	}
 
-	public void SetPresenter(InventoryPresenter presenter)
+	// Test를 위한 코드
+	public void SetPresenter(IInventoryPresenter presenter)
 	{
 		_presenter = presenter;
 	}

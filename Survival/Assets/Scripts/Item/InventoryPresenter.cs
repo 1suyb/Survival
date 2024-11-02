@@ -1,8 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
-public class InventoryPresenter : MonoBehaviour
+public interface IInventoryPresenter
+{
+	public void OpenUI();
+	public void AddItem(ItemData item, int count);
+	public void DropItem(InventoryItem item);
+	public void Swap(int i, int j);
+}
+
+public class InventoryPresenter : MonoBehaviour, IInventoryPresenter
 {
 	private Inventory _inventory;
 	private UIInventory _inventoryUI;
@@ -17,14 +26,14 @@ public class InventoryPresenter : MonoBehaviour
 		_inventoryUI = inventoryUI;
 	}
 
-	public void OpenInventoryUI()
+	public void OpenUI()
 	{
 		_inventoryUI = UIManager.Instance.OpenUI<UIInventory>();
 	}
 
-	public void AddItem(ItemObject item)
+	public void AddItem(ItemData item, int count)
 	{
-		_inventory.AddItem(item.Data, item.Count);
+		_inventory.AddItem(item, count);
 		_inventoryUI.UpdateInventoryUI(_inventory.InventoryItems);
 	}
 

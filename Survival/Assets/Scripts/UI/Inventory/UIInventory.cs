@@ -10,6 +10,11 @@ public class UIInventory : UI
 	private UIInventorySlot[] _slots;
 	private UIInventorySlot _selectedSlot;
 
+	public bool IsAtNull(int index)
+	{
+		return _presenter.IsAtNull(index);
+	}
+
 	private void Awake()
 	{
 		_slots = _inventoryPanel.GetComponentsInChildren<UIInventorySlot>();
@@ -19,11 +24,11 @@ public class UIInventory : UI
 		}
 	}
 
-	// Test를 위한 코드
-	public void SetPresenter(IInventoryPresenter presenter)
+	public void Init(IInventoryPresenter presenter)
 	{
 		_presenter = presenter;
 	}
+
 
 	public void SelectSlot(UIInventorySlot slot)
 	{
@@ -31,14 +36,18 @@ public class UIInventory : UI
 	}
 	public void SwapSlot(UIInventorySlot slot)
 	{
-		_presenter.Swap(_selectedSlot.Index, slot.Index);
+		if (_selectedSlot != null)
+		{
+			_presenter.Swap(_selectedSlot.Index, slot.Index);
+			_selectedSlot = null;
+		}
 	}
 
-	public void UpdateInventoryUI(in InventoryItem[] items)
+	public void UpdateInventoryUI(in Sprite[] sprites, in string[] texts)
 	{
 		for (int i = 0; i < _slots.Length; i++)
 		{
-			_slots[i].SetItem(items[i]);
+			_slots[i].UpdateUI(texts[i], sprites[i]);
 		}
 	}
 }

@@ -10,8 +10,9 @@ public interface IInventoryPresenter
 	public void AddItem(ItemData item, int count);
 	public void DropItem(InventoryItem item);
 	public void Swap(int i, int j);
-
 	public bool IsAtNull(int index);
+
+	public ItemInfo OpenItemInfo(int index);
 }
 
 public class InventoryPresenter : MonoBehaviour, IInventoryPresenter
@@ -99,9 +100,25 @@ public class InventoryPresenter : MonoBehaviour, IInventoryPresenter
 
 		return countText;
 	}
-
 	public bool IsAtNull(int index)
 	{
 		return _inventory.At(index) == null;
+	}
+
+	public ItemInfo OpenItemInfo(int index)
+	{
+		ItemInfo info = new ItemInfo();
+		info.IsActive = _inventory.At(index) != null;
+		if(!info.IsActive)
+		{
+			return info;
+		}
+		ItemData data = _inventory.At(index).Data;
+		info.Name = data.Name;
+		info.Description = data.Description;
+		info.Type = data.Type;
+		info.ItemCountText = _inventory.At(index).Count == 1 ? "" : _inventory.At(index).Count.ToString();
+		info.Sprite = Resources.Load<Sprite>(data.SpritePath);
+		return info;
 	}
 }

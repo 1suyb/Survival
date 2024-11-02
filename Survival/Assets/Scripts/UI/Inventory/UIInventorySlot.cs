@@ -3,7 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventorySlot : Slot, IDragHandler, IPointerDownHandler, IEndDragHandler, IDropHandler, IBeginDragHandler
+public class UIInventorySlot : Slot,
+	IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler,
+	IPointerDownHandler, IPointerUpHandler,
+	IPointerEnterHandler, IPointerExitHandler
 {
 	private UIInventory _inventoryUI;
 	private int _index;
@@ -23,6 +26,7 @@ public class UIInventorySlot : Slot, IDragHandler, IPointerDownHandler, IEndDrag
 		_icon.transform.position = this.transform.position;
 
 	}
+
 	public void OnDrag(PointerEventData eventData)
 	{
 		
@@ -47,7 +51,6 @@ public class UIInventorySlot : Slot, IDragHandler, IPointerDownHandler, IEndDrag
 		}
 	}
 
-
 	public void OnBeginDrag(PointerEventData eventData)
 	{
 		if (!_inventoryUI.IsAtNull(_index))
@@ -55,5 +58,20 @@ public class UIInventorySlot : Slot, IDragHandler, IPointerDownHandler, IEndDrag
 			_icon.transform.SetParent(_inventoryUI.transform, false);
 			_icon.transform.position = eventData.position;
 		}
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		_inventoryUI.OpenItemInfo(Index);
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		_inventoryUI.CloseItemInfo();
+	}
+
+	public void OnPointerUp(PointerEventData eventData)
+	{
+
 	}
 }

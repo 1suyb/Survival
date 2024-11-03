@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Inventory
 {
+	private ClassPoolSystem<InventoryItem> pool = new ClassPoolSystem<InventoryItem>(minSize:GameConfig.INVENTORYSIZE);
 	private InventoryItem[] _inventoryItems = new InventoryItem[GameConfig.INVENTORYSIZE];
 	public InventoryItem[] InventoryItems => _inventoryItems;
 
 	public int Size => GameConfig.INVENTORYSIZE;
 	public bool IsFull => IndexOfEmptySlot() == -1;
+
 
 	public bool HasThisItem(InventoryItem item)
 	{
@@ -146,7 +148,8 @@ public class Inventory
 		int index = IndexOfEmptySlot();
 		if (IsNull(index))
 		{
-			_inventoryItems[index] = new InventoryItem(data, count);
+			_inventoryItems[index] = pool.TakeFromPool();
+			_inventoryItems[index].Init(data,count);
 			if (count > data.MaxQuantity)
 			{
 				count -= data.MaxQuantity;
@@ -173,9 +176,21 @@ public class Inventory
 			
 		}
 	}
-	public void DropItem()
+	public void DropItem(int index, int count)
 	{
-		Debug.Log("아이템 버리기");
+		InventoryItem item = _inventoryItems[index];
+		if (item.Count < count)
+		{
+			Debug.Log("잘못된 개수 요청");
+			return;
+		}
+		item.SubtractCount(count);
+		if(item.Count == 0)
+		{
+			pool.Relase(item);
+		}
+		_inventoryItems[index]=null;
+		
 	}
 
 	public void SwapItem(int i, int j)

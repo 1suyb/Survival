@@ -47,7 +47,7 @@ public class InventoryController : MonoBehaviour, IUIUpdater<ItemInfoArray>
 
 	public void DropItem(int index)
 	{
-		_inventory.DropItem();
+		_inventory.DropItem(index,_inventory.At(index).Count);
 		UpdateInventoryUI();
 	}
 

@@ -11,11 +11,16 @@ public class InventoryItem
 	public int RemainCapacity => _data.MaxQuantity - Count;
 	public bool IsFull => RemainCapacity == 0;
 
-
+	public InventoryItem() { }
 	public InventoryItem(ItemData data, int count)
 	{
 		_data = data;
 		_count = count<data.MaxQuantity ? count : data.MaxQuantity;
+	}
+	public void Init(ItemData data, int count)
+	{
+		_data = data;
+		_count = count < data.MaxQuantity ? count : data.MaxQuantity;
 	}
 
 	public void SetData(ItemData data)

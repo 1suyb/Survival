@@ -13,14 +13,14 @@ public class UIInventoryItemInfo : MonoBehaviour
 
 	public void OpenUI(in ItemInfo info)
 	{
-		if(info.IsActive)
+		if(!info.IsNullItem)
 		{
-			_icon.UpdateUI(info.ItemCountText, info.Sprite);
+			_icon.UpdateUI(info.ItemCount == 1 ? "" : info.ItemCount.ToString(), info.Sprite);
 			_itemName.text = info.Name;
 			_itemType.text = info.Type;
 			_itemDescription.text = info.Description;
 		}
-		this.gameObject.SetActive(info.IsActive);
+		this.gameObject.SetActive(!info.IsNullItem);
 	}
 	public void CloseUI()
 	{
@@ -30,10 +30,17 @@ public class UIInventoryItemInfo : MonoBehaviour
 
 public struct ItemInfo
 {
+	public bool IsNullItem;
+
 	public string Name;
-	public string Type;
 	public string Description;
+	public string Type;
+	public bool IsEquiped;
+
 	public Sprite Sprite;
-	public string ItemCountText;
-	public bool IsActive;
+	public int ItemCount;
+}
+public struct ItemInfoArray
+{
+	public ItemInfo[] Items;
 }

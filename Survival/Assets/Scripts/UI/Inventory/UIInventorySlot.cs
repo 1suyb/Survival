@@ -8,61 +8,65 @@ public class UIInventorySlot : Slot,
 	IPointerDownHandler, IPointerUpHandler,
 	IPointerEnterHandler, IPointerExitHandler
 {
-	private UIInventory _inventoryUI;
-	private int _index;
-	public int Index => _index;
 
+	[SerializeField] private Image _slotImage;
+
+	private UIInventory _inventoryUI;
+
+	public int Index { get; private set; }
+
+	private ItemInfo _item;
+	public ItemInfo ItemInfo => _item;
 
 	public void Init(UIInventory inventoryUI, int index)
 	{
 		_inventoryUI = inventoryUI;
-		_index = index;
+		Index = index;
 	}
 
-	public void OnEndDrag(PointerEventData eventData)
+	public void UpdateUI(ItemInfo item)
 	{
-
-		_icon.transform.SetParent(this.transform, false);
-		_icon.transform.position = this.transform.position;
-
+		_item = item;
+		UpdateUI(item.ItemCount<=1?"":item.ItemCount.ToString(), item.Sprite);
 	}
 
-	public void OnDrag(PointerEventData eventData)
+	public void OnPointerEnter(PointerEventData eventData)
 	{
-		
-		if (!_inventoryUI.IsAtNull(_index))
-		{
-			_icon.transform.position = eventData.position;
-		}
-	}
-
-	public void OnDrop(PointerEventData eventData)
-	{
-
-		_inventoryUI.SwapSlot(this);
-
+		_inventoryUI.OpenItemInfo(_item);
 	}
 
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		if (!_inventoryUI.IsAtNull(_index))
-		{
-			_inventoryUI.SelectSlot(this);
-		}
+		_inventoryUI.SelectSlot(this);
 	}
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		if (!_inventoryUI.IsAtNull(_index))
+		if (!_item.IsNullItem)
 		{
 			_icon.transform.SetParent(_inventoryUI.transform, false);
 			_icon.transform.position = eventData.position;
 		}
 	}
 
-	public void OnPointerEnter(PointerEventData eventData)
+	public void OnDrag(PointerEventData eventData)
 	{
-		_inventoryUI.OpenItemInfo(Index);
+
+		if (!_item.IsNullItem)
+		{
+			_icon.transform.position = eventData.position;
+		}
+	}
+
+	public void OnEndDrag(PointerEventData eventData)
+	{
+		_icon.transform.SetParent(this.transform, false);
+		_icon.transform.position = this.transform.position;
+	}
+
+	public void OnDrop(PointerEventData eventData)
+	{
+		_inventoryUI.SwapSlot(this);
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
@@ -72,6 +76,7 @@ public class UIInventorySlot : Slot,
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
-
+		_inventoryUI.OpenItemButtons(Index);
 	}
+
 }

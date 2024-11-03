@@ -4,10 +4,13 @@ public class InventoryItem
 {
 	private ItemData _data;
 	private int _count;
+	public bool IsEquiped { get; private set; }
+
 	public ItemData Data => _data;
 	public int Count => _count;
 	public int RemainCapacity => _data.MaxQuantity - Count;
 	public bool IsFull => RemainCapacity == 0;
+
 
 	public InventoryItem(ItemData data, int count)
 	{
@@ -46,6 +49,9 @@ public class InventoryItem
 
 	public void Use()
 	{
-
+		if (Data.Type == "Weapon")
+		{
+			IsEquiped = !IsEquiped;
+		}
 	}
 }

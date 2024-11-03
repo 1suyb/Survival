@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryTest : MonoBehaviour
 {
-    [SerializeField] private InventoryPresenter presenter;
+    [SerializeField] private InventoryController presenter;
     [SerializeField] private UIInventory inventoryUI;
 
     private Inventory inventory;
@@ -22,6 +22,7 @@ public class InventoryTest : MonoBehaviour
         data.ID = 101;
         data.Name = "name";
         data.Description = "description";
+        data.Type = "Consumable";
         data.ISStackable= true;
         data.MaxQuantity = 30;
         data.SpritePath = "Sprites/1";
@@ -36,6 +37,20 @@ public class InventoryTest : MonoBehaviour
 		data.ID = 102;
 		data.Name = "name";
 		data.Description = "description";
+        data.Type = "Weapon";
+		data.ISStackable = false;
+		data.MaxQuantity = 1;
+		data.SpritePath = "Sprites/2";
+
+		presenter.AddItem(data, 1);
+	}
+	public void AddItemInventoryTest3()
+	{
+		ItemData data = new ItemData();
+		data.ID = 103;
+		data.Name = "name2";
+		data.Description = "description";
+		data.Type = "Resource";
 		data.ISStackable = false;
 		data.MaxQuantity = 1;
 		data.SpritePath = "Sprites/2";
@@ -43,7 +58,7 @@ public class InventoryTest : MonoBehaviour
 		presenter.AddItem(data, 1);
 	}
 
-    public void ShowInventoryList()
+	public void ShowInventoryList()
     {
         for(int i = 0; i<GameConfig.INVENTORYSIZE; i++)
         {

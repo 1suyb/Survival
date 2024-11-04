@@ -26,5 +26,9 @@ public static class Utils
 			return component;
 		}
 		return go.AddComponent<T>();
+	public static string GetPath<T>(string name)
+	{
+		GetPath<T>();
+		return GetPath<T>() + $"/{name}";
 	}
 }

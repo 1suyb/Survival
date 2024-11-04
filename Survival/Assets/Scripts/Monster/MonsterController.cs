@@ -9,16 +9,21 @@ public class MonsterController : CharacterController
     public List<Monster> monsters = new List<Monster>();
     public MonsterAI monsterAI;
 
-    [Header("Wandering")]
-    public float minWanderDistance;
-    public float maxWanderDistance;
-    public float minWanderWaitTime;
-    public float maxWanderWaitTime;
+    public float _minWanderDistance;
+    public float _maxWanderDistance;
+    public float _minWanderWaitTime;
+    public float _maxWanderWaitTime;
 
-    public Transform player;
-    public float rotationSpeed = 5f;
+    public Transform _player;
+    public float _rotationSpeed = 5f;
 
     private NavMeshAgent agent;
+
+    private float _playerDistance;
+    public float _fieldOfView = 120f;
+
+    public float _attackDistance;
+
 
     private void Awake()
     {
@@ -57,35 +62,22 @@ public class MonsterController : CharacterController
 
     public void Wander()
     {
-        //if (aiState == AIState.Wandering && agent.remainingDistance < 0.1f)
-        //{
-        //    SetState(AIState.Idle);
         if (agent.remainingDistance < 0.1f)
         {
-            Invoke("WanderToNewLocation", Random.Range(minWanderWaitTime, maxWanderWaitTime));
+            Invoke("WanderToNewLocation", Random.Range(_minWanderDistance, _maxWanderDistance));
         }
-        //}
-
-        //if (playerDistance < detectDistance)
-        //{
-        //    SetState(AIState.Attacking);
-        //}
+        agent.isStopped = false;
     }
     void WanderToNewLocation()
     {
-        //if (aiState != AIState.Idle)
-        //{
-        //    return;
-        //}
-        //SetState(AIState.Wandering);
         agent.SetDestination(GetWanderLocation());
     }
 
     Vector3 GetWanderLocation()
     {
         NavMeshHit hit;
-        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance)),
-                               out hit, maxWanderDistance, NavMesh.AllAreas);
+        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(_minWanderDistance, _maxWanderDistance)),
+                               out hit, _maxWanderDistance, NavMesh.AllAreas);
 
         return hit.position;
     }
@@ -95,9 +87,26 @@ public class MonsterController : CharacterController
         // 타겟 방향으로 회전 
     }
 
-    public override void Move() // 
+    public override void Move() 
     {
-        // 타겟에게 이동
+        if (_playerDistance > _attackDistance || !IsPlayerInFieldOfView())
+        {
+            agent.isStopped = false;
+            NavMeshPath path = new NavMeshPath();
+            if (agent.CalculatePath(PlayerManager.Instance.Player.transform.position, path))
+            {
+                agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+            }
+        }
+        else
+        {
+            agent.isStopped = true;
+
+            if (Time.time - lastAttackTime > attackRate)
+            {
+                lastAttackTime = Time.time;
+            }
+        }
     }
 
     public override void Attack()

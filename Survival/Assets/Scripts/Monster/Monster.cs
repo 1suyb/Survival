@@ -6,7 +6,7 @@ public class Monster : CharacterData
 {
     public int Id;
     public string Name;
- 
+
     public int Health
     {
         get { return _health; }

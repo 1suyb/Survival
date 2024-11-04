@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 public enum AIState
 {
+    Idle,
     Wandering,
     Moving,
     Attacking,
@@ -18,15 +19,8 @@ public class MonsterAI : MonoBehaviour
 
     private MonsterController monsterController;
     private Animator animator;
-    //private NavMeshAgent agent;
 
     private Monster monsterData;
-
-    public void SetMonsterData(Monster data)
-    {
-        monsterData = data;
-        //Debug.Log($"Monster Name: {monsterData.Name}, Health: {monsterData.Health}");
-    }
 
     private void Awake()
     {
@@ -40,9 +34,9 @@ public class MonsterAI : MonoBehaviour
     }
     private void Update()
     {
-        //playerDistance = Vector3.Distance(transform.position, CharacterManager.Instance.Player.transform.position);
+        playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
 
-        //animator.SetBool("Moving", aiState != AIState.Idle);
+        animator.SetBool("isMoving", aiState != AIState.Idle);
 
         switch (aiState)
         {

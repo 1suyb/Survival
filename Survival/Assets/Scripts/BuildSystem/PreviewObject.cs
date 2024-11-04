@@ -5,24 +5,31 @@ using UnityEngine;
 public class PreviewObject : MonoBehaviour
 {
 
+
+   
+    //미리보기 담을 변수 
     [SerializeField]
     private GameObject go_Preview;
-    [SerializeField]
-    private LayerMask layerMask;
 
-    // 플레이어 위치 필드 값 필요
+    // 플레이어 위치
+    [SerializeField]
     private Transform tf_Player;
 
     private RaycastHit hitInfo;
 
     [SerializeField]
+    private LayerMask layerMask;
+
+    [SerializeField]
     private float range;
+
+    public bool isPreview;
+    public bool isdemolition;
 
 
     void Start()
     {
 
-        tf_Player = Camera.main.transform;
 
         go_Preview = Instantiate(go_Preview, tf_Player.position + tf_Player.forward * 10, Quaternion.identity);
    
@@ -33,12 +40,20 @@ public class PreviewObject : MonoBehaviour
     {
 
 
-        //인벤토리에서 가져와 생성
+        // 클릭시 설치해야.
         //Instantiate(, tf_Player.position + tf_Player.forward, Quaternion.identity);
+        
+      
 
-        //테스트 코드
-        Instantiate(go_Preview, tf_Player.position + tf_Player.forward, Quaternion.identity);
+    }
 
+
+    public void Cancle()
+    {
+        // 인풋시스템에서 키 취소
+
+
+        isPreview = false;
     }
 
 
@@ -51,13 +66,15 @@ public class PreviewObject : MonoBehaviour
     }
 
 
+  
+
+
     private void PreviewPostionUpdate()
     {
 
-        tf_Player = Camera.main.transform;
-
+   
         Debug.Log(hitInfo.transform);
-        Debug.DrawRay(tf_Player.position, go_Preview.transform.position, Color.red);
+        Debug.DrawRay(tf_Player.position, tf_Player.forward, Color.red);
 
         if (Physics.Raycast(tf_Player.position, tf_Player.forward, out hitInfo, range, layerMask))
         {

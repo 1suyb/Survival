@@ -7,58 +7,57 @@ public class ChanageMaterial : MonoBehaviour
 
     private List<Collider> colliderList = new List<Collider> ();
 
-    private Material green;
-    private Material red;
+
+    private MeshRenderer[] meshRenderers;
+    private Material[] originalMaterials;
 
 
+    private Color Red = new Color(1.0f, 0.6f, 0.6f);
+    private Color Green = new Color(0f, 1f, 0f);
 
 
-
-    void Update()
+    private void Start()
     {
 
-        ChangeColor();
-    
-    
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        SaveOriginalMaterials();
+
     }
 
-    private void SetColor(Material mat)
+    private void SaveOriginalMaterials()
     {
-        foreach (Transform tf_child in this.transform)
-        { }
-        
+        originalMaterials = new Material[meshRenderers.Length];
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            // 원본 material을 복제하여 저장
+            originalMaterials[i] = new Material(meshRenderers[i].material);
+        }
     }
 
-
-    private void ChangeColor()
+    public void RestoreOriginalMaterials()
     {
-
-        if (colliderList.Count > 0)
-        { 
-         
-
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            meshRenderers[i].material = originalMaterials[i];
         }
-
-        else 
-        { 
-        
-        }
-    
     }
 
     private void OnTriggerEnter(Collider other)
     {
 
-        colliderList.Add(other);
+        
+        InstallPosible(Red);
 
-
+      
     }
 
 
-    private void OnTriggerExit(Collider other)
+    public void InstallPosible(Color color)
     {
+        for (int x = 0; x < meshRenderers.Length; x++)
+            meshRenderers[x].material.color = color ;
 
-        colliderList.Remove(other);
     }
 
 

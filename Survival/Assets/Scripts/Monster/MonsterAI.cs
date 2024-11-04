@@ -5,62 +5,65 @@ using UnityEngine.AI;
 public enum AIState
 {
     Idle,
-    Wandering,
-    Moving,
-    Attacking,
-    Returning,
+    Move,
+    Run,
+    Attack,
+    Return,
     Death
 }
 
 public class MonsterAI : MonoBehaviour
 {
-    private float playerDistance; 
+    [Header("AI")]
+    private float _playerDistance; 
     public float PlayerDistance 
     {
-        get { return playerDistance; } 
-    }
+        get { return _playerDistance; } 
+    } // 값만 가져와서 사용
 
-    private float detectDistance = 20;
-    public float _minWanderWaitTime;
-    public float _maxWanderWaitTime;
+    [SerializeField] private float _detectDistance = 20;
 
-    private AIState aiState;
-    private MonsterController monsterController;
-    private Animator animator;
+    [Header("AI")]
+    [SerializeField] private float _minWanderWaitTime;
+    [SerializeField] private float _maxWanderWaitTime;
+
+    [SerializeField] private AIState aiState;
+    [SerializeField] private MonsterController _monsterController;
+    [SerializeField] private Animator _animator;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        monsterController = GetComponent<MonsterController>();
+        _animator = GetComponent<Animator>();
+        _monsterController = GetComponent<MonsterController>();
     } // 초기화 
     private void Start()
     {
-        SetState(AIState.Wandering);
+        SetState(AIState.Move);
     } // Wandering 상태 시작 
     private void Update()
     {
         // 전체 다 코루틴으로 돌리는 게 효율적 (프레임 낭비)
-        playerDistance = Vector3.Distance(transform.position, monsterController._TestTarget.transform.position);
+        _playerDistance = Vector3.Distance(transform.position, _monsterController._TestTarget.transform.position);
 
-        if (aiState != AIState.Attacking && playerDistance < 3)
+        if (aiState != AIState.Attack && _playerDistance < 5)
         {
-            SetState(AIState.Attacking);
+            SetState(AIState.Attack);
         }
-        else if (aiState == AIState.Attacking && playerDistance >= 3)
+        else if (aiState == AIState.Attack && _playerDistance >= 5)
         {
-            SetState(AIState.Wandering);
+            SetState(AIState.Move);
         }
-        else if (aiState == AIState.Wandering && monsterController.HasReachedDestination())
+        else if (aiState == AIState.Move && _monsterController.HasReachedDestination())
         {
             SetState(AIState.Idle);
         }
-        else if (playerDistance < detectDistance && aiState == AIState.Wandering)
+        else if (_playerDistance < _detectDistance && aiState == AIState.Move)
         {
-            SetState(AIState.Moving);
+            SetState(AIState.Run);
         }
-        else if (playerDistance >= detectDistance && aiState == AIState.Moving)
+        else if (_playerDistance >= _detectDistance && aiState == AIState.Run)
         {
-            SetState(AIState.Wandering);
+            SetState(AIState.Move);
         }
     } // 특정 조건에 따른 상태 전환
     private void SetState(AIState newState)
@@ -75,24 +78,24 @@ public class MonsterAI : MonoBehaviour
         {
             case AIState.Idle:
                 StartCoroutine(IdleRoutine());
-                animator.SetBool("isMoving", false);
+                _animator.SetBool("isMoving", false);
                 break;
-            case AIState.Wandering:
-                monsterController.Wander();
-                animator.SetBool("isRunning", false);
-                animator.SetBool("isMoving", true);
+            case AIState.Move:
+                _monsterController.Move();
+                _animator.SetBool("isRunning", false);
+                _animator.SetBool("isMoving", true);
                 break;
-            case AIState.Moving:
-                animator.SetBool("isRunning", true);
-                monsterController.Move();
+            case AIState.Run:
+                _animator.SetBool("isRunning", true);
+                _monsterController.Run();
                 break;
-            case AIState.Attacking:
-                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) // 끝까지 재생시키기 
+            case AIState.Attack:
+                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) // 끝까지 재생시키기 
                 {
-                    animator.SetTrigger("Attack");
+                    _animator.SetTrigger("Attack");
                 }
-                monsterController.Attack();
-                animator.SetBool("isRunning", false);
+                _monsterController.Attack();
+                _animator.SetBool("isRunning", false);
                 break;
         }
     }
@@ -108,7 +111,7 @@ public class MonsterAI : MonoBehaviour
     private IEnumerator IdleRoutine()
     {
         yield return new WaitForSeconds(Random.Range(_minWanderWaitTime, _maxWanderWaitTime));
-        SetState(AIState.Wandering);
+        SetState(AIState.Move);
     }
     }
 

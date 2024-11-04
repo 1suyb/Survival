@@ -102,11 +102,18 @@ public class MonsterController : CharacterController
         {
             agent.isStopped = true;
 
-            if (Time.time - lastAttackTime > attackRate)
-            {
-                lastAttackTime = Time.time;
-            }
+            //if (Time.time - lastAttackTime > attackRate)
+            //{
+            //    lastAttackTime = Time.time;
+            //}
         }
+    }
+
+    bool IsPlayerInFieldOfView()
+    {
+        Vector3 directionToPlayer = PlayerManager.Instance.Player.transform.position - transform.position;
+        float angle = Vector3.Angle(transform.forward, directionToPlayer);
+        return angle < _fieldOfView * 0.5f;
     }
 
     public override void Attack()

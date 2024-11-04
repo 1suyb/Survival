@@ -42,7 +42,7 @@ public class MonsterAI : MonoBehaviour
         {
             case AIState.Wandering:
                 monsterController.Wander();
-                animator.SetBool("isMoving", true);
+                //animator.SetBool("isMoving", true);
                 break;
             case AIState.Moving:
                 monsterController.Move();

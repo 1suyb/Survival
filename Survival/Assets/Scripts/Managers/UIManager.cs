@@ -5,9 +5,21 @@ public class UIManager : Singleton<UIManager>
 {
 	private Dictionary<string, GameObject> _cache = new Dictionary<string, GameObject>();
 
-	public T OpenUI<T>()
+	private string GetUIPath<T>(string name)
 	{
-		string path = Utils.GetPath<T>();
+		if(name  == null)
+		{
+			return Utils.GetPath<T>();
+		}
+		else
+		{
+			return Utils.GetPath<T>(name);
+		}
+	}
+
+	public T OpenUI<T>(string name=null)
+	{
+		string path = GetUIPath<T>(name);
 
 		if (IsUIExist<T>())
 		{
@@ -15,9 +27,9 @@ public class UIManager : Singleton<UIManager>
 		}
 		return CreateUI<T>();
 	}
-	public T CreateUI<T>(Transform parent = null)
+	public T CreateUI<T>(string name = null, Transform parent = null)
 	{
-		string path = Utils.GetPath<T>();
+		string path = GetUIPath<T>(name);
 		if (IsUIExist<T>())
 		{
 			RemoveUI<T>();

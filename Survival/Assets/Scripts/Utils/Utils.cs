@@ -20,4 +20,9 @@ public class Utils : MonoBehaviour
 		path.Reverse();
 		return string.Join("/", path);
 	}
+	public static string GetPath<T>(string name)
+	{
+		GetPath<T>();
+		return GetPath<T>() + $"/{name}";
+	}
 }

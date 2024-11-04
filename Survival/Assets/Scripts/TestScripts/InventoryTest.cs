@@ -22,7 +22,7 @@ public class InventoryTest : MonoBehaviour
         data.ID = 101;
         data.Name = "name";
         data.Description = "description";
-        data.Type = "Consumable";
+        data.Type = ItemUseType.Consumable;
         data.ISStackable= true;
         data.MaxQuantity = 30;
         data.SpritePath = "Sprites/1";
@@ -37,7 +37,7 @@ public class InventoryTest : MonoBehaviour
 		data.ID = 102;
 		data.Name = "name";
 		data.Description = "description";
-        data.Type = "Weapon";
+        data.Type = ItemUseType.Weapon;
 		data.ISStackable = false;
 		data.MaxQuantity = 1;
 		data.SpritePath = "Sprites/2";
@@ -50,7 +50,7 @@ public class InventoryTest : MonoBehaviour
 		data.ID = 103;
 		data.Name = "name2";
 		data.Description = "description";
-		data.Type = "Resource";
+		data.Type = ItemUseType.Resource;
 		data.ISStackable = false;
 		data.MaxQuantity = 1;
 		data.SpritePath = "Sprites/2";

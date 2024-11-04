@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	private ItemData _data;
+	private int _count;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public ItemData Data => _data;
+	public int Count => _count;
+
+	public void Init(ItemData data, int count)
+	{
+		_data = data;
+		_count = count;
+	}
 }

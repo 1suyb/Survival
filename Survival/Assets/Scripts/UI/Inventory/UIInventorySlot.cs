@@ -3,54 +3,65 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventorySlot : UI, IDragHandler, IPointerDownHandler, IEndDragHandler, IDropHandler, IBeginDragHandler
+public class UIInventorySlot : Slot,
+	IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler,
+	IPointerDownHandler, IPointerUpHandler,
+	IPointerEnterHandler, IPointerExitHandler
 {
-	[SerializeField] private TMP_Text _itemCount;
-	[SerializeField] private Image _itemIcon;
+
+	[SerializeField] private Image _slotImage;
+
 	private UIInventory _inventoryUI;
-	public InventoryItem Item { get; private set; }
 
+	public int Index { get; private set; }
 
-	public void Init(UIInventory inventoryUI)
+	private ItemInfo _item;
+	public ItemInfo ItemInfo => _item;
+
+	public void Init(UIInventory inventoryUI, int index)
 	{
 		_inventoryUI = inventoryUI;
+		Index = index;
 	}
 
-	public void SetItem(InventoryItem item)
+	public void UpdateUI(ItemInfo item)
 	{
-		Item = item;
-		UpdateSlot();
+		_item = item;
+		UpdateUI(item.ItemCount<=1?"":item.ItemCount.ToString(), item.Sprite);
 	}
 
-	public void UpdateSlot()
+	public void OnPointerEnter(PointerEventData eventData)
 	{
-		if(Item == null)
+		_inventoryUI.OpenItemInfo(_item);
+	}
+
+	public void OnPointerDown(PointerEventData eventData)
+	{
+		_inventoryUI.SelectSlot(this);
+	}
+
+	public void OnBeginDrag(PointerEventData eventData)
+	{
+		if (!_item.IsNullItem)
 		{
-			_itemCount.text = "";
-			_itemIcon.enabled = false;
+			_icon.transform.SetParent(_inventoryUI.transform, false);
+			_icon.transform.position = eventData.position;
 		}
-		else
+	}
+
+	public void OnDrag(PointerEventData eventData)
+	{
+
+		if (!_item.IsNullItem)
 		{
-			_itemIcon.enabled = true;
-			_itemCount.text = Item.Count.ToString();
-			_itemIcon.sprite = Resources.Load<Sprite>(Item.Data.SpritePath);
+			_icon.transform.position = eventData.position;
 		}
 	}
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-		if(Item != null)
-		{
-			_itemIcon.transform.SetParent(this.transform, false);
-			_itemIcon.transform.position = this.transform.position;
-		}
-	}
-	public void OnDrag(PointerEventData eventData)
-	{
-		if (Item != null)
-		{
-			_itemIcon.transform.position = eventData.position;
-		}
+		_icon.transform.SetParent(this.transform, false);
+		_icon.transform.position = this.transform.position;
 	}
 
 	public void OnDrop(PointerEventData eventData)
@@ -58,19 +69,14 @@ public class UIInventorySlot : UI, IDragHandler, IPointerDownHandler, IEndDragHa
 		_inventoryUI.SwapSlot(this);
 	}
 
-	public void OnPointerDown(PointerEventData eventData)
+	public void OnPointerExit(PointerEventData eventData)
 	{
-		if(Item != null)
-		{
-			_inventoryUI.SelectSlot(this);
-		}
+		_inventoryUI.CloseItemInfo();
 	}
 
-	public void OnBeginDrag(PointerEventData eventData)
+	public void OnPointerUp(PointerEventData eventData)
 	{
-		if (Item != null)
-		{
-			_itemIcon.transform.SetParent(this.transform.parent, false);
-		}
+		_inventoryUI.OpenItemButtons(Index);
 	}
+
 }

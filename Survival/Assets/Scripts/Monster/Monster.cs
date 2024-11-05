@@ -64,4 +64,7 @@ public class Monster : CharacterData
     {
         _spawnPosition = this.transform.position;
     }
+
+    public Vector3 SavedPosition()
+        { return _spawnPosition; }  
 }

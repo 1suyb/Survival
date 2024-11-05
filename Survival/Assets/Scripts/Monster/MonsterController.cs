@@ -69,7 +69,7 @@ public class MonsterController : CharacterController
     }
     bool IsPlayerInFieldOfView() // 시야가 있는지 
     {
-        Vector3 directionToPlayer = _TestTarget.transform.position - transform.position;
+        Vector3 directionToPlayer = PlayerManager.Instance.Player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         return angle < _fieldOfView * 0.5f;
     }
@@ -99,7 +99,7 @@ public class MonsterController : CharacterController
     {
         Vector3 returnposition = _monster.SavedPosition();
         _agent.SetDestination(returnposition);
-    }
+    } // 돌아가다
     public override void Die()
     {
         // 오브젝트 파괴

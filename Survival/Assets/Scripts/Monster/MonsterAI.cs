@@ -43,7 +43,7 @@ public class MonsterAI : MonoBehaviour
     private void Update()
     {
         // ��ü �� �ڷ�ƾ���� ������ �� ȿ���� (������ ����)
-        _playerDistance = Vector3.Distance(transform.position, _monsterController._TestTarget.transform.position);
+        _playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
 
         if (aiState != AIState.Attack && _playerDistance < 5)
         {

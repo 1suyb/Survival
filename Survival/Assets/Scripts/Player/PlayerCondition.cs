@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDamageIbe
+public interface IDamagaIbe
 {
     void TakePhysicalDamage(int damage);
 }

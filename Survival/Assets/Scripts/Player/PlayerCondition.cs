@@ -10,11 +10,13 @@ public interface IDamagable
 
 public class PlayerCondition : MonoBehaviour
 {
-    public UICondition condition;
+    public UICondition uiCondition;
 
-    Condition health { get { return condition.health; } }
-    Condition hunger { get { return condition.hunger; } }
-    Condition stamina { get { return condition.stamina; } }
+    Condition health { get { return uiCondition.health; } }
+    Condition hunger { get { return uiCondition.hunger; } }
+    Condition stamina { get { return uiCondition.stamina; } }
+    Condition moisture { get { return uiCondition.moisture; } }
+    Condition temperature { get { return uiCondition.temperature; } }
 
     public float noHungerHealth;
 
@@ -24,6 +26,7 @@ public class PlayerCondition : MonoBehaviour
     void Update()
     {
         hunger.Subtract(hunger.passiveValue * Time.deltaTime);
+        moisture.Subtract(hunger.passiveValue * Time.deltaTime);
         stamina.Add(stamina.passiveValue * Time.deltaTime);
         if (hunger.curValue == 0)
         {
@@ -45,6 +48,10 @@ public class PlayerCondition : MonoBehaviour
     public void Eat(float amout)
     {
         hunger.Add(amout);
+    }
+    public void Drink(float amout)
+    {
+        moisture.Add(amout);
     }
 
     public void UseStamina()

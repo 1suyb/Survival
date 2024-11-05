@@ -6,7 +6,6 @@ public abstract class CharacterData : MonoBehaviour
 {
     [SerializeField] protected int _health;
     [SerializeField] protected float _speed;
-
     [SerializeField] protected int _attackpower;
     [SerializeField] protected float _attackspeed;
     [SerializeField] protected int _damage;

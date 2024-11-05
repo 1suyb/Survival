@@ -54,7 +54,7 @@ public class InventoryItem
 
 	public void Use()
 	{
-		if (Data.Type == "Weapon")
+		if (Data.Type == ItemUseType.Weapon)
 		{
 			IsEquiped = !IsEquiped;
 		}

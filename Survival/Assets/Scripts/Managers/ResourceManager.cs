@@ -17,4 +17,9 @@ public class ResourceManager
 		string path = Utils.GetPath<T>();
 		return Instantiate(path, parent);
 	}
+	public static GameObject Instantiate<T>(string name,Transform parent = null)
+	{
+		string path = Utils.GetPath<T>(name);
+		return Instantiate(path, parent);
+	}
 }

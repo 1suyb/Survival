@@ -3,77 +3,48 @@ using System.Threading;
 using UnityEngine;
 using System.IO;
 using UnityEngine.AI;
+using System.Collections;
 
 public class MonsterController : CharacterController
 {
-    public List<Monster> monsters = new List<Monster>();
-    public MonsterAI monsterAI;
+ 
+    [Tooltip("테스트 타겟입니다.")] // Player.Instance 사용 시 null 오류 
+    public GameObject _TestTarget;
 
-    public float _minWanderDistance;
-    public float _maxWanderDistance;
-    public float _minWanderWaitTime;
-    public float _maxWanderWaitTime;
+    [Header("Move")]
+    [SerializeField] private float _minWanderDistance; // 최소 거리
+    [SerializeField] private float _maxWanderDistance; // 최대 거리 
+    [SerializeField] private float _rotationSpeed = 3f; // 회전 속도
 
-    public Transform _player;
-    public float _rotationSpeed = 5f;
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private NavMeshPath _path;
 
-    private NavMeshAgent agent;
+    [Header("Run")]
+    [SerializeField] private float _fieldOfView = 120f; // 시야 각도 
+    [SerializeField] private int _attackDistance = 20; // 공격 감지 거리값 
 
-    private float _playerDistance;
-    public float _fieldOfView = 120f;
-
-    public float _attackDistance;
-
+    public MonsterAI _monsterAI;
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        monsterAI = GetComponent<MonsterAI>();
+        _agent = GetComponent<NavMeshAgent>();
+        _monsterAI = GetComponent<MonsterAI>();
+        _path = new NavMeshPath();
 
-        //LoadMonsterData("Assets/MonsterData.csv");
+        // 몬스터 data 값 받아오기 
 
-        //if (monsters.Count > 0)
-        //{
-        //    monsterAI.SetMonsterData(monsters[0]);
-        //}
-    }
-
-    //void LoadMonsterData(string filePath)
-    //{
-    //    var lines = File.ReadAllLines(filePath);
-
-    //    for (int i = 1; i < lines.Length; i++)
-    //    {
-    //        string[] values = lines[i].Split(',');
-
-    //        Monster monster = new Monster
-    //        {
-    //            Id = int.Parse(values[0]),
-    //            Name = values[1],
-    //            Health = int.Parse(values[2]),
-    //            Speed = float.Parse(values[3]),
-    //            AttackPower = int.Parse(values[4]),
-    //            AttackSpeed = float.Parse(values[5]),
-    //        };
-
-    //        monsters.Add(monster);
-    //    }
-    //}
-
-    public void Wander()
+    } // 초기화 
+    public override void Move()  // 목적지에 도달하면 
     {
-        if (agent.remainingDistance < 0.1f)
-        {
-            Invoke("WanderToNewLocation", Random.Range(_minWanderDistance, _maxWanderDistance));
-        }
-        agent.isStopped = false;
+        Vector3 newLocation = GetWanderLocation();
+        _agent.SetDestination(newLocation);
+        _agent.isStopped = false;
     }
-    void WanderToNewLocation()
+    public bool HasReachedDestination() // 도착했는지 확인
     {
-        agent.SetDestination(GetWanderLocation());
+        return _agent.remainingDistance < 0.1f;
     }
-
-    Vector3 GetWanderLocation()
+    Vector3 GetWanderLocation() // 새로운 위치 생성 
     {
         NavMeshHit hit;
         NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(_minWanderDistance, _maxWanderDistance)),
@@ -81,49 +52,73 @@ public class MonsterController : CharacterController
 
         return hit.position;
     }
-
-    public override void Look()
+    public void Run() // 타겟 추적 
     {
-        // 타겟 방향으로 회전 
-    }
-
-    public override void Move() 
-    {
-        if (_playerDistance > _attackDistance || !IsPlayerInFieldOfView())
+        if (_monsterAI.PlayerDistance > _attackDistance || !IsPlayerInFieldOfView())
         {
-            agent.isStopped = false;
-            NavMeshPath path = new NavMeshPath();
-            if (agent.CalculatePath(PlayerManager.Instance.Player.transform.position, path))
+            _agent.isStopped = false;
+         
+            //if (agent.CalculatePath(PlayerManager.Instance.Player.transform.position, path))
+            //{
+            //    agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+            //}
+
+            if (_agent.CalculatePath(_TestTarget.transform.position, _path))
             {
-                agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+                _agent.SetDestination(_TestTarget.transform.position);
             }
         }
+
         else
         {
-            agent.isStopped = true;
-
-            if (Time.time - lastAttackTime > attackRate)
-            {
-                lastAttackTime = Time.time;
-            }
+            _agent.isStopped = true;
         }
     }
-
+    bool IsPlayerInFieldOfView() // 시야가 있는지 
+    {
+        Vector3 directionToPlayer = _TestTarget.transform.position - transform.position;
+        float angle = Vector3.Angle(transform.forward, directionToPlayer);
+        return angle < _fieldOfView * 0.5f;
+    }
     public override void Attack()
     {
-        // 공격력 참조 
-        // 랜덤으로 공격, 치명타 발동
+        // 공격 코루틴을 시작하거나 재시작
+        //if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+        //attackCoroutine = StartCoroutine(AttackRoutine());
     }
+    private IEnumerator AttackRoutine()
+    {
+        //while (target != null)
+        //{
+        //    target.GetComponent<PlayerController>()?.TakeDamage(AttackPower); // 피해를 입는다 
 
+            // 공격 후 대기
+            yield return new WaitForSeconds(3); // ()안에 공격 스피드 넣기
+        //}
+    }
+    //public void StopAttack() 공격 중지 
+    //{
+    //    if (attackCoroutine != null)
+    //    {
+    //        StopCoroutine(attackCoroutine);
+    //        attackCoroutine = null;
+    //    }
+    //}
+    public void Return()
+    {
+        // 원래 자리로 돌아가다
+    }
     public override void Die()
     {
         // 오브젝트 파괴
-        // 아이템 드롭 함수 실행 
     }
-
     public override void TakeDamage()
     {
-
+        // 체력 - 데미지 
+    }
+    public override void Look()
+    {
+        // 타겟 방향으로 회전 
     }
 }
 

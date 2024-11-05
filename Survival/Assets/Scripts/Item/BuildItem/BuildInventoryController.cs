@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoArray>
 {
-	private BuildInventory _inventory;
+	private BuildInventory _buildInventory;
 	public event Action<BuildItemInfoArray> OnDataUpdateEvent;
 
 	public void Init(BuildInventory inventory)
 	{
-		_inventory = inventory;
+        _buildInventory = inventory;
 	}
 
 	public void TestUI(UIBuildInventory inventoryUI)
@@ -36,36 +36,36 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 
 	public void AddItem(BuildItemData item, int count)
 	{
-		_inventory.AddItem(item, count);
+        _buildInventory.AddItem(item, count);
 		UpdateInventoryUI();
 	}
 
 	public void DropItem(int index)
 	{
-		_inventory.DropItem(index,_inventory.At(index).Count);
+        _buildInventory.DropItem(index, _buildInventory.At(index).Count);
 		UpdateInventoryUI();
 	}
 
 	public void UseItem(int index)
 	{
-		BuildInventoryItem item = _inventory.At(index);
+		BuildInventoryItem item = _buildInventory.At(index);
 		item.Use();
 		UpdateInventoryUI();
 	}
 
 	public void Swap(int i, int j)
 	{
-		_inventory.SwapItem(i, j);
+        _buildInventory.SwapItem(i, j);
 		UpdateInventoryUI();
 	}
 
 
 	public BuildItemInfoArray MakeItemInfoArray()
 	{
-		BuildItemInfo[] itemInfos = new BuildItemInfo[_inventory.Size];
-		for(int i = 0; i < _inventory.Size; i++)
+		BuildItemInfo[] itemInfos = new BuildItemInfo[_buildInventory.Size];
+		for(int i = 0; i < _buildInventory.Size; i++)
 		{
-			BuildInventoryItem item = _inventory.At(i);
+			BuildInventoryItem item = _buildInventory.At(i);
 			itemInfos[i] = new BuildItemInfo();
 			if (item == null)
 			{

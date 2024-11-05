@@ -18,8 +18,11 @@ public class BuildInventoryTest : MonoBehaviour
     public void AddItemInventoryTest()
     {
         BuildItemData data = new BuildItemData();
-     
-		presenter.AddItem(data, 5);
+
+        data.Name = "name";
+      
+
+        presenter.AddItem(data, 1);
     }
 
 	public void AddItemInventoryTest2()

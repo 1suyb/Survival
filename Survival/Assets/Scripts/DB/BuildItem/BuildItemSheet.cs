@@ -6,5 +6,6 @@ using UnityEngine;
 [ExcelAsset(AssetPath = "Resources/DataSO")]
 public class BuildItemSheet : ScriptableObject
 {
-	public List<BuildItemData> BuildItemData; 
+	public List<BuildItemData> BuildItemData;
+
 }

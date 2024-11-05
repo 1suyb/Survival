@@ -2,11 +2,22 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class Monster : CharacterData
 {
-    public int Id;
-    public string Name;
 
+    // 여기서 몬스터DB 값 저장하기 
+
+    private Vector3 _spawnPosition;
+
+    private void OnEnable()
+    {
+        _spawnPosition = this.transform.position;
+    }
+
+    public int Id;
+    public int type;
+    public string Name;
     public int Health
     {
         get { return _health; }

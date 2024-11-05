@@ -19,9 +19,9 @@ public class PlayerController : CharacterController
     [Header("Look")]
     public Transform cameraContainer;
     private float minXLook = -85.0f;
-    public float maxXLook = 85.0f;
+    private float maxXLook = 85.0f;
     private float camCurXRot;
-    public float lookSensitivity = 0.2f;
+    private float lookSensitivity = 0.2f;
     private Vector2 mouseDelta;
     public bool canLook = true;
 

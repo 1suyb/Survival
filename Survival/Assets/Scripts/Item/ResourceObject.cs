@@ -1,9 +1,22 @@
 using UnityEngine;
 
-public class ResourceObject : MonoBehaviour, IInteractable
+public class ResourceObject : MonoBehaviour, IInteractable, IDamagable, ILoadable
 {
-	private ResouceData _data;
+	[SerializeField] private int _id;
+	private ResourceData _data;
 	private int _durability;
+
+	private void OnEnable()
+	{
+		if(_data != null)
+		{
+			_durability = _data.Durability;
+		}
+		else
+		{
+			Load(_id);
+		}
+	}
 	public void ClosePrompt()
 	{
 		UIManager.Instance.CloseUI<UIInfoDisplay>("ResourcePrompt");
@@ -16,15 +29,23 @@ public class ResourceObject : MonoBehaviour, IInteractable
 			PlayerManager.Instance.Inventory.AddItem(ItemDB.Instance.Get(_data.DropItemID),_data.DropCount);
 			this.gameObject.SetActive(false);
 		}
+		ClosePrompt();
 	}
 
 	public void ShowPrompt()
 	{
 		UIInfoDisplay promptUI = UIManager.Instance.OpenUI<UIInfoDisplay>("ResourcePrompt");
-		promptUI.Init(_data.Name, "인터렉션 키를 눌러 채집");
+		if(_data.ResourceGetType == ResourceGetType .Gatherable)
+		{
+			promptUI.Init(_data.Name, "인터렉션 키를 눌러 채집");
+		}
+		else
+		{
+			promptUI.Init(_data.Name, "때려서 채집");
+		}
 	}
 
-	public void TakePhysicalDamage(int damage)
+	public void TakeDamage(int damage)
 	{
 		_durability -= 1;
 		if (_durability == 0)
@@ -33,8 +54,15 @@ public class ResourceObject : MonoBehaviour, IInteractable
 			this.gameObject.SetActive(false);
 		}
 	}
+
 	private void DropItem()
 	{
 		SpawnManager.Instance.SpawnItem(_data.DropItemID, this.transform.position,_data.DropCount);
+	}
+
+	public void Load(int id)
+	{
+		_data = ResourceDB.Instance.Get(id);
+		_durability = _data.Durability;
 	}
 }

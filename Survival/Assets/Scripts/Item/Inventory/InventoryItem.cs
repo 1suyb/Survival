@@ -58,5 +58,14 @@ public class InventoryItem
 		{
 			IsEquiped = !IsEquiped;
 		}
+		if(Data.Type == ItemUseType.Consumable)
+		{
+			if (Data.Health > 0)
+				PlayerManager.Instance.Player.condition.Heal(Data.Health);
+			if(Data.Water > 0)
+				PlayerManager.Instance.Player.condition.Drink(Data.Water);
+			if(Data.Hunger > 0)
+				PlayerManager.Instance.Player.condition.Eat(Data.Hunger);
+		}
 	}
 }

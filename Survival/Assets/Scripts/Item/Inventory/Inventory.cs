@@ -109,7 +109,7 @@ public class Inventory
 
 		if(IsFull)
 		{
-			Debug.Log("주울 수 없음!");
+			SpawnManager.Instance.SpawnItem(itemData.ID, PlayerManager.Instance.Player.transform.position ,count);
 		}
 		else
 		{
@@ -190,7 +190,6 @@ public class Inventory
 			pool.Relase(item);
 		}
 		_inventoryItems[index]=null;
-		
 	}
 
 	public void SwapItem(int i, int j)

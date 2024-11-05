@@ -5,13 +5,31 @@ using UnityEngine;
 
 public class ItemObjectTest : MonoBehaviour
 {
-	private Vector3 mousePosition;
 	private IInteractable interactable;
+	[SerializeField] private ResourceObject resouceObject;
 
 	private void Start()
 	{
 		SpawnManager.Instance.SpawnItem(102, this.transform.position);
-		mousePosition = new Vector3(Screen.width / 2, Screen.height / 2);
 	}
+
+	void OnGUI()
+	{
+		// Make a background box
+		GUI.Box(new Rect(10, 10, 300, 100), "Loader Menu");
+
+		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
+		if (GUI.Button(new Rect(20, 40, 150, 50), "Spawn"))
+		{
+			SpawnManager.Instance.SpawnItem(102, this.transform.position);
+		}
+
+		// Make the second button.
+		if (GUI.Button(new Rect(20, 70, 80, 20), "Despawn"))
+		{
+			Application.LoadLevel(2);
+		}
+	}
+
 
 }

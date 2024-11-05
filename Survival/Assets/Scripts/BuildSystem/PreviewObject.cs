@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PreviewObject : MonoBehaviour
 {
@@ -29,32 +30,15 @@ public class PreviewObject : MonoBehaviour
     public bool isPreview;
 
 
-    void Start()
+    public void OnCancle(InputAction.CallbackContext context)
     {
+        if (context.phase == InputActionPhase.Started)
+        {
 
-        _goPreview = Instantiate(_goPreview, _tfPlayer.position + _tfPlayer.forward * 10, Quaternion.identity);
-   
-    }
+            isPreview = false;
+            _goPreview = null;
 
-
-    public void SlotClick(int itemnum)
-    {
-
-
-        // 클릭시 설치해야.
-        //Instantiate(, _location, Quaternion.identity);
-
-
-
-    }
-
-
-    public void Cancle()
-    {
-        // 인풋시스템에서 키 취소
-
-
-        isPreview = false;
+        }
     }
 
 

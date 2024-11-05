@@ -10,11 +10,6 @@ public class Monster : CharacterData
 
     private Vector3 _spawnPosition;
 
-    private void OnEnable()
-    {
-        _spawnPosition = this.transform.position;
-    }
-
     public int Id;
     public int type;
     public string Name;
@@ -46,5 +41,31 @@ public class Monster : CharacterData
     {
         get { return _damage; }
         set { _damage = Mathf.Max(0, value); } 
+    }
+
+    public GameObject DropPrefab;
+
+    private void Awake()
+    {
+        MonsterData monsterData = MonsterDB.Instance.Get(Id);
+
+        if (monsterData != null)
+        {
+            Name = monsterData.Name;
+            Health = monsterData.Health;
+            Speed = monsterData.Speed;
+            AttackPower = monsterData.AttackPower;
+            AttackSpeed = monsterData.AttackSpeed;
+            DropPrefab = monsterData.DropPrefab;
+        }
+        else
+        {
+            Debug.LogWarning($"Monster with ID {Id} not found in MonsterDB.");
+        }
+    }
+
+    private void OnEnable()
+    {
+        _spawnPosition = this.transform.position;
     }
 }

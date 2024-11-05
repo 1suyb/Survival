@@ -14,7 +14,7 @@ public class Interaction : MonoBehaviour
 
     public GameObject curInteractGameObject;
     private IInteractable interactable;
-    private Camera camera;
+    private Camera _camera;
 
     // Start is called before the first frame update
     void Start()
@@ -51,23 +51,6 @@ public class Interaction : MonoBehaviour
                 interactable = null;
 			}
         }
-    }
-
-    public void OnInteractionInput(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Started && _curInteractable != null)
-        {
-            _curInteractable.OnInteract();
-            curInteractGameObject = null;
-            _curInteractable = null;
-            _promptText.gameObject.SetActive(false);
-        }
-    }
-
-    private void SetPromptText()
-    {
-        _promptText.gameObject.SetActive(true);
-        _promptText.text = interactable.GetInteractPrompt();
     }
 
     public void OnInteractInput(InputAction.CallbackContext context)

@@ -41,6 +41,7 @@ public class ItemObject : MonoBehaviour, ILoadable, IInteractable
 	public void Interact()
 	{
 		PlayerManager.Instance.Inventory.AddItem(_data, _count);
+		this.gameObject.SetActive(false);
 		ClosePrompt();
 	}
 	public void ShowPrompt()

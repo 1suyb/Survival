@@ -8,9 +8,6 @@ public class PlayerController : CharacterController
 {
 
     [Header("Move")]
-    private float _moveSpeed = 5.0f;
-    private float _jumpPower = 80.0f;
-    private float _attackDistance = 2.0f;
     private int _damage = 5;
     private Vector2 _curMovementInput;
     public LayerMask groundLayerMask;
@@ -59,7 +56,7 @@ public class PlayerController : CharacterController
     public override void Move()
     {
         Vector3 dir = transform.forward * _curMovementInput.y + transform.right * _curMovementInput.x;
-        dir *= _moveSpeed;
+        dir *= PlayerManager.Instance.Player.data.Speed();
         dir.y = _rigidbody.velocity.y;
         _rigidbody.velocity = dir;
     }
@@ -91,11 +88,11 @@ public class PlayerController : CharacterController
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            _moveSpeed *= 2;
+            PlayerManager.Instance.Player.data.ChangeSpeed(PlayerManager.Instance.Player.data.Speed() * 2);
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            _moveSpeed /= 2;
+            PlayerManager.Instance.Player.data.ChangeSpeed(PlayerManager.Instance.Player.data.Speed() / 2);
         }
     }
 
@@ -110,7 +107,7 @@ public class PlayerController : CharacterController
         if (context.phase == InputActionPhase.Started && IsGrounded() && PlayerManager.Instance.Player.condition.StaminaCheck() > 10.0f)
         {
             PlayerManager.Instance.Player.condition.UseStamina();
-            _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector2.up * PlayerManager.Instance.Player.data.JumpPower(), ForceMode.Impulse);
         }
     }
 
@@ -172,7 +169,7 @@ public class PlayerController : CharacterController
         Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, _attackDistance))
+        if (Physics.Raycast(ray, out hit, PlayerManager.Instance.Player.data.AttackDistance()))
         {
             if (hit.collider.TryGetComponent(out IDamagable monster))
             {

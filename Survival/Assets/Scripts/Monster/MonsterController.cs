@@ -31,9 +31,6 @@ public class MonsterController : CharacterController, IDamagable
         _monsterAI = GetComponent<MonsterAI>();
         _monster = GetComponent<Monster>();
         _path = new NavMeshPath();
-
-        // 몬스터 data 값 받아오기 
-
     } // 초기화 
     public override void Move()  // 목적지에 도달하면 
     {
@@ -83,11 +80,18 @@ public class MonsterController : CharacterController, IDamagable
     } // 공격
     private IEnumerator AttackRoutine()
     {
-        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
-        if (playerCondition != null)
+        var player = PlayerManager.Instance?.Player;
+        if (player != null)
         {
-            playerCondition.TakeDamage(_monster.AttackPower); 
+            var playerCondition = player.GetComponent<IDamagable>();
+
+            if (playerCondition != null)
+                playerCondition.TakeDamage(_monster.AttackPower); 
             yield return new WaitForSeconds(_monster.AttackSpeed); 
+        }
+        else
+        {
+            Debug.LogWarning("플레이어가 없습니다.");
         }
     } 
     public void StopAttack()

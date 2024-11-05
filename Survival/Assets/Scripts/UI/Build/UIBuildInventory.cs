@@ -21,16 +21,10 @@ public class UIBuildInventory : UI
 	[SerializeField] private Transform _clickedButtonsParentTransform;
 	[SerializeField] private Button _useButton;
 	[SerializeField] private TMP_Text _useButtonLabel;
-	[SerializeField] private Button _dropButton;
-	[SerializeField] private TMP_Text _dropButtonLabel;
 
 	public Button UseButton => _useButton;
-	public Button DropButton => _dropButton;
-
-
-	public event Action<int,int> OnSwapEvent;
 	public event Action<int> OnUseEvent;
-	public event Action<int> OnDropEvent;
+
 
 	private void Awake()
 	{
@@ -41,7 +35,6 @@ public class UIBuildInventory : UI
 		}
 
 		_useButton.onClick.RemoveAllListeners();
-		_dropButton.onClick.RemoveAllListeners();
 
 		_useButton.onClick.AddListener(() =>
 		{
@@ -49,11 +42,6 @@ public class UIBuildInventory : UI
 			CloseItemButtons();
 		});
 
-		_dropButton.onClick.AddListener(() =>
-		{
-			OnDropEvent(_selectedSlot.Index);
-			CloseItemButtons();
-		});
 
 	}
 	public void Init(IUIUpdater<BuildItemInfoArray> inventoryController)
@@ -74,15 +62,7 @@ public class UIBuildInventory : UI
 		_selectedSlot = slot;
 		CloseItemButtons();
 	}
-	public void SwapSlot(UIBuildInventorySlot slot)
-	{
-		if (_selectedSlot != null)
-		{
-			OnSwapEvent?.Invoke(_selectedSlot.Index, slot.Index);
-			_selectedSlot = null;
-			CloseItemButtons();
-		}
-	}
+
 
 	public void OpenItemInfo(BuildItemInfo itemInfo)
 	{
@@ -101,9 +81,8 @@ public class UIBuildInventory : UI
 		if(_selectedSlot.Index == index)
 		{
 			
-					_useButtonLabel.text = "사용하기";
+		   _useButtonLabel.text = "설치하기";
 					
-			
 		} 
 		_clickedButtonsParentTransform.position = _selectedSlot.transform.position+ new Vector3(-50,-50,0);
 		_clickedButtonsParentTransform.gameObject.SetActive(true);

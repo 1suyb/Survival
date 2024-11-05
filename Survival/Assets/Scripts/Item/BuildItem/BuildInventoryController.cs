@@ -7,8 +7,22 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 {
 	private BuildInventory _buildInventory;
 	public event Action<BuildItemInfoArray> OnDataUpdateEvent;
+    private bool _isInventoryUIOpened = false;
 
-	public void Init(BuildInventory inventory)
+    public void Awake()
+    {
+        _buildInventory = new BuildInventory();
+        PlayerManager.Instance.BuildInventory = this;
+
+    }
+
+    public void Start()
+    {
+        PlayerManager.Instance.Player.GetComponent<PlayerController>().buildinventory = OpenUI;
+
+    }
+
+    public void Init(BuildInventory inventory)
 	{
         _buildInventory = inventory;
 	}
@@ -18,44 +32,34 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 		inventoryUI.Init(this);
 		UpdateInventoryUI();
 		inventoryUI.OnUseEvent += UseItem;
-		inventoryUI.OnDropEvent += DropItem;
-		inventoryUI.OnSwapEvent += Swap;
+
 	}
 
 	public void OpenUI()
 	{
-		UIBuildInventory inventoryUI = UIManager.Instance.OpenUI<UIBuildInventory>();
-		inventoryUI.Init(this);
+        if (!_isInventoryUIOpened)
+        {
+            _isInventoryUIOpened = true;
+            UIBuildInventory inventoryUI = UIManager.Instance.OpenUI<UIBuildInventory>();
+            inventoryUI.Init(this);
 
-		inventoryUI.OnUseEvent += UseItem;
-		inventoryUI.OnDropEvent += DropItem;
-		inventoryUI.OnSwapEvent += Swap;
+            inventoryUI.OnUseEvent += UseItem;
+            
+            UpdateInventoryUI();
+        }
+        else
+        {
+            _isInventoryUIOpened = false;
+            UIManager.Instance.CloseUI<UIBuildInventory>();
+            OnDataUpdateEvent = null;
+        }
+    }
 
-		UpdateInventoryUI();
-	}
-
-	public void AddItem(BuildItemData item, int count)
-	{
-        _buildInventory.AddItem(item, count);
-		UpdateInventoryUI();
-	}
-
-	public void DropItem(int index)
-	{
-        _buildInventory.DropItem(index, _buildInventory.At(index).Count);
-		UpdateInventoryUI();
-	}
 
 	public void UseItem(int index)
 	{
 		BuildInventoryItem item = _buildInventory.At(index);
 		item.Use();
-		UpdateInventoryUI();
-	}
-
-	public void Swap(int i, int j)
-	{
-        _buildInventory.SwapItem(i, j);
 		UpdateInventoryUI();
 	}
 
@@ -85,8 +89,6 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 		itemInfoArray.Items = itemInfos;
 		return itemInfoArray;
 	}
-
-
 
 	public void UpdateInventoryUI()
 	{

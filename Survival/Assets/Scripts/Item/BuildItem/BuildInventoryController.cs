@@ -34,7 +34,7 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 		UpdateInventoryUI();
 	}
 
-	public void AddItem(ItemData item, int count)
+	public void AddItem(BuildItemData item, int count)
 	{
 		_inventory.AddItem(item, count);
 		UpdateInventoryUI();

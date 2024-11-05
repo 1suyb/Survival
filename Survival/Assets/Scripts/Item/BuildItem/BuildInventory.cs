@@ -14,11 +14,11 @@ public class BuildInventory
 
 	public bool HasThisItem(BuildInventoryItem item)
 	{
-		return HasThisItem(item.Data.ID);
+		return HasThisItem(item.Data.Id);
 	}
-	public bool HasThisItem(ItemData targetItem)
+	public bool HasThisItem(BuildItemData targetItem)
 	{
-		return HasThisItem(targetItem.ID);
+		return HasThisItem(targetItem.Id);
 	}
 	public bool HasThisItem(int targetItemID)
 	{
@@ -26,7 +26,7 @@ public class BuildInventory
 		{
 			if(item != null)
 			{
-				if (targetItemID == item.Data.ID)
+				if (targetItemID == item.Data.Id)
 				{
 					return true;
 				}
@@ -35,13 +35,13 @@ public class BuildInventory
 		return false;
 	}
 
-	public int IndexOf(InventoryItem item)
+	public int IndexOf(BuildInventoryItem item)
 	{
-		return IndexOf(item.Data.ID);
+		return IndexOf(item.Data.Id);
 	}
-	public int IndexOf(ItemData targetItem)
+	public int IndexOf(BuildItemData targetItem)
 	{
-		return IndexOf(targetItem.ID);
+		return IndexOf(targetItem.Id);
 	}
 	public int IndexOf(int id)
 	{
@@ -49,7 +49,7 @@ public class BuildInventory
 		{
 			if (!IsNull(i))
 			{
-				if (id == _inventoryItems[i].Data.ID)
+				if (id == _inventoryItems[i].Data.Id)
 				{
 					return i;
 				}
@@ -66,7 +66,7 @@ public class BuildInventory
 		{
 			if (!IsNull(i))
 			{
-				if (id == _inventoryItems[i].Data.ID)
+				if (id == _inventoryItems[i].Data.Id)
 				{
 					indices.Add(i);
 				}
@@ -93,11 +93,11 @@ public class BuildInventory
 
 	private bool IsNull(int i) { return _inventoryItems[i] == null; }
 
-	public void AddItem(ItemData itemData,int count)
+	public void AddItem(BuildItemData itemData,int count)
 	{
 		if (HasThisItem(itemData))
 		{
-			if (itemData.ISStackable)
+			if (itemData.MaxStackAmount > 0)
 			{
 				count = DistributeItemQuantity(itemData, count);
 				if(count == 0)
@@ -117,24 +117,13 @@ public class BuildInventory
 		}
 	}
 
-	private int DistributeItemQuantity(ItemData itemData, int count)
+	private int DistributeItemQuantity(BuildItemData itemData, int count)
 	{
-		List<int> indices = Indices(itemData.ID);
+		List<int> indices = Indices(itemData.Id);
 		for (int i = 0; i < indices.Count; i++)
 		{
-			if (!At(indices[i]).IsFull)
-			{
-				if (At(indices[i]).RemainCapacity > count)
-				{
-					AddItemQuantity(indices[i], count);
-					return 0;
-				}
-				else
-				{
-					count -= At(indices[i]).RemainCapacity;
-					AddItemQuantity(indices[i], At(indices[i]).RemainCapacity);
-				}
-			}
+			
+			
 		}
 		return count;
 	}
@@ -143,16 +132,16 @@ public class BuildInventory
 	{
 		_inventoryItems[index].AddCount(count);
 	}
-	private void AddNewItem(ItemData data,int count)
+	private void AddNewItem(BuildItemData data,int count)
 	{
 		int index = IndexOfEmptySlot();
 		if (IsNull(index))
 		{
 			_inventoryItems[index] = pool.TakeFromPool();
 			_inventoryItems[index].Init(data,count);
-			if (count > data.MaxQuantity)
+			if (count > data.MaxStackAmount)
 			{
-				count -= data.MaxQuantity;
+				count -= data.MaxStackAmount;
 			}
 			count = 0;
 		}
@@ -164,15 +153,7 @@ public class BuildInventory
 		
 		if(count > 0)
 		{
-			if (count <= _inventoryItems[index].RemainCapacity)
-			{
-				_inventoryItems[index].AddCount(count);
-			}
-			else
-			{
-				_inventoryItems[index].AddCount(_inventoryItems[index].RemainCapacity);
-				AddItem(_inventoryItems[index].Data, count - (data.MaxQuantity-1));
-			}
+			
 			
 		}
 	}

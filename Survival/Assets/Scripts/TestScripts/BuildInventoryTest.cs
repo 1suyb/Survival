@@ -17,14 +17,14 @@ public class BuildInventoryTest : MonoBehaviour
 
     public void AddItemInventoryTest()
     {
-        BuildItemDataBuildItem data = new BuildItemDataBuildItem();
+        BuildItemData data = new BuildItemData();
      
 		presenter.AddItem(data, 5);
     }
 
 	public void AddItemInventoryTest2()
 	{
-        BuildItemDataBuildItem data = new BuildItemDataBuildItem();
+        BuildItemData data = new BuildItemData();
 	
 
 		presenter.AddItem(data, 1);
@@ -44,7 +44,7 @@ public class BuildInventoryTest : MonoBehaviour
             }
             else
             {
-                Debug.Log($"{i} : {inventory.At(i).Data.ID} / {inventory.At(i).Count}");
+                Debug.Log($"{i} : {inventory.At(i).Data.Id} / {inventory.At(i).Count}");
 			}
         }
     }

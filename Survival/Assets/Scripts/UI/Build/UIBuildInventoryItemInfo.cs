@@ -35,7 +35,6 @@ public struct BuildItemInfo
 	public string Name;
 	public string Description;
 	public string Type;
-	public bool IsEquiped;
 
 	public Sprite Sprite;
 	public int ItemCount;

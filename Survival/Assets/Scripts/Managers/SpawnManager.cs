@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : Singleton<SpawnManager>
 {
+	PoolingSystem _poolingSystem;
+
 	public GameObject Spawn(string path, int id, Vector3 position)
 	{
 		GameObject go =ResourceManager.Instantiate(path);
@@ -14,6 +16,7 @@ public class SpawnManager : Singleton<SpawnManager>
 		}
 		return go;
 	}
+
 	public GameObject SpawnItem(int id,Vector3 position, int count = 1)
 	{
 		GameObject go =  Spawn("ItemObject", id,position);

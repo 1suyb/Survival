@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : CharacterController, IDamagable
+public class PlayerController : CharacterController
 {
 
     [Header("Move")]
@@ -185,9 +185,4 @@ public class PlayerController : CharacterController, IDamagable
     {
         throw new System.NotImplementedException();
     }
-
-	public override void TakeDamage(int damage)
-	{
-        PlayerManager.Instance.Player.condition.TakePhysicalDamage(damage);
-	}
 }

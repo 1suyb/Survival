@@ -87,7 +87,7 @@ public class MonsterController : CharacterController, IDamagable
     }
     private IEnumerator AttackRoutine()
     {
-        var playerCondition = PlayerManager.Instance.Player.GetComponent<PlayerCondition>();
+        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
         if (playerCondition != null)
         {
             playerCondition.TakeDamage(_monster.AttackPower); 
@@ -115,7 +115,7 @@ public class MonsterController : CharacterController, IDamagable
         // 타겟 방향으로 회전 
     }
 
-	public void TakeDamage(int Damage)
+	public void TakeDamage(int damage)
 	{
         Debug.Log("맞았음!");
 	}

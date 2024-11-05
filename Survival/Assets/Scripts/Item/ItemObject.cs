@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public interface IInteractable
-{
-	public void ShowPrompt();
-	public void Interact();
-	public void ClosePrompt();
-}
 
 
 public class ItemObject : MonoBehaviour, ILoadable, IInteractable

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ResourceObject : MonoBehaviour, IInteractable, IDamagable
+public class ResourceObject : MonoBehaviour, IInteractable
 {
 	private ResouceData _data;
 	private int _durability;
@@ -21,10 +21,7 @@ public class ResourceObject : MonoBehaviour, IInteractable, IDamagable
 	public void ShowPrompt()
 	{
 		UIInfoDisplay promptUI = UIManager.Instance.OpenUI<UIInfoDisplay>("ResourcePrompt");
-		if (_data.ResourceGetType == ResourceGetType.Gatherable)
-			promptUI.Init(_data.Name, "인터렉션 키를 눌러 채집");
-		else
-			promptUI.Init(_data.Name, "때려서 채집");
+		promptUI.Init(_data.Name, "인터렉션 키를 눌러 채집");
 	}
 
 	public void TakePhysicalDamage(int damage)

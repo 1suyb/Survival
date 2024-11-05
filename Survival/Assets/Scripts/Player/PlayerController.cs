@@ -29,6 +29,7 @@ public class PlayerController : CharacterController
     public bool canLook = true;
 
     public Action inventory;
+    public Action buildinventory;
 
     private void Awake()
     {
@@ -76,13 +77,25 @@ public class PlayerController : CharacterController
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            _animator.SetBool("Move",true);
+            _animator.SetBool("Move", true);
             _curMovementInput = context.ReadValue<Vector2>();
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             _animator.SetBool("Move", false);
             _curMovementInput = Vector2.zero;
+        }
+    }
+
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            _moveSpeed *= 2;
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            _moveSpeed /= 2;
         }
     }
 
@@ -131,6 +144,15 @@ public class PlayerController : CharacterController
         }
     }
 
+    public void OnBuildInventory(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            buildinventory?.Invoke();
+            ToggleCursor();
+        }
+    }
+
     void ToggleCursor()
     {
         bool toggle = Cursor.lockState == CursorLockMode.Locked;
@@ -152,7 +174,7 @@ public class PlayerController : CharacterController
 
         if (Physics.Raycast(ray, out hit, _attackDistance))
         {
-            if (hit.collider.TryGetComponent(out MonsterController monster))
+            if (hit.collider.TryGetComponent(out IDamagable monster))
             {
                 monster.TakeDamage((int)_damage);
             }
@@ -163,9 +185,4 @@ public class PlayerController : CharacterController
     {
         throw new System.NotImplementedException();
     }
-
-	public override void TakeDamage(int Damage)
-	{
-		throw new NotImplementedException();
-	}
 }

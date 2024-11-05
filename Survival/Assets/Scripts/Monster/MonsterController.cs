@@ -5,8 +5,12 @@ using System.IO;
 using UnityEngine.AI;
 using System.Collections;
 
-public class MonsterController : CharacterController
+public class MonsterController : CharacterController, IDamagable
 {
+
+    [Tooltip("테스트 타겟입니다.")] // Player.Instance 사용 시 null 오류 
+    public GameObject _TestTarget;
+
     [Header("Move")]
     [SerializeField] private float _minWanderDistance; // 최소 거리
     [SerializeField] private float _maxWanderDistance; // 최대 거리 
@@ -31,6 +35,9 @@ public class MonsterController : CharacterController
         _monsterAI = GetComponent<MonsterAI>();
         _monster = GetComponent<Monster>();
         _path = new NavMeshPath();
+
+        // 몬스터 data 값 받아오기 
+
     } // 초기화 
     public override void Move()  // 목적지에 도달하면 
     {
@@ -69,25 +76,25 @@ public class MonsterController : CharacterController
     }
     bool IsPlayerInFieldOfView() // 시야가 있는지 
     {
-        Vector3 directionToPlayer = PlayerManager.Instance.Player.transform.position - transform.position;
+        Vector3 directionToPlayer = _TestTarget.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         return angle < _fieldOfView * 0.5f;
     }
-    public override void Attack() // 공격
+    public override void Attack()
     {
-        if (_attackCoroutine != null) StopCoroutine(_attackCoroutine); // 이미 공격하고 있다면 정지 
-        _attackCoroutine = StartCoroutine(AttackRoutine()); 
+        if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
+        _attackCoroutine = StartCoroutine(AttackRoutine());
     }
-    private IEnumerator AttackRoutine() 
+    private IEnumerator AttackRoutine()
     {
-        var playerCondition = PlayerManager.Instance.Player.GetComponent<PlayerCondition>();
+        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
         if (playerCondition != null)
         {
-            playerCondition.TakePhysicalDamage(_monster.AttackPower); // 플레이어 TakeDamage 완성되면 TakeDamage로 변경 
+            playerCondition.TakeDamage(_monster.AttackPower); 
             yield return new WaitForSeconds(_monster.AttackSpeed); 
         }
     }
-    public void StopAttack() // 공격을 멈춘다 
+    public void StopAttack()
     {
         if (_attackCoroutine != null)
         {
@@ -97,21 +104,20 @@ public class MonsterController : CharacterController
     }
     public void Return()
     {
-        Vector3 returnposition = _monster.SavedPosition();
-        _agent.SetDestination(returnposition);
-    } // 돌아가다
+        // 원래 자리로 돌아가다
+    }
     public override void Die()
     {
         // 오브젝트 파괴
-    }
-    public override void TakeDamage(int Damage)
-    {
-        //Damage = 플레이어 공격력 
-        _monster.Health -= Damage;
     }
     public override void Look()
     {
         // 타겟 방향으로 회전 
     }
+
+	public void TakeDamage(int damage)
+	{
+        Debug.Log("맞았음!");
+	}
 }
 

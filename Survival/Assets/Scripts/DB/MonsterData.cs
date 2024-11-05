@@ -13,6 +13,7 @@ public class MonsterData
     public int AttackPower;
     public float AttackSpeed;
     public string PrefabPath;
+    // 아이템 
 
     private GameObject _dropPrefab;
     public GameObject DropPrefab

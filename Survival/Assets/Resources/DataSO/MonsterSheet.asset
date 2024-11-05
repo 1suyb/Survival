@@ -15,73 +15,73 @@ MonoBehaviour:
   MonsterData:
   - Id: 1
     type: 1
-    Name: 
+    Name: PachycephalaBlue
     Health: 50
     Speed: 10
     AttackPower: 10
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Blue'
   - Id: 2
     type: 1
-    Name: 
+    Name: PachycephalaGreen
     Health: 50
     Speed: 10
     AttackPower: 20
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Green'
   - Id: 3
     type: 1
-    Name: 
+    Name: PachycephalaRed
     Health: 50
     Speed: 10
     AttackPower: 30
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Red'
   - Id: 4
     type: 2
-    Name: 
+    Name: StegaBlue
     Health: 100
     Speed: 10
     AttackPower: 40
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Red'
   - Id: 5
     type: 2
-    Name: 
+    Name: StegaBlue
     Health: 100
     Speed: 10
     AttackPower: 50
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Red'
   - Id: 6
     type: 2
-    Name: 
+    Name: StegaBlue
     Health: 100
     Speed: 10
     AttackPower: 60
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Red'
   - Id: 7
     type: 3
-    Name: 
+    Name: RaptoBlue
     Health: 200
     Speed: 10
     AttackPower: 70
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Red'
   - Id: 8
     type: 3
-    Name: 
+    Name: RaptoBlue
     Health: 200
     Speed: 10
     AttackPower: 80
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Red'
   - Id: 9
     type: 3
-    Name: 
+    Name: RaptoBlue
     Health: 200
     Speed: 10
     AttackPower: 90
     AttackSpeed: 10
-    PrefabPath: 
+    PrefabPath: ' Monster/1/Red'

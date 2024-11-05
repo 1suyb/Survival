@@ -609,7 +609,7 @@ GameObject:
   - component: {fileID: 2013850800060330466}
   - component: {fileID: 2013850800060330467}
   m_Layer: 0
-  m_Name: Stega Grey
+  m_Name: Grey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

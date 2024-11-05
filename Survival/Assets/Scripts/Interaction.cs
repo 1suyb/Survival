@@ -13,31 +13,31 @@ public interface Interactable
 
 public class Interaction : MonoBehaviour
 {
-    public float checkRrate = 0.05f;
-    private float lastCheckTime;
+    private float _checkRrate = 0.05f;
+    private float _lastCheckTime;
     public float maxCheckDistance;
-    public LayerMask layerMask;
+    [SerializeField] private LayerMask _layerMask;
 
     public GameObject curInteractGameObject;
-    private Interactable interactable;
-    public TextMeshProUGUI promptText;
-    private Camera camera;
+    private Interactable _curInteractable;
+    [SerializeField] private TextMeshProUGUI _promptText;
+    private Camera _camera;
     // Start is called before the first frame update
     void Start()
     {
-        camera = Camera.main;
+        _camera = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - lastCheckTime > checkRrate)
+        if (Time.time - _lastCheckTime > _checkRrate)
         {
-            lastCheckTime = Time.time;
-            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+            _lastCheckTime = Time.time;
+            Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
+            if (Physics.Raycast(ray, out hit, maxCheckDistance, _layerMask))
             {
                 if (hit.collider.gameObject != curInteractGameObject)
                 {
@@ -50,15 +50,26 @@ public class Interaction : MonoBehaviour
             {
                 curInteractGameObject = null;
                 interactable = null;
-                promptText.gameObject.SetActive(false);
+                _promptText.gameObject.SetActive(false);
             }
+        }
+    }
+
+    public void OnInteractionInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started && _curInteractable != null)
+        {
+            _curInteractable.OnInteract();
+            curInteractGameObject = null;
+            _curInteractable = null;
+            _promptText.gameObject.SetActive(false);
         }
     }
 
     private void SetPromptText()
     {
-        promptText.gameObject.SetActive(true);
-        promptText.text = interactable.GetInteractPrompt();
+        _promptText.gameObject.SetActive(true);
+        _promptText.text = interactable.GetInteractPrompt();
     }
 
     public void OnInteractInput(InputAction.CallbackContext context)
@@ -68,7 +79,7 @@ public class Interaction : MonoBehaviour
             interactable.OnInteract();
             curInteractGameObject = null;
             interactable = null;
-            promptText.gameObject.SetActive(false);
+            _promptText.gameObject.SetActive(false);
         }
     }
 }

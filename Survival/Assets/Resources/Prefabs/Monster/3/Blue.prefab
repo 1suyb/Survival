@@ -2050,7 +2050,7 @@ GameObject:
   - component: {fileID: 8472677499801701150}
   - component: {fileID: 1695999028008863206}
   m_Layer: 0
-  m_Name: Raptor Blue
+  m_Name: Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

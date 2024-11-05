@@ -23,12 +23,6 @@ public class ItemObjectTest : MonoBehaviour
 		{
 			SpawnManager.Instance.SpawnItem(102, this.transform.position);
 		}
-
-		// Make the second button.
-		if (GUI.Button(new Rect(20, 70, 80, 20), "Despawn"))
-		{
-			Application.LoadLevel(2);
-		}
 	}
 
 

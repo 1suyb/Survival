@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 public enum ItemUseType
 {
@@ -21,7 +21,8 @@ public class ItemData
 	public int Hunger;
 	public int Water;
 	public float BodyTemperture;
-	public float AttackPoser;
+
+	public int AttackPower;
 	public float MoveSpeed;
 	public float JumpForce;
 

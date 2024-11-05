@@ -16,51 +16,62 @@ public class PlayerData : CharacterData
     {
         _health = heath;
     }
+
     public int AttackPower()
     {
         return _attackpower;
     }
+
     public void ChangeAttackPower(int attackpower)
     {
         _attackpower = attackpower;
     }
+
     public float JumpPower()
     {
         return _jumpPower;
     }
 
-    public void ChangeJumpPower(int jumpPower)
+    public void ChangeJumpPower(float jumpPower)
     {
         _jumpPower = jumpPower;
     }
+
     public float AttackDistance()
     {
         return _attackDistance;
     }
+
     public void ChangeAttackDistance(float attackDistance)
     {
         _attackDistance = attackDistance;
     }
+
     public float Speed()
     {
         return _speed;
     }
+
     public void ChangeSpeed(float speed)
     {
         _speed = speed;
     }
+
     public float Attackspeed()
     {
         return _attackspeed;
     }
+
     public void ChangeAttackspeed(int attackspeed)
     {
         _attackspeed = attackspeed;
     }
+
     public int Damage()
     {
         return _damage;
     }
+
     public void ChangeDamage(int damage)
     {
         _damage = damage;

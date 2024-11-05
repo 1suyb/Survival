@@ -60,12 +60,19 @@ public class InventoryItem
 		}
 		if(Data.Type == ItemUseType.Consumable)
 		{
+			PlayerData playerdata = PlayerManager.Instance.Player.data;
 			if (Data.Health > 0)
 				PlayerManager.Instance.Player.condition.Heal(Data.Health);
 			if(Data.Water > 0)
 				PlayerManager.Instance.Player.condition.Drink(Data.Water);
 			if(Data.Hunger > 0)
 				PlayerManager.Instance.Player.condition.Eat(Data.Hunger);
+			if (Data.AttackPower > 0)
+				playerdata.ChangeAttackPower(playerdata.AttackPower() + Data.AttackPower);
+			if(Data.MoveSpeed > 0) 
+				playerdata.ChangeSpeed(playerdata.Speed() + Data.MoveSpeed);
+			if(Data.JumpForce > 0) 
+				playerdata.ChangeJumpPower(playerdata.JumpPower() + Data.JumpForce);
 		}
 	}
 }

@@ -49,9 +49,9 @@ public class PlayerCondition : MonoBehaviour, IDamagable
         moisture.Add(amout);
     }
 
-    public void UseStamina()
+    public void UseStamina(float useStamina)
     {
-        stamina.Subtract(stamina.passiveValue * 0.05f);
+        stamina.Subtract(useStamina);
     }
 
     public float StaminaCheck()

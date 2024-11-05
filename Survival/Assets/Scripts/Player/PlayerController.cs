@@ -24,6 +24,7 @@ public class PlayerController : CharacterController
     private float _lookSensitivity = 0.2f;
     private Vector2 _mouseDelta;
     public bool canLook = true;
+    private bool isDash = false;
 
     public Action inventory;
     public Action buildinventory;
@@ -55,6 +56,10 @@ public class PlayerController : CharacterController
 
     public override void Move()
     {
+        if (isDash)
+        {
+            PlayerManager.Instance.Player.condition.UseStamina(0.1f);
+        }
         Vector3 dir = transform.forward * _curMovementInput.y + transform.right * _curMovementInput.x;
         dir *= PlayerManager.Instance.Player.data.Speed();
         dir.y = _rigidbody.velocity.y;
@@ -89,10 +94,12 @@ public class PlayerController : CharacterController
         if (context.phase == InputActionPhase.Performed)
         {
             PlayerManager.Instance.Player.data.ChangeSpeed(PlayerManager.Instance.Player.data.Speed() * 2);
+            isDash = true;
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             PlayerManager.Instance.Player.data.ChangeSpeed(PlayerManager.Instance.Player.data.Speed() / 2);
+            isDash = false;
         }
     }
 
@@ -103,10 +110,9 @@ public class PlayerController : CharacterController
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log(IsGrounded());
         if (context.phase == InputActionPhase.Started && IsGrounded() && PlayerManager.Instance.Player.condition.StaminaCheck() > 10.0f)
         {
-            PlayerManager.Instance.Player.condition.UseStamina();
+            PlayerManager.Instance.Player.condition.UseStamina(10.0f);
             _rigidbody.AddForce(Vector2.up * PlayerManager.Instance.Player.data.JumpPower(), ForceMode.Impulse);
         }
     }
@@ -173,7 +179,7 @@ public class PlayerController : CharacterController
         {
             if (hit.collider.TryGetComponent(out IDamagable monster))
             {
-                monster.TakeDamage((int)_damage);
+                monster.TakeDamage((int)PlayerManager.Instance.Player.data.Damage());
             }
         }
     }

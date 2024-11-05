@@ -63,14 +63,9 @@ public class MonsterController : CharacterController
         {
             _agent.isStopped = false;
 
-            //if (agent.CalculatePath(PlayerManager.Instance.Player.transform.position, path))
-            //{
-            //    agent.SetDestination(PlayerManager.Instance.Player.transform.position);
-            //}
-
-            if (_agent.CalculatePath(_TestTarget.transform.position, _path))
+            if (_agent.CalculatePath(PlayerManager.Instance.Player.transform.position, _path))
             {
-                _agent.SetDestination(_TestTarget.transform.position);
+                _agent.SetDestination(PlayerManager.Instance.Player.transform.position);
             }
         }
 
@@ -92,11 +87,11 @@ public class MonsterController : CharacterController
     }
     private IEnumerator AttackRoutine()
     {
-        var playerController = PlayerManager.Instance.Player.GetComponent<PlayerController>();
-        if (playerController != null)
+        var playerCondition = PlayerManager.Instance.Player.GetComponent<PlayerCondition>();
+        if (playerCondition != null)
         {
-            playerController.TakeDamage(); // 인수 필요: AttackDamage 
-            yield return new WaitForSeconds(_monster.AttackSpeed); // ()안에 공격 스피드 넣기
+            playerCondition.TakePhysicalDamage(_monster.AttackPower); 
+            yield return new WaitForSeconds(_monster.AttackSpeed); 
         }
     }
     public void StopAttack()

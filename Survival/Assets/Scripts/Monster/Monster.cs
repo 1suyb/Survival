@@ -5,9 +5,6 @@ using UnityEngine.AI;
 
 public class Monster : CharacterData
 {
-
-    // 여기서 몬스터DB 값 저장하기 
-
     private Vector3 _spawnPosition;
 
     public int Id;

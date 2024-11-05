@@ -5,53 +5,65 @@ public class UIManager : Singleton<UIManager>
 {
 	private Dictionary<string, GameObject> _cache = new Dictionary<string, GameObject>();
 
-	public T OpenUI<T>()
+	private string GetUIPath<T>(string name)
 	{
-		string path = Utils.GetPath<T>();
+		if(name  == null)
+		{
+			return Utils.GetPath<T>();
+		}
+		else
+		{
+			return Utils.GetPath<T>(name);
+		}
+	}
 
-		if (IsUIExist<T>())
+	public T OpenUI<T>(string name=null)
+	{
+		string path = GetUIPath<T>(name);
+
+		if (IsUIExist<T>(name))
 		{
 			return _cache[path].GetComponent<T>();
 		}
-		return CreateUI<T>();
+		return CreateUI<T>(name);
 	}
-	public T CreateUI<T>(Transform parent = null)
+	public T CreateUI<T>(string name = null, Transform parent = null)
 	{
-		string path = Utils.GetPath<T>();
-		if (IsUIExist<T>())
+		string path = GetUIPath<T>(name);
+		if (IsUIExist<T>(name))
 		{
 			RemoveUI<T>();
 		}
 		GameObject go = ResourceManager.Instantiate(path);
-		AddUI<T>(go);
+		AddUI<T>(go,path);
 		return go.GetComponent<T>();
 	}
-	public void CloseUI<T>() where T : UI
+	public void CloseUI<T>(string name = null) where T : UI
 	{
-		string path = Utils.GetPath<T>();
+		string path = GetUIPath<T>(name);
 		if (IsUIExist<T>())
 		{
 			_cache[path].GetComponent<T>().Close();
 		}
 	}
-	public void DestroyUI<T>()
+	public void DestroyUI<T>(string name = null)
 	{
-		string path = Utils.GetPath<T>();
+		string path = GetUIPath<T>(name);
 		if (IsUIExist<T>())
 		{
 			Destroy(_cache[path]);
 		}
 	}
-	public void AddUI<T>(GameObject go)
+	public void AddUI<T>(GameObject go,string path)
 	{
-		_cache.Add(Utils.GetPath<T>(), go);
+		_cache.Add(path, go);
 	}
-	public void RemoveUI<T>()
+	public void RemoveUI<T>(string name = null)
 	{
-		_cache.Remove(Utils.GetPath<T>());
+		_cache.Remove(GetUIPath<T>(name));
 	}
-	public bool IsUIExist<T>()
+	public bool IsUIExist<T>(string name = null)
 	{
-		return _cache.TryGetValue(Utils.GetPath<T>(), out GameObject uiGameObject);
+		return _cache.ContainsKey(GetUIPath<T>(name));
 	}
 }

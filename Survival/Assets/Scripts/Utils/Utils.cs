@@ -21,10 +21,15 @@ public static class Utils
 	}
 	public static T AddUniqueComponent<T>(this GameObject go) where T : Component
 	{
-		if(go.TryGetComponent<T>(out T component))
+		if (go.TryGetComponent<T>(out T component))
 		{
 			return component;
 		}
 		return go.AddComponent<T>();
+	}
+	public static string GetPath<T>(string name)
+	{
+		GetPath<T>();
+		return GetPath<T>() + $"/{name}";
 	}
 }

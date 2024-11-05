@@ -15,6 +15,7 @@ public class Interaction : MonoBehaviour
     public GameObject curInteractGameObject;
     private IInteractable interactable;
     private Camera camera;
+
     // Start is called before the first frame update
     void Start()
     {

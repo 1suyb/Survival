@@ -33,6 +33,11 @@ public class ItemObject : MonoBehaviour, ILoadable, IInteractable
 		ResourceManager.Instantiate(_data.PrefabPath,this.transform);
 	}
 
+	public void SetCount(int count)
+	{
+		_count = count;
+	}
+
 	public void Interact()
 	{
 		PlayerManager.Instance.Inventory.AddItem(_data, _count);

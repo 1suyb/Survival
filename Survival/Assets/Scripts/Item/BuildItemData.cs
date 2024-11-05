@@ -17,7 +17,7 @@ public enum ItemType
 
 [System.Serializable]
 
-public class BuildItemDataBuildItem
+public class BuildItemData
 {
 
 
@@ -27,7 +27,7 @@ public class BuildItemDataBuildItem
     public string Name;
     public string Description;
     public ItemType Type;
-    public string MaxStackAmount;
+    public int MaxStackAmount;
     public string RequireResourceName;
     public int RequireCount;
     public string SpritePath;

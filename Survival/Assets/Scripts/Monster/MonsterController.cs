@@ -7,7 +7,7 @@ using System.Collections;
 
 public class MonsterController : CharacterController
 {
- 
+
     [Tooltip("테스트 타겟입니다.")] // Player.Instance 사용 시 null 오류 
     public GameObject _TestTarget;
 
@@ -23,12 +23,17 @@ public class MonsterController : CharacterController
     [SerializeField] private float _fieldOfView = 120f; // 시야 각도 
     [SerializeField] private int _attackDistance = 20; // 공격 감지 거리값 
 
+    [Header("Attack")]
+    [SerializeField] private Coroutine _attackCoroutine;
+
     public MonsterAI _monsterAI;
+    private Monster _monster;
 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _monsterAI = GetComponent<MonsterAI>();
+        _monster = GetComponent<Monster>();
         _path = new NavMeshPath();
 
         // 몬스터 data 값 받아오기 
@@ -57,15 +62,10 @@ public class MonsterController : CharacterController
         if (_monsterAI.PlayerDistance > _attackDistance || !IsPlayerInFieldOfView())
         {
             _agent.isStopped = false;
-         
-            //if (agent.CalculatePath(PlayerManager.Instance.Player.transform.position, path))
-            //{
-            //    agent.SetDestination(PlayerManager.Instance.Player.transform.position);
-            //}
 
-            if (_agent.CalculatePath(_TestTarget.transform.position, _path))
+            if (_agent.CalculatePath(PlayerManager.Instance.Player.transform.position, _path))
             {
-                _agent.SetDestination(_TestTarget.transform.position);
+                _agent.SetDestination(PlayerManager.Instance.Player.transform.position);
             }
         }
 
@@ -82,28 +82,26 @@ public class MonsterController : CharacterController
     }
     public override void Attack()
     {
-        // 공격 코루틴을 시작하거나 재시작
-        //if (attackCoroutine != null) StopCoroutine(attackCoroutine);
-        //attackCoroutine = StartCoroutine(AttackRoutine());
+        if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
+        _attackCoroutine = StartCoroutine(AttackRoutine());
     }
     private IEnumerator AttackRoutine()
     {
-        //while (target != null)
-        //{
-        //    target.GetComponent<PlayerController>()?.TakeDamage(AttackPower); // 피해를 입는다 
-
-            // 공격 후 대기
-            yield return new WaitForSeconds(3); // ()안에 공격 스피드 넣기
-        //}
+        var playerCondition = PlayerManager.Instance.Player.GetComponent<PlayerCondition>();
+        if (playerCondition != null)
+        {
+            playerCondition.TakePhysicalDamage(_monster.AttackPower); 
+            yield return new WaitForSeconds(_monster.AttackSpeed); 
+        }
     }
-    //public void StopAttack() 공격 중지 
-    //{
-    //    if (attackCoroutine != null)
-    //    {
-    //        StopCoroutine(attackCoroutine);
-    //        attackCoroutine = null;
-    //    }
-    //}
+    public void StopAttack()
+    {
+        if (_attackCoroutine != null)
+        {
+            StopCoroutine(_attackCoroutine);
+            _attackCoroutine = null;
+        }
+    }
     public void Return()
     {
         // 원래 자리로 돌아가다

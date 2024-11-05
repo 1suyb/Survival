@@ -3448,7 +3448,7 @@ GameObject:
   - component: {fileID: 2787910752603368077}
   - component: {fileID: 6946879895981983036}
   m_Layer: 0
-  m_Name: Raptor Orange
+  m_Name: Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

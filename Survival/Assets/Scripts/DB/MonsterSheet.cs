@@ -6,5 +6,5 @@ using UnityEngine;
 [ExcelAsset]
 public class MonsterSheet : ScriptableObject
 {
-    public List<MonsterData> MonsterData; 
+    public List<MonsterData> MonsterData;
 }

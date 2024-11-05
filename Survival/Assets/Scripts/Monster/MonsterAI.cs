@@ -15,10 +15,10 @@ public enum AIState
 public class MonsterAI : MonoBehaviour
 {
     [Header("AI")]
-    private float _playerDistance; 
-    public float PlayerDistance 
+    private float _playerDistance;
+    public float PlayerDistance
     {
-        get { return _playerDistance; } 
+        get { return _playerDistance; }
     } // ���� �����ͼ� ���
 
     [SerializeField] private float _detectDistance = 20;
@@ -71,7 +71,7 @@ public class MonsterAI : MonoBehaviour
         ExitState(aiState);
         aiState = newState;
         EnterState(aiState);
-    } 
+    }
     private void EnterState(AIState state) // ���¿� �ʿ��� ���
     {
         switch (state)
@@ -113,6 +113,6 @@ public class MonsterAI : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(_minWanderWaitTime, _maxWanderWaitTime));
         SetState(AIState.Move);
     }
-    }
+}
 
 

@@ -5,12 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public interface Interactable
-{
-    public string GetInteractPrompt();
-    public void OnInteract();
-}
-
 public class Interaction : MonoBehaviour
 {
     public float checkRrate = 0.05f;
@@ -19,8 +13,7 @@ public class Interaction : MonoBehaviour
     public LayerMask layerMask;
 
     public GameObject curInteractGameObject;
-    private Interactable interactable;
-    public TextMeshProUGUI promptText;
+    private IInteractable interactable;
     private Camera camera;
     // Start is called before the first frame update
     void Start()
@@ -42,33 +35,30 @@ public class Interaction : MonoBehaviour
                 if (hit.collider.gameObject != curInteractGameObject)
                 {
                     curInteractGameObject = hit.collider.gameObject;
-                    interactable = hit.collider.GetComponent<Interactable>();
-                    SetPromptText();
+                    interactable = hit.collider.GetComponent<IInteractable>();
+                    interactable.ShowPrompt();
                 }
             }
             else
             {
-                curInteractGameObject = null;
+                if(curInteractGameObject != null)
+                {
+                    Debug.Log("loos target");
+                    interactable.ClosePrompt();
+                }
+				curInteractGameObject = null;
                 interactable = null;
-                promptText.gameObject.SetActive(false);
-            }
+			}
         }
-    }
-
-    private void SetPromptText()
-    {
-        promptText.gameObject.SetActive(true);
-        promptText.text = interactable.GetInteractPrompt();
     }
 
     public void OnInteractInput(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started && interactable != null)
         {
-            interactable.OnInteract();
+            interactable.Interact();
             curInteractGameObject = null;
             interactable = null;
-            promptText.gameObject.SetActive(false);
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ResourceObject : MonoBehaviour, IInteractable, IDamageIbe
+public class ResourceObject : MonoBehaviour, IInteractable, IDamagable
 {
 
 	public void ClosePrompt()

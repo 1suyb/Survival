@@ -8,29 +8,29 @@ public class PlayerController : CharacterController
 {
 
     [Header("Move")]
-    private float moveSpeed = 5.0f;
-    private float jumpPower = 80.0f;
-    private Vector2 curMovementInput;
+    private float _moveSpeed = 5.0f;
+    private float _jumpPower = 80.0f;
+    private Vector2 _curMovementInput;
     public LayerMask groundLayerMask;
 
-    private Rigidbody rigidbody;
-    private Animator animator;
+    private Rigidbody _rigidbody;
+    private Animator _animator;
 
     [Header("Look")]
     public Transform cameraContainer;
-    private float minXLook = -85.0f;
-    private float maxXLook = 85.0f;
-    private float camCurXRot;
-    private float lookSensitivity = 0.2f;
-    private Vector2 mouseDelta;
+    private float _minXLook = -85.0f;
+    private float _maxXLook = 85.0f;
+    private float _camCurXRot;
+    private float _lookSensitivity = 0.2f;
+    private Vector2 _mouseDelta;
     public bool canLook = true;
 
     public Action inventory;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
     // Start is called before the first frame update
     void Start()
@@ -54,46 +54,47 @@ public class PlayerController : CharacterController
 
     public override void Move()
     {
-        Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        dir *= moveSpeed;
-        dir.y = rigidbody.velocity.y;
-        rigidbody.velocity = dir;
+        Vector3 dir = transform.forward * _curMovementInput.y + transform.right * _curMovementInput.x;
+        dir *= _moveSpeed;
+        dir.y = _rigidbody.velocity.y;
+        _rigidbody.velocity = dir;
     }
 
     public override void Look()
     {
-        camCurXRot += mouseDelta.y * lookSensitivity;
-        camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook);
-        cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
+        _camCurXRot += _mouseDelta.y * _lookSensitivity;
+        _camCurXRot = Mathf.Clamp(_camCurXRot, _minXLook, _maxXLook);
+        cameraContainer.localEulerAngles = new Vector3(-_camCurXRot, 0, 0);
 
-        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
+        transform.eulerAngles += new Vector3(0, _mouseDelta.x * _lookSensitivity, 0);
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            animator.SetBool("Move",true);
-            curMovementInput = context.ReadValue<Vector2>();
+            _animator.SetBool("Move",true);
+            _curMovementInput = context.ReadValue<Vector2>();
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            animator.SetBool("Move", false);
-            curMovementInput = Vector2.zero;
+            _animator.SetBool("Move", false);
+            _curMovementInput = Vector2.zero;
         }
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        mouseDelta = context.ReadValue<Vector2>();
+        _mouseDelta = context.ReadValue<Vector2>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        Debug.Log(IsGrounded());
         if (context.phase == InputActionPhase.Started && IsGrounded() && PlayerManager.Instance.Player.condition.StaminaCheck() > 10.0f)
         {
             PlayerManager.Instance.Player.condition.UseStamina();
-            rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode.Impulse);
         }
     }
 
@@ -138,7 +139,7 @@ public class PlayerController : CharacterController
     {
         if (context.phase == InputActionPhase.Started)
         {
-            animator.SetTrigger("Attack");
+            _animator.SetTrigger("Attack");
         }
     }
     public override void Attack()

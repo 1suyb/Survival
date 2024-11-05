@@ -16,6 +16,7 @@ public class ItemObject : MonoBehaviour, ILoadable, IInteractable
 	private ItemData _data;
 	private int _count;
 
+
 	public ItemData Data => _data;
 	public int Count => _count;
 

@@ -28,6 +28,14 @@ public class UIInventorySlot : Slot,
 	{
 		_item = item;
 		UpdateUI(item.ItemCount<=1?"":item.ItemCount.ToString(), item.Sprite);
+		if(item.IsEquiped)
+		{
+			_slotImage.color = Color.yellow;
+		}
+		else
+		{
+			_slotImage.color = Color.white;
+		}
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)

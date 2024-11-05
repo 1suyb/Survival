@@ -12,8 +12,7 @@ public class InventoryTest : MonoBehaviour
     {
         inventory = new Inventory();
         presenter.Init(inventory);
-        presenter.TestUI(inventoryUI);
-		inventoryUI.Init(presenter);
+        presenter.OpenUI();
 	}
 
     public void AddItemInventoryTest()

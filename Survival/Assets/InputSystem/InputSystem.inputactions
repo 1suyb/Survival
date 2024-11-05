@@ -52,12 +52,12 @@
                 },
                 {
                     "name": "Dash",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "25e1d166-eb75-476a-94fb-9852a5987c6c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Inventory",

@@ -1,18 +1,13 @@
-
 using System;
 using UnityEngine;
-
-
-public interface IUIUpdater<T>
-{
-	public event Action<T> OnDataUpdateEvent;
-}
 
 public class InventoryController : MonoBehaviour, IUIUpdater<ItemInfoArray>
 {
 	private Inventory _inventory;
 	public event Action<ItemInfoArray> OnDataUpdateEvent;
 	private bool _isInventoryUIOpened = false;
+
+	private int _equipedItem = -1;
 
 	public void Awake()
 	{
@@ -69,6 +64,11 @@ public class InventoryController : MonoBehaviour, IUIUpdater<ItemInfoArray>
 	{
 		InventoryItem item = _inventory.At(index);
 		item.Use();
+		if (item.IsEquiped && _equipedItem!=-1)
+		{
+			_inventory.At(_equipedItem).Use();
+		}
+		_equipedItem = index;
 		UpdateInventoryUI();
 	}
 

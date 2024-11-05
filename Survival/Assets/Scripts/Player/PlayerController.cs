@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : CharacterController
+public class PlayerController : CharacterController, IDamagable
 {
 
     [Header("Move")]
@@ -152,7 +152,7 @@ public class PlayerController : CharacterController
 
         if (Physics.Raycast(ray, out hit, _attackDistance))
         {
-            if (hit.collider.TryGetComponent(out MonsterController monster))
+            if (hit.collider.TryGetComponent(out IDamagable monster))
             {
                 monster.TakeDamage((int)_damage);
             }
@@ -164,8 +164,8 @@ public class PlayerController : CharacterController
         throw new System.NotImplementedException();
     }
 
-	public override void TakeDamage(int Damage)
+	public void TakeDamage(int Damage)
 	{
-		throw new NotImplementedException();
+        
 	}
 }

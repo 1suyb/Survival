@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine.AI;
 using System.Collections;
 
-public class MonsterController : CharacterController
+public class MonsterController : CharacterController, IDamagable
 {
 
     [Tooltip("테스트 타겟입니다.")] // Player.Instance 사용 시 null 오류 
@@ -90,7 +90,7 @@ public class MonsterController : CharacterController
         var playerCondition = PlayerManager.Instance.Player.GetComponent<PlayerCondition>();
         if (playerCondition != null)
         {
-            playerCondition.TakePhysicalDamage(_monster.AttackPower); 
+            playerCondition.TakeDamage(_monster.AttackPower); 
             yield return new WaitForSeconds(_monster.AttackSpeed); 
         }
     }
@@ -115,7 +115,7 @@ public class MonsterController : CharacterController
         // 타겟 방향으로 회전 
     }
 
-	public override void TakeDamage(int Damage)
+	public void TakeDamage(int Damage)
 	{
         Debug.Log("맞았음!");
 	}

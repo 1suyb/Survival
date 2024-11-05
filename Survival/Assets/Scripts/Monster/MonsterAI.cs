@@ -19,7 +19,7 @@ public class MonsterAI : MonoBehaviour
     public float PlayerDistance 
     {
         get { return _playerDistance; } 
-    } // °ª¸¸ °¡Á®¿Í¼­ »ç¿ë
+    } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½ï¿½ï¿½
 
     [SerializeField] private float _detectDistance = 20;
 
@@ -35,14 +35,14 @@ public class MonsterAI : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _monsterController = GetComponent<MonsterController>();
-    } // ÃÊ±âÈ­ 
+    } // ï¿½Ê±ï¿½È­ 
     private void Start()
     {
         SetState(AIState.Move);
-    } // Wandering »óÅÂ ½ÃÀÛ 
+    } // Wandering ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     private void Update()
     {
-        // ÀüÃ¼ ´Ù ÄÚ·çÆ¾À¸·Î µ¹¸®´Â °Ô È¿À²Àû (ÇÁ·¹ÀÓ ³¶ºñ)
+        // ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         _playerDistance = Vector3.Distance(transform.position, _monsterController._TestTarget.transform.position);
 
         if (aiState != AIState.Attack && _playerDistance < 5)
@@ -65,14 +65,14 @@ public class MonsterAI : MonoBehaviour
         {
             SetState(AIState.Move);
         }
-    } // Æ¯Á¤ Á¶°Ç¿¡ µû¸¥ »óÅÂ ÀüÈ¯
+    } // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     private void SetState(AIState newState)
     {
         ExitState(aiState);
         aiState = newState;
         EnterState(aiState);
     } 
-    private void EnterState(AIState state) // »óÅÂ¿¡ ÇÊ¿äÇÑ ±â´É
+    private void EnterState(AIState state) // ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     {
         switch (state)
         {
@@ -90,7 +90,7 @@ public class MonsterAI : MonoBehaviour
                 _monsterController.Run();
                 break;
             case AIState.Attack:
-                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) // ³¡±îÁö Àç»ý½ÃÅ°±â 
+                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ 
                 {
                     _animator.SetTrigger("Attack");
                 }

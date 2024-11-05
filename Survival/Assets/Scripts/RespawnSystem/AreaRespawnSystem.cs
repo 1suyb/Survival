@@ -45,11 +45,11 @@ public class AreaRespawnSystem : MonoBehaviour
 
 	private Vector3 GetRandomPosition()
 	{
-		return new Vector3(GetRandomValue(), _standardHeight, GetRandomValue());
+		return new Vector3(GetRandomValue(), _standardHeight+this.transform.position.y, GetRandomValue());
 	}
 
 	private float GetRandomValue()
 	{
-		return Random.Range(-_spawnAreaRadius, _spawnAreaRadius);
+		return Random.Range(-_spawnAreaRadius+this.transform.position.x, _spawnAreaRadius+this.transform.position.z);
 	}
 }

@@ -19,7 +19,7 @@ public class MonsterAI : MonoBehaviour
     public float PlayerDistance
     {
         get { return _playerDistance; }
-    } // ���� �����ͼ� ���
+    } 
 
     [SerializeField] private float _detectDistance = 20;
 
@@ -35,14 +35,13 @@ public class MonsterAI : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _monsterController = GetComponent<MonsterController>();
-    } // �ʱ�ȭ 
+    }  
     private void Start()
     {
         SetState(AIState.Move);
-    } // Wandering ���� ���� 
+    }  
     private void Update()
     {
-        // ��ü �� �ڷ�ƾ���� ������ �� ȿ���� (������ ����)
         _playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
 
         if (aiState != AIState.Attack && _playerDistance < 5)
@@ -65,7 +64,7 @@ public class MonsterAI : MonoBehaviour
         {
             SetState(AIState.Move);
         }
-    } // Ư�� ���ǿ� ���� ���� ��ȯ
+    } 
     private void SetState(AIState newState)
     {
         ExitState(aiState);
@@ -90,12 +89,16 @@ public class MonsterAI : MonoBehaviour
                 _monsterController.Run();
                 break;
             case AIState.Attack:
-                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) // ������ �����Ű�� 
+                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
                 {
                     _animator.SetTrigger("Attack");
                 }
                 _monsterController.Attack();
                 _animator.SetBool("isRunning", false);
+                break;
+            case AIState.Return:
+                _monsterController.Attack();
+                _animator.SetBool("isMoving", true);
                 break;
         }
     }

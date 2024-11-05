@@ -1,47 +1,124 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Threading;
+using UnityEngine;
+using System.IO;
+using UnityEngine.AI;
+using System.Collections;
 
 public class MonsterController : CharacterController
 {
-    public Transform player;
-    public float rotationSpeed = 5f;
+ 
+    [Tooltip("테스트 타겟입니다.")] // Player.Instance 사용 시 null 오류 
+    public GameObject _TestTarget;
 
-    private Monster _monster;
+    [Header("Move")]
+    [SerializeField] private float _minWanderDistance; // 최소 거리
+    [SerializeField] private float _maxWanderDistance; // 최대 거리 
+    [SerializeField] private float _rotationSpeed = 3f; // 회전 속도
+
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private NavMeshPath _path;
+
+    [Header("Run")]
+    [SerializeField] private float _fieldOfView = 120f; // 시야 각도 
+    [SerializeField] private int _attackDistance = 20; // 공격 감지 거리값 
+
+    public MonsterAI _monsterAI;
 
     private void Awake()
     {
-        _monster = GetComponent<Monster>();
-    }
+        _agent = GetComponent<NavMeshAgent>();
+        _monsterAI = GetComponent<MonsterAI>();
+        _path = new NavMeshPath();
 
+        // 몬스터 data 값 받아오기 
+
+    } // 초기화 
+    public override void Move()  // 목적지에 도달하면 
+    {
+        Vector3 newLocation = GetWanderLocation();
+        _agent.SetDestination(newLocation);
+        _agent.isStopped = false;
+    }
+    public bool HasReachedDestination() // 도착했는지 확인
+    {
+        return _agent.remainingDistance < 0.1f;
+    }
+    Vector3 GetWanderLocation() // 새로운 위치 생성 
+    {
+        NavMeshHit hit;
+        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(_minWanderDistance, _maxWanderDistance)),
+                               out hit, _maxWanderDistance, NavMesh.AllAreas);
+
+        return hit.position;
+    }
+    public void Run() // 타겟 추적 
+    {
+        if (_monsterAI.PlayerDistance > _attackDistance || !IsPlayerInFieldOfView())
+        {
+            _agent.isStopped = false;
+         
+            //if (agent.CalculatePath(PlayerManager.Instance.Player.transform.position, path))
+            //{
+            //    agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+            //}
+
+            if (_agent.CalculatePath(_TestTarget.transform.position, _path))
+            {
+                _agent.SetDestination(_TestTarget.transform.position);
+            }
+        }
+
+        else
+        {
+            _agent.isStopped = true;
+        }
+    }
+    bool IsPlayerInFieldOfView() // 시야가 있는지 
+    {
+        Vector3 directionToPlayer = _TestTarget.transform.position - transform.position;
+        float angle = Vector3.Angle(transform.forward, directionToPlayer);
+        return angle < _fieldOfView * 0.5f;
+    }
     public override void Attack()
     {
-        // 공격력 참조 
-        // 랜덤으로 공격, 치명타 발동
+        // 공격 코루틴을 시작하거나 재시작
+        //if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+        //attackCoroutine = StartCoroutine(AttackRoutine());
     }
+    private IEnumerator AttackRoutine()
+    {
+        //while (target != null)
+        //{
+        //    target.GetComponent<PlayerController>()?.TakeDamage(AttackPower); // 피해를 입는다 
 
+            // 공격 후 대기
+            yield return new WaitForSeconds(3); // ()안에 공격 스피드 넣기
+        //}
+    }
+    //public void StopAttack() 공격 중지 
+    //{
+    //    if (attackCoroutine != null)
+    //    {
+    //        StopCoroutine(attackCoroutine);
+    //        attackCoroutine = null;
+    //    }
+    //}
+    public void Return()
+    {
+        // 원래 자리로 돌아가다
+    }
     public override void Die()
     {
         // 오브젝트 파괴
-        // 아이템 드롭 함수 실행 
     }
-
+    public override void TakeDamage()
+    {
+        // 체력 - 데미지 
+    }
     public override void Look()
     {
         // 타겟 방향으로 회전 
-    }
-
-    public override void Move()
-    {
-        // 타겟에게 이동
-    }
-
-    public void Patrol()
-    {
-        // 대기 상태에서 순찰
-    }
-
-    public override void TakeDamage()
-    {
-        
     }
 }
 

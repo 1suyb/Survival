@@ -1331,7 +1331,7 @@ GameObject:
   - component: {fileID: 3662131989678809567}
   - component: {fileID: 3662131989678809566}
   m_Layer: 0
-  m_Name: Stega Blue
+  m_Name: Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

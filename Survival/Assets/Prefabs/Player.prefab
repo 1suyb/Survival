@@ -1145,7 +1145,19 @@ MonoBehaviour:
     m_ActionId: 942c9ee8-bdd2-4726-9e88-fac1ae8b94a6
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2387211861466427838}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnDash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 25e1d166-eb75-476a-94fb-9852a5987c6c
     m_ActionName: Player/Dash[/Keyboard/r]
   - m_PersistentCalls:
@@ -1165,7 +1177,19 @@ MonoBehaviour:
     m_ActionId: 0134b07a-b3f9-4765-b87a-68050d026abf
     m_ActionName: Player/Inventory[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2387211861466427838}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnBuildInventory
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: c8e51c6b-414a-4ab4-a70c-e213e590153a
     m_ActionName: Player/BuildInventory[/Keyboard/tab]
   - m_PersistentCalls:
@@ -1201,13 +1225,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c8c6f5a5cc28d4fa2e408fa740067c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkRrate: 0.05
   maxCheckDistance: 3
-  layerMask:
+  _layerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   curInteractGameObject: {fileID: 0}
-  promptText: {fileID: 0}
 --- !u!136 &1834648786516025309
 CapsuleCollider:
   m_ObjectHideFlags: 0

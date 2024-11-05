@@ -8,12 +8,15 @@ public class UIInfoDisplay : UI
 	[SerializeField] private TMP_Text _title;
 	[SerializeField] private TMP_Text _description;
 	[SerializeField] private TMP_Text[] _extraTexts;
-
-	public void Init(string title, string descriptoin, string[] extras = null)
+	public void Init(string title, string descriptoin)
 	{
 		_title.text = title;
 		_description.text = descriptoin;
-		if(extras != null)
+	}
+	public void Init(string title, string descriptoin, string[] extras)
+	{
+		Init(title, descriptoin);
+		if (extras != null)
 		{
 			for (int i = 0; i < extras.Length; i++)
 			{

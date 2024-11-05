@@ -20,14 +20,19 @@ public class UIManager : Singleton<UIManager>
 	public T OpenUI<T>(string name=null)
 	{
 		string path = GetUIPath<T>(name);
-
+		GameObject go;
 		if (IsUIExist<T>(name))
 		{
-			return _cache[path].GetComponent<T>();
+			go = _cache[path];
 		}
-		return CreateUI<T>(name);
+		else
+		{
+			go = CreateUI<T>(name);
+		}
+		go.SetActive(true);
+		return go.GetComponent<T>();
 	}
-	public T CreateUI<T>(string name = null, Transform parent = null)
+	public GameObject CreateUI<T>(string name = null, Transform parent = null)
 	{
 		string path = GetUIPath<T>(name);
 		if (IsUIExist<T>(name))
@@ -36,12 +41,12 @@ public class UIManager : Singleton<UIManager>
 		}
 		GameObject go = ResourceManager.Instantiate(path);
 		AddUI<T>(go,path);
-		return go.GetComponent<T>();
+		return go;
 	}
 	public void CloseUI<T>(string name = null) where T : UI
 	{
 		string path = GetUIPath<T>(name);
-		if (IsUIExist<T>())
+		if (IsUIExist<T>(name))
 		{
 			_cache[path].GetComponent<T>().Close();
 		}

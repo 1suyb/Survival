@@ -10,8 +10,11 @@ public class PlayerController : CharacterController
     [Header("Move")]
     private float _moveSpeed = 5.0f;
     private float _jumpPower = 80.0f;
+    private float _attackDistance = 2.0f;
+    private int _damage = 5;
     private Vector2 _curMovementInput;
     public LayerMask groundLayerMask;
+    [SerializeField] private Camera _camera;
 
     private Rigidbody _rigidbody;
     private Animator _animator;
@@ -144,7 +147,16 @@ public class PlayerController : CharacterController
     }
     public override void Attack()
     {
-        
+        Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, _attackDistance))
+        {
+            if (hit.collider.TryGetComponent(out MonsterController monster))
+            {
+                monster.TakeDamage((int)_damage);
+            }
+        }
     }
 
     public override void Die()
@@ -152,8 +164,8 @@ public class PlayerController : CharacterController
         throw new System.NotImplementedException();
     }
 
-    public override void TakeDamage()
-    {
-        throw new System.NotImplementedException();
-    }
+	public override void TakeDamage(int Damage)
+	{
+		throw new NotImplementedException();
+	}
 }

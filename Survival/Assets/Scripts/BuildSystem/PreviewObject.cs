@@ -6,32 +6,33 @@ public class PreviewObject : MonoBehaviour
 {
 
 
-   
     //미리보기 담을 변수 
     [SerializeField]
-    private GameObject go_Preview;
+    private GameObject _goPreview;
 
     // 플레이어 위치
     [SerializeField]
-    private Transform tf_Player;
+    private Transform _tfPlayer;
 
     private RaycastHit hitInfo;
 
     [SerializeField]
-    private LayerMask layerMask;
+    private LayerMask _layerMask;
+
+    //아이템 설치 위치
+    [SerializeField]
+    Vector3 _location;
 
     [SerializeField]
     private float range;
 
     public bool isPreview;
-    public bool isdemolition;
 
 
     void Start()
     {
 
-
-        go_Preview = Instantiate(go_Preview, tf_Player.position + tf_Player.forward * 10, Quaternion.identity);
+        _goPreview = Instantiate(_goPreview, _tfPlayer.position + _tfPlayer.forward * 10, Quaternion.identity);
    
     }
 
@@ -41,9 +42,9 @@ public class PreviewObject : MonoBehaviour
 
 
         // 클릭시 설치해야.
-        //Instantiate(, tf_Player.position + tf_Player.forward, Quaternion.identity);
-        
-      
+        //Instantiate(, _location, Quaternion.identity);
+
+
 
     }
 
@@ -74,15 +75,15 @@ public class PreviewObject : MonoBehaviour
 
    
         Debug.Log(hitInfo.transform);
-        Debug.DrawRay(tf_Player.position, tf_Player.forward, Color.red);
+        Debug.DrawRay(_tfPlayer.position, _tfPlayer.forward, Color.red);
 
-        if (Physics.Raycast(tf_Player.position, tf_Player.forward, out hitInfo, range, layerMask))
+        if (Physics.Raycast(_tfPlayer.position, _tfPlayer.forward, out hitInfo, range, _layerMask))
         {
 
             if (hitInfo.transform != null)
             {
-                Vector3 _location = hitInfo.point;
-                go_Preview.transform.position = _location; 
+                _location = hitInfo.point;
+                _goPreview.transform.position = _location; 
             }
         }
        

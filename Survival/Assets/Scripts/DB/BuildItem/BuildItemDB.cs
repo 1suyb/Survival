@@ -7,7 +7,7 @@ public class BuildItemDB : Singleton<BuildItemDB>
 {
 
     //엑셀 데이터 스크립트 
-    private Dictionary<int, BuildItemDataBuildItem> _itmes = new ();
+    private Dictionary<int, BuildItemData> _itmes = new ();
 
 
     private void Start()
@@ -20,11 +20,11 @@ public class BuildItemDB : Singleton<BuildItemDB>
     {
             
         //엑셀 파일 ReImport시 생성된 Asset 스크립트 Load, 주소에 스크립트 이름 넣기 
-        var res = Resources.Load<BuildItemData>("DataSO/BuildItemData");
+        var res = Resources.Load<BuildItemSheet>("DataSO/BuildItemSheet");
         var itemSO = Object.Instantiate(res);
 
         //BuildItemData에 List 이름
-        var entities = itemSO.BuildItem;
+        var entities = itemSO.BuildItemData;
 
         if (entities == null || entities.Count <= 0)
             return;
@@ -46,7 +46,7 @@ public class BuildItemDB : Singleton<BuildItemDB>
 
 
     //엑셀 데이터 스크립트 
-    public BuildItemDataBuildItem Get(int id)
+    public BuildItemData Get(int id)
     {
 
         if(_itmes.ContainsKey(id))

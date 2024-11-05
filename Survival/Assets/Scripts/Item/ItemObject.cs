@@ -35,11 +35,10 @@ public class ItemObject : MonoBehaviour, ILoadable, IInteractable
 
 	public void Interact()
 	{
-
+		PlayerManager.Instance.Inventory.AddItem(_data, _count);
 	}
 	public void ShowPrompt()
 	{
-		// 플레이어의 인벤토리로 아이템을 추가하기
 		UIInfoDisplay infoUI = UIManager.Instance.OpenUI<UIInfoDisplay>("ItemPrompt");
 		infoUI.Init(_data.Name, "인터렉션 키를 눌러 줍기");
 	}

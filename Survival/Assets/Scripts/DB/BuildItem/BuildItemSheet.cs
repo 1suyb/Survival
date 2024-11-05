@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExcelAsset(AssetPath = "Resources/DataSO")]
-public class BuildItemData : ScriptableObject
+public class BuildItemSheet : ScriptableObject
 {
-	public List<BuildItemDataBuildItem> BuildItem; 
+	public List<BuildItemData> BuildItemData; 
 }

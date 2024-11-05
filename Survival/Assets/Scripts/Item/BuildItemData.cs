@@ -17,7 +17,7 @@ public enum ItemType
 
 [System.Serializable]
 
-public class BuildItemDataBuildItem
+public class BuildItemData
 {
 
 

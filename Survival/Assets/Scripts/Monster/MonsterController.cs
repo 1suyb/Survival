@@ -110,13 +110,14 @@ public class MonsterController : CharacterController
     {
         // 오브젝트 파괴
     }
-    public override void TakeDamage()
-    {
-        // 체력 - 데미지 
-    }
     public override void Look()
     {
         // 타겟 방향으로 회전 
     }
+
+	public override void TakeDamage(int Damage)
+	{
+        Debug.Log("맞았음!");
+	}
 }
 

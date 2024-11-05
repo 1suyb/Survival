@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 <<<<<<<< HEAD:Survival/Assets/Scripts/DB/BuildItem.meta
-guid: ed0d27c4ae253984392b17d400321a48
+guid: 646263eac99dba44d821585574ebcec8
 folderAsset: yes
+=======
+<<<<<<<< HEAD:Survival/Assets/Resources/DataSO/ResourceSheet.xlsx.meta
+guid: c0d73838ec50c1446a386967da241688
+>>>>>>> Stashed changes
 DefaultImporter:
 ========
 guid: 6d10b14cbd4e72d4d8c4c87be432a5e3

@@ -14,8 +14,10 @@ public class SpawnManager : Singleton<SpawnManager>
 		}
 		return go;
 	}
-	public GameObject SpawnItem(int id,Vector3 position)
+	public GameObject SpawnItem(int id,Vector3 position, int count = 1)
 	{
-		return Spawn("ItemObject", id,position);
+		GameObject go =  Spawn("ItemObject", id,position);
+		go.GetComponent<ItemObject>().SetCount(count);
+		return go;
 	}
 }

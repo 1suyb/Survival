@@ -77,7 +77,6 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 				itemInfos[i].Name = item.Data.Name;
 				itemInfos[i].Description = item.Data.Description;
 				itemInfos[i].Type = item.Data.Type.ToString();
-				itemInfos[i].IsEquiped = item.IsEquiped;
 				itemInfos[i].Sprite = Resources.Load<Sprite>(item.Data.SpritePath);
 				itemInfos[i].ItemCount = item.Count;
 			}

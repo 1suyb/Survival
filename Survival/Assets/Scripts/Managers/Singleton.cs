@@ -19,6 +19,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 					if(go == null)
 					{
 						go = new GameObject("Manager");
+						DontDestroyOnLoad(go);
 					}
 					s_instance = go.AddComponent<T>();
 				}

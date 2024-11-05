@@ -11,7 +11,7 @@ public class PlayerController : CharacterController
     private float _moveSpeed = 5.0f;
     private float _jumpPower = 80.0f;
     private float _attackDistance = 2.0f;
-    private float _damage = 5.0f;
+    private int _damage = 5;
     private Vector2 _curMovementInput;
     public LayerMask groundLayerMask;
     [SerializeField] private Camera _camera;
@@ -154,7 +154,7 @@ public class PlayerController : CharacterController
         {
             if (hit.collider.TryGetComponent(out MonsterController monster))
             {
-                //monster.TakeDamage(_damage);
+                monster.TakeDamage((int)_damage);
             }
         }
     }
@@ -164,8 +164,8 @@ public class PlayerController : CharacterController
         throw new System.NotImplementedException();
     }
 
-    public override void TakeDamage()
-    {
-        throw new System.NotImplementedException();
-    }
+	public override void TakeDamage(int Damage)
+	{
+		throw new NotImplementedException();
+	}
 }

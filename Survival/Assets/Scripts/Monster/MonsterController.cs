@@ -7,10 +7,6 @@ using System.Collections;
 
 public class MonsterController : CharacterController
 {
-
-    [Tooltip("테스트 타겟입니다.")] // Player.Instance 사용 시 null 오류 
-    public GameObject _TestTarget;
-
     [Header("Move")]
     [SerializeField] private float _minWanderDistance; // 최소 거리
     [SerializeField] private float _maxWanderDistance; // 최대 거리 
@@ -35,9 +31,6 @@ public class MonsterController : CharacterController
         _monsterAI = GetComponent<MonsterAI>();
         _monster = GetComponent<Monster>();
         _path = new NavMeshPath();
-
-        // 몬스터 data 값 받아오기 
-
     } // 초기화 
     public override void Move()  // 목적지에 도달하면 
     {
@@ -80,21 +73,21 @@ public class MonsterController : CharacterController
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         return angle < _fieldOfView * 0.5f;
     }
-    public override void Attack()
+    public override void Attack() // 공격
     {
-        if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
-        _attackCoroutine = StartCoroutine(AttackRoutine());
+        if (_attackCoroutine != null) StopCoroutine(_attackCoroutine); // 이미 공격하고 있다면 정지 
+        _attackCoroutine = StartCoroutine(AttackRoutine()); 
     }
-    private IEnumerator AttackRoutine()
+    private IEnumerator AttackRoutine() 
     {
         var playerCondition = PlayerManager.Instance.Player.GetComponent<PlayerCondition>();
         if (playerCondition != null)
         {
-            playerCondition.TakePhysicalDamage(_monster.AttackPower); 
+            playerCondition.TakePhysicalDamage(_monster.AttackPower); // 플레이어 TakeDamage 완성되면 TakeDamage로 변경 
             yield return new WaitForSeconds(_monster.AttackSpeed); 
         }
     }
-    public void StopAttack()
+    public void StopAttack() // 공격을 멈춘다 
     {
         if (_attackCoroutine != null)
         {
@@ -104,15 +97,17 @@ public class MonsterController : CharacterController
     }
     public void Return()
     {
-        // 원래 자리로 돌아가다
+        Vector3 returnposition = _monster.SavedPosition();
+        _agent.SetDestination(returnposition);
     }
     public override void Die()
     {
         // 오브젝트 파괴
     }
-    public override void TakeDamage()
+    public override void TakeDamage(int Damage)
     {
-        // 체력 - 데미지 
+        //Damage = 플레이어 공격력 
+        _monster.Health -= Damage;
     }
     public override void Look()
     {

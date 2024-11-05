@@ -15,7 +15,6 @@ public class Monster : CharacterData
         get { return _health; }
         set { _health = Mathf.Max(0, value); } 
     }
-
     public float Speed
     {
         get { return _speed; }
@@ -42,7 +41,7 @@ public class Monster : CharacterData
 
     public GameObject DropPrefab;
 
-    private void Awake()
+    private void Awake() // 데이터 불러오기 
     {
         MonsterData monsterData = MonsterDB.Instance.Get(Id);
 
@@ -57,7 +56,7 @@ public class Monster : CharacterData
         }
         else
         {
-            Debug.LogWarning($"Monster with ID {Id} not found in MonsterDB.");
+            Debug.LogWarning($"Monster with ID {Id} not found in MonsterDB."); // 확인용
         }
     }
 

@@ -7,7 +7,7 @@ public class BuildItemDB : Singleton<BuildItemDB>
 {
 
     //ø¢ºø µ•¿Ã≈Õ Ω∫≈©∏≥∆Æ 
-    private Dictionary<int, BuildItemData_BuildItem> _itmes = new ();
+    private Dictionary<int, BuildItemDataBuildItem> _itmes = new ();
 
 
     private void Start()
@@ -24,7 +24,7 @@ public class BuildItemDB : Singleton<BuildItemDB>
         var itemSO = Object.Instantiate(res);
 
         //BuildItemDataø° List ¿Ã∏ß
-        var entities = itemSO.BuildItemList;
+        var entities = itemSO.BuildItem;
 
         if (entities == null || entities.Count <= 0)
             return;
@@ -46,7 +46,7 @@ public class BuildItemDB : Singleton<BuildItemDB>
 
 
     //ø¢ºø µ•¿Ã≈Õ Ω∫≈©∏≥∆Æ 
-    public BuildItemData_BuildItem Get(int id)
+    public BuildItemDataBuildItem Get(int id)
     {
 
         if(_itmes.ContainsKey(id))

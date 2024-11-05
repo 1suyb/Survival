@@ -17,7 +17,7 @@ public enum ItemType
 
 [System.Serializable]
 
-public class BuildItemData_BuildItem
+public class BuildItemDataBuildItem
 {
 
 
@@ -39,19 +39,19 @@ public class BuildItemData_BuildItem
     private Sprite _icon;
 
     public GameObject DropPrefab
-    { 
-        get 
+    {
+        get
         {
             if (_dropPrefab == null)
             {
                 _dropPrefab = Resources.Load(PrefabPath) as GameObject;
 
             }
-           
-            return _dropPrefab; 
+
+            return _dropPrefab;
         }
-        
-    
+
+
     }
     public Sprite Icon
     {

@@ -23,7 +23,7 @@ public class MonsterAI : MonoBehaviour
 
     [SerializeField] private float _detectDistance = 20;
 
-    [Header("AI")]
+    [Header("Idle")]
     [SerializeField] private float _minWanderWaitTime;
     [SerializeField] private float _maxWanderWaitTime;
 

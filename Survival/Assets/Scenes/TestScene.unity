@@ -261,7 +261,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6618899744159388983, guid: 1867352f44bb8414f8e524bfb2654256, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.64
+      value: 6.02
       objectReference: {fileID: 0}
     - target: {fileID: 6618899744159388983, guid: 1867352f44bb8414f8e524bfb2654256, type: 3}
       propertyPath: m_LocalPosition.y
@@ -499,11 +499,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3258256700430927631 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 82627856217939810, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
-  m_PrefabInstance: {fileID: 5438505303647068287}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5438505303647068287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -520,29 +515,9 @@ PrefabInstance:
       propertyPath: _TestTarget
       value: 
       objectReference: {fileID: 1000721952}
-    - target: {fileID: 264476345257676035, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
-      propertyPath: _attackDistance
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 264476345257676035, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
-      propertyPath: _maxWanderDistance
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 264476345257676035, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
-      propertyPath: _maxWanderWaitTime
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 264476345257676035, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
-      propertyPath: _minWanderDistance
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 264476345257676035, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
-      propertyPath: _minWanderWaitTime
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 8217808792668317288, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.8
+      value: -1.14
       objectReference: {fileID: 0}
     - target: {fileID: 8217808792668317288, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
       propertyPath: m_LocalPosition.y
@@ -550,7 +525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8217808792668317288, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4.55
       objectReference: {fileID: 0}
     - target: {fileID: 8217808792668317288, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
       propertyPath: m_LocalRotation.w
@@ -580,40 +555,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8770006579843064676, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
-      propertyPath: detectDistance
-      value: 20
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 82627856217939810, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6928339636440148680}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48c3a6408300a564492448dea5ff37ea, type: 3}
---- !u!195 &6928339636440148680
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3258256700430927631}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

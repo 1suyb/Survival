@@ -21,8 +21,8 @@ MonoBehaviour:
     MaxStackAmount: 1
     RequireResourceName: "\uB098\uBB34"
     RequireCount: 20
-    SpritePath: Sprite/well
-    PrefabPath: Prefabs/well
+    SpritePath: Sprites/well
+    PrefabPath: Prefabs/BuildItemPrefabs/well
   - Id: 2
     Name: "\uC624\uB450\uB9C9 "
     Description: "\uAC04\uC774\uB85C \uC9C0\uC740 \uAC83 \uCE58\uACE0\uB294 \uD2BC\uD2BC\uD558\uB2E4."
@@ -30,8 +30,8 @@ MonoBehaviour:
     MaxStackAmount: 1
     RequireResourceName: "\uB098\uBB34"
     RequireCount: 10
-    SpritePath: Sprite/well
-    PrefabPath: Prefabs/well
+    SpritePath: Sprites/well
+    PrefabPath: Prefabs/BuildItemPrefabs/well
   - Id: 3
     Name: "\uCE68\uB300"
     Description: "\uCE68\uB300 \uBC16\uC740 \uC704\uD5D8\uD574"
@@ -39,5 +39,5 @@ MonoBehaviour:
     MaxStackAmount: 1
     RequireResourceName: "\uB098\uBB34"
     RequireCount: 5
-    SpritePath: Sprite/well
-    PrefabPath: Prefabs/well
+    SpritePath: Sprites/well
+    PrefabPath: Prefabs/BuildItemPrefabs/well

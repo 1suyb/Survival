@@ -45,9 +45,7 @@ public class Monster : CharacterData, ILoadable
 
     private void OnEnable()
     {
-        Debug.Log($"{_spawnPosition}");
         _spawnPosition = this.transform.position;
-        Debug.Log($"{_spawnPosition}");
     }
 
     public Vector3 SavedPosition()

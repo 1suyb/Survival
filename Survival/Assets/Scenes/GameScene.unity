@@ -817,8 +817,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnAreaRadius: 10
   _standardHeight: 10
-  _targetObject: {fileID: 1772353503318334649, guid: 2c2be9b0caf82fc4ca4941202679a34d, type: 3}
-  _id: 1
+  _targetObject: {fileID: 3538012207331461612, guid: efa9024f75e82204da09a2c9cd256734, type: 3}
+  _id: 4
   _spawnCount: 1
 --- !u!4 &1680173895
 Transform:

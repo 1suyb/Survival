@@ -51,10 +51,9 @@ public class MonsterAI : MonoBehaviour
     }  
     private void Update() // 상태 전환 
     {
-        // 매 프레임마다 거리 체크 
+        // 매 프레임마다 거리 체크
         _playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
 
-        //Debug.Log($"플레이어 거리 : {_playerDistance} 공격 범위 거리 : {_attackDistance}");
         if (_monsterController.IsDie())
         {
             SetState(AIState.Death);
@@ -110,20 +109,25 @@ public class MonsterAI : MonoBehaviour
                 _monsterController.Move();
                 _animator.SetBool("isRunning", false);
                 _animator.SetBool("isMoving", true);
+                _animator.SetBool("isAttack", false);
                 break;
             case AIState.Run:
                 Debug.Log("쫓아가자!");
                 _animator.SetBool("isRunning", true);
+                _animator.SetBool("isMoving", false);
+                _animator.SetBool("isAttack", false);
                 _monsterController.Run();
                 break; 
             case AIState.Attack: 
                 Debug.Log("때리자!");
                 _animator.SetBool("isRunning", false);
-                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-                {
-                    _animator.SetTrigger("Attack");
-                }
+                _animator.SetBool("isMoving", false);
+                //if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+                //{
+                    _animator.SetBool("isAttack", true);
+                //}
                 _monsterController.Attack();
+
                 if (_monsterController.IsDamageTaken()) // 피격 당했다면 
                 {
                     _animator.SetTrigger("Damage"); 
@@ -133,6 +137,8 @@ public class MonsterAI : MonoBehaviour
                 Debug.Log("너무 멀리왔다!");
                 _monsterController.Return();
                 _animator.SetBool("isMoving", true);
+                _animator.SetBool("isRunning", false);
+                _animator.SetBool("isAttack", false);
                 break;
             case AIState.Death:
                 Debug.Log("죽었다!");

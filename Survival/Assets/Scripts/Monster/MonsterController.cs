@@ -98,14 +98,6 @@ public class MonsterController : CharacterController, IDamagable
 
         _attackCoroutine = null;
     }
-    public void StopAttack()
-    {
-        if (_attackCoroutine != null)
-        {
-            StopCoroutine(_attackCoroutine);
-            _attackCoroutine = null;
-        }
-    } // 공격 정지 
     public void Return()
     {
         Vector3 returnposition = _monster.SavedPosition();
@@ -136,8 +128,6 @@ public class MonsterController : CharacterController, IDamagable
     }
     public void TakeDamage(int damage) // 피격 시 // 플레이어가 몬스터를 공격하면 호출됩니다 
     {
-        Debug.Log($"현재 몬스터 체력 : {_monster.Health} 들어온 플레이어 데미지 : {damage}");
-
         _isDamageTaken = true;
         _monster.Health -= damage;
 

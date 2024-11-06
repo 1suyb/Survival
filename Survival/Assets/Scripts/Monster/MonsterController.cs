@@ -79,20 +79,22 @@ public class MonsterController : CharacterController, IDamagable
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         return angle < _fieldOfView * 0.5f;
     }
-    public override void Attack()
-    {
-        if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
-        _attackCoroutine = StartCoroutine(AttackRoutine());
-    } // 공격
-    private IEnumerator AttackRoutine() // 공격 시작 
-    {
-        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
-
-        if (playerCondition != null)
-            playerCondition.TakeDamage(_monster.AttackPower);
-        yield return new WaitForSeconds(_monster.AttackSpeed);
-    }
-    public void StopAttack()
+	public override void Attack()
+	{
+		if (_attackCoroutine == null)
+		{
+			_attackCoroutine = StartCoroutine(AttackRoutine());
+		}
+	} // 공격
+	private IEnumerator AttackRoutine() // 공격 시작
+	{
+		var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
+		if (playerCondition != null)
+			playerCondition.TakeDamage(_monster.AttackPower);
+		yield return new WaitForSeconds(_monster.AttackSpeed);
+		_attackCoroutine = null;
+	}
+	public void StopAttack()
     {
         if (_attackCoroutine != null)
         {

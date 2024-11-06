@@ -103,23 +103,19 @@ public class MonsterAI : MonoBehaviour
         switch (state)
         {
             case AIState.Idle:
-                Debug.Log("대기!");
                 StartCoroutine(IdleRoutine());
                 _animator.SetBool("isMoving", false);
                 break;
             case AIState.Move:
-                Debug.Log("순찰!");
                 _monsterController.Move();
                 _animator.SetBool("isRunning", false);
                 _animator.SetBool("isMoving", true);
                 break;
             case AIState.Run:
-                Debug.Log("쫓아가자!");
                 _animator.SetBool("isRunning", true);
                 _monsterController.Run();
                 break; 
             case AIState.Attack: 
-                Debug.Log("때리자!");
                 _animator.SetBool("isRunning", false);
                 if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
                 {
@@ -132,12 +128,10 @@ public class MonsterAI : MonoBehaviour
                 }
                 break;
             case AIState.Return:
-                Debug.Log("너무 멀리왔다!");
-                _monsterController.Attack();
+                _monsterController.Return();
                 _animator.SetBool("isMoving", true);
                 break;
             case AIState.Death:
-                Debug.Log("죽었다!");
                 _animator.SetTrigger("Death");
                 break;
         }

@@ -83,10 +83,8 @@ public class MonsterController : CharacterController, IDamagable
     }
     public override void Attack()
     {
-        Debug.Log("공격했다!");
         if (_attackCoroutine == null)
         {
-            // 실행
             _attackCoroutine = StartCoroutine(AttackRoutine());
         }
     } // 공격
@@ -97,7 +95,7 @@ public class MonsterController : CharacterController, IDamagable
         if (playerCondition != null)
             playerCondition.TakeDamage(_monster.AttackPower);
         yield return new WaitForSeconds(_monster.AttackSpeed);
-        // 이걸 한 번 실행하고 나서 다시 null로 만든다 
+
         _attackCoroutine = null;
     }
     public void StopAttack()

@@ -4,16 +4,13 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.AI;
 using System.Collections;
+using System;
 
 public class MonsterController : CharacterController, IDamagable
 {
-
-    [Tooltip("테스트 타겟입니다.")] // Player.Instance 사용 시 null 오류 
-    public GameObject _TestTarget;
-
     [Header("Move")]
-    [SerializeField] private float _minWanderDistance; // 최소 거리
-    [SerializeField] private float _maxWanderDistance; // 최대 거리 
+    [SerializeField] private float _minWanderDistance = 10; // 최소 거리
+    [SerializeField] private float _maxWanderDistance = 10; // 최대 거리 
     [SerializeField] private float _rotationSpeed = 3f; // 회전 속도
 
     [SerializeField] private NavMeshAgent _agent;
@@ -35,9 +32,6 @@ public class MonsterController : CharacterController, IDamagable
         _monsterAI = GetComponent<MonsterAI>();
         _monster = GetComponent<Monster>();
         _path = new NavMeshPath();
-
-        // 몬스터 data 값 받아오기 
-
     } // 초기화 
     public override void Move()  // 목적지에 도달하면 
     {
@@ -52,14 +46,15 @@ public class MonsterController : CharacterController, IDamagable
     Vector3 GetWanderLocation() // 새로운 위치 생성 
     {
         NavMeshHit hit;
-        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(_minWanderDistance, _maxWanderDistance)),
+        NavMesh.SamplePosition(transform.position + (UnityEngine.Random.onUnitSphere * UnityEngine.Random.Range(_minWanderDistance, _maxWanderDistance)),
                                out hit, _maxWanderDistance, NavMesh.AllAreas);
 
         return hit.position;
     }
     public void Run() // 타겟 추적 
     {
-        if (_monsterAI.PlayerDistance > _attackDistance || !IsPlayerInFieldOfView())
+        Debug.Log($"{_monsterAI.PlayerDistance} + {_attackDistance}");
+        if (_monsterAI.PlayerDistance < _attackDistance || !IsPlayerInFieldOfView())
         {
             _agent.isStopped = false;
 
@@ -76,7 +71,7 @@ public class MonsterController : CharacterController, IDamagable
     }
     bool IsPlayerInFieldOfView() // 시야가 있는지 
     {
-        Vector3 directionToPlayer = _TestTarget.transform.position - transform.position;
+        Vector3 directionToPlayer = PlayerManager.Instance.Player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         return angle < _fieldOfView * 0.5f;
     }
@@ -84,16 +79,23 @@ public class MonsterController : CharacterController, IDamagable
     {
         if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
         _attackCoroutine = StartCoroutine(AttackRoutine());
-    }
+    } // 공격
     private IEnumerator AttackRoutine()
     {
-        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
-        if (playerCondition != null)
+        var player = PlayerManager.Instance?.Player;
+        if (player != null)
         {
-            playerCondition.TakeDamage(_monster.AttackPower); 
+            var playerCondition = player.GetComponent<IDamagable>();
+
+            if (playerCondition != null)
+                playerCondition.TakeDamage(_monster.AttackPower); 
             yield return new WaitForSeconds(_monster.AttackSpeed); 
         }
-    }
+        else
+        {
+            Debug.LogWarning("플레이어가 없습니다.");
+        }
+    }  // 오류 발생 
     public void StopAttack()
     {
         if (_attackCoroutine != null)
@@ -101,23 +103,27 @@ public class MonsterController : CharacterController, IDamagable
             StopCoroutine(_attackCoroutine);
             _attackCoroutine = null;
         }
-    }
+    } // 공격 정지 
     public void Return()
     {
-        // 원래 자리로 돌아가다
-    }
+        Vector3 returnposition = _monster.SavedPosition();
+        _agent.SetDestination(returnposition);
+    } // 돌아가기 
     public override void Die()
     {
-        // 오브젝트 파괴
+        if (_monster.Health <= 0)
+        {  
+           // 아이템 드롭 
+           // 오브젝트 파괴
+        }
     }
     public override void Look()
     {
         // 타겟 방향으로 회전 
-    }
-
-	public void TakeDamage(int damage)
+    } 
+	public void TakeDamage(int damage) // 피격 시 
 	{
-        Debug.Log("맞았음!");
-	}
+        _monster.Health -= damage;
+    }
 }
 

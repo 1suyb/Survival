@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerData : CharacterData
 {
     private float _jumpPower = 8.0f;
-    private float _attackDistance = 2.0f;
+    private float _attackDistance = 3.0f;
 
     public int Heath()
     {

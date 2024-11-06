@@ -37,7 +37,6 @@ public class AreaRespawnSystem : MonoBehaviour
 		{
 			positions.Add(GetRandomPosition());
 		}
-		Debug.Log(positions.Count);
         foreach (Vector3 position in positions)
         {
 			if (_pool.IsPoolEmpty) { break; }

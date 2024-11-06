@@ -30,13 +30,15 @@ public class MonsterController : CharacterController, IDamagable
 
     public MonsterAI _monsterAI;
     private Monster _monster;
+    private Animator _animator;
 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _monsterAI = GetComponent<MonsterAI>();
         _monster = GetComponent<Monster>();
-        _path = new NavMeshPath();
+		_animator = GetComponent<Animator>();  
+		_path = new NavMeshPath();
     } // 초기화 
     public override void Move()  // 목적지에 도달하면 
     {
@@ -130,8 +132,10 @@ public class MonsterController : CharacterController, IDamagable
     {
         _isDamageTaken = true;
         _monster.Health -= damage;
+        _animator.SetTrigger("Damage");
 
-        if (IsDie())
+
+		if (IsDie())
         {
             Die();
         }

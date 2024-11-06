@@ -192,9 +192,10 @@ public class PlayerController : CharacterController
     {
         Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, PlayerManager.Instance.Player.data.AttackDistance()))
+		Debug.DrawRay(_camera.transform.position, _camera.transform.forward * PlayerManager.Instance.Player.data.AttackDistance(),Color.red,1f);
+		if (Physics.Raycast(ray, out hit, PlayerManager.Instance.Player.data.AttackDistance()))
         {
+            
             if (hit.collider.TryGetComponent(out IDamagable monster))
             {
                 monster.TakeDamage((int)PlayerManager.Instance.Player.data.Damage());

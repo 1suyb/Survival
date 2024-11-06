@@ -70,6 +70,7 @@ public class PreviewObject : MonoBehaviour
             isPreview = false;
             Destroy(_goPreview);
             _goPreview = null;
+            PlayerManager.Instance.Player.controller.ToggleCursor();
 
         }
     }
@@ -81,12 +82,11 @@ public class PreviewObject : MonoBehaviour
         if (context.phase == InputActionPhase.Started && _goPreview != null && _goPreview.GetComponent<InstallableItem>().isBuildable())
         {
 
-            
             isPreview = false;
             _item.isInstall = true;
             _item.RestoreOriginalMaterials();
-           _goPreview =null;
-
+            _goPreview =null;
+            PlayerManager.Instance.Player.controller.ToggleCursor();
 
         }
     }

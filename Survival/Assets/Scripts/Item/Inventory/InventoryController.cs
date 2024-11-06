@@ -1,42 +1,51 @@
-
 using System;
 using UnityEngine;
-
-
-public interface IUIUpdater<T>
-{
-	public event Action<T> OnDataUpdateEvent;
-}
 
 public class InventoryController : MonoBehaviour, IUIUpdater<ItemInfoArray>
 {
 	private Inventory _inventory;
 	public event Action<ItemInfoArray> OnDataUpdateEvent;
+	private bool _isInventoryUIOpened = false;
+
+	private int _equipedItem = -1;
+
+	public void Awake()
+	{
+		_inventory = new Inventory();
+		PlayerManager.Instance.Inventory = this;
+	}
+
+	public void Start()
+	{
+		PlayerManager.Instance.Player.GetComponent<PlayerController>().inventory = OpenUI;
+
+	}
 
 	public void Init(Inventory inventory)
 	{
 		_inventory = inventory;
 	}
 
-	public void TestUI(UIInventory inventoryUI)
-	{
-		inventoryUI.Init(this);
-		UpdateInventoryUI();
-		inventoryUI.OnUseEvent += UseItem;
-		inventoryUI.OnDropEvent += DropItem;
-		inventoryUI.OnSwapEvent += Swap;
-	}
-
 	public void OpenUI()
 	{
-		UIInventory inventoryUI = UIManager.Instance.OpenUI<UIInventory>();
-		inventoryUI.Init(this);
+		if(!_isInventoryUIOpened)
+		{
+			_isInventoryUIOpened = true;
+			UIInventory inventoryUI = UIManager.Instance.OpenUI<UIInventory>();
+			inventoryUI.Init(this);
 
-		inventoryUI.OnUseEvent += UseItem;
-		inventoryUI.OnDropEvent += DropItem;
-		inventoryUI.OnSwapEvent += Swap;
+			inventoryUI.OnUseEvent += UseItem;
+			inventoryUI.OnDropEvent += DropItem;
+			inventoryUI.OnSwapEvent += Swap;
 
-		UpdateInventoryUI();
+			UpdateInventoryUI();
+		}
+		else
+		{
+			_isInventoryUIOpened = false;
+			UIManager.Instance.CloseUI<UIInventory>();
+			OnDataUpdateEvent = null;
+		}
 	}
 
 	public void AddItem(ItemData item, int count)
@@ -53,8 +62,7 @@ public class InventoryController : MonoBehaviour, IUIUpdater<ItemInfoArray>
 
 	public void UseItem(int index)
 	{
-		InventoryItem item = _inventory.At(index);
-		item.Use();
+		_inventory.UseAtItem(index);
 		UpdateInventoryUI();
 	}
 

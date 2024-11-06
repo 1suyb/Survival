@@ -126,4 +126,12 @@ public class UIInventory : UI
 	{
 		_clickedButtonsParentTransform.gameObject.SetActive(false);
 	}
+	public override void Close()
+	{
+		base.Close();
+		OnSwapEvent = null;
+		OnUseEvent = null;
+		OnDropEvent = null;
+
+	}
 }

@@ -5,12 +5,26 @@ using UnityEngine;
 
 public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoArray>
 {
-	private BuildInventory _inventory;
+	private BuildInventory _buildInventory;
 	public event Action<BuildItemInfoArray> OnDataUpdateEvent;
+    private bool _isInventoryUIOpened = false;
 
-	public void Init(BuildInventory inventory)
+    public void Awake()
+    {
+        _buildInventory = new BuildInventory();
+        PlayerManager.Instance.BuildInventory = this;
+
+    }
+
+    public void Start()
+    {
+        PlayerManager.Instance.Player.GetComponent<PlayerController>().buildinventory = OpenUI;
+
+    }
+
+    public void Init(BuildInventory inventory)
 	{
-		_inventory = inventory;
+        _buildInventory = inventory;
 	}
 
 	public void TestUI(UIBuildInventory inventoryUI)
@@ -18,54 +32,48 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 		inventoryUI.Init(this);
 		UpdateInventoryUI();
 		inventoryUI.OnUseEvent += UseItem;
-		inventoryUI.OnDropEvent += DropItem;
-		inventoryUI.OnSwapEvent += Swap;
+
 	}
 
 	public void OpenUI()
 	{
-		UIBuildInventory inventoryUI = UIManager.Instance.OpenUI<UIBuildInventory>();
-		inventoryUI.Init(this);
+        if (!_isInventoryUIOpened)
+        {
+            _isInventoryUIOpened = true;
+            UIBuildInventory inventoryUI = UIManager.Instance.OpenUI<UIBuildInventory>();
+            inventoryUI.Init(this);
 
-		inventoryUI.OnUseEvent += UseItem;
-		inventoryUI.OnDropEvent += DropItem;
-		inventoryUI.OnSwapEvent += Swap;
+            inventoryUI.OnUseEvent += UseItem;
+            
+            UpdateInventoryUI();
+        }
+        else
+        {
+            _isInventoryUIOpened = false;
+            UIManager.Instance.CloseUI<UIBuildInventory>();
+            OnDataUpdateEvent = null;
+        }
+    }
 
-		UpdateInventoryUI();
-	}
-
-	public void AddItem(ItemData item, int count)
-	{
-		_inventory.AddItem(item, count);
-		UpdateInventoryUI();
-	}
-
-	public void DropItem(int index)
-	{
-		_inventory.DropItem(index,_inventory.At(index).Count);
-		UpdateInventoryUI();
-	}
 
 	public void UseItem(int index)
 	{
-		BuildInventoryItem item = _inventory.At(index);
+		BuildInventoryItem item = _buildInventory.At(index);
 		item.Use();
-		UpdateInventoryUI();
-	}
+		//UpdateInventoryUI();
 
-	public void Swap(int i, int j)
-	{
-		_inventory.SwapItem(i, j);
-		UpdateInventoryUI();
-	}
+        _isInventoryUIOpened = false;
+        UIManager.Instance.CloseUI<UIBuildInventory>();
+        OnDataUpdateEvent = null;
+    }
 
 
 	public BuildItemInfoArray MakeItemInfoArray()
 	{
-		BuildItemInfo[] itemInfos = new BuildItemInfo[_inventory.Size];
-		for(int i = 0; i < _inventory.Size; i++)
+		BuildItemInfo[] itemInfos = new BuildItemInfo[_buildInventory.Size];
+		for(int i = 0; i < _buildInventory.Size; i++)
 		{
-			BuildInventoryItem item = _inventory.At(i);
+			BuildInventoryItem item = _buildInventory.At(i);
 			itemInfos[i] = new BuildItemInfo();
 			if (item == null)
 			{
@@ -77,7 +85,6 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 				itemInfos[i].Name = item.Data.Name;
 				itemInfos[i].Description = item.Data.Description;
 				itemInfos[i].Type = item.Data.Type.ToString();
-				itemInfos[i].IsEquiped = item.IsEquiped;
 				itemInfos[i].Sprite = Resources.Load<Sprite>(item.Data.SpritePath);
 				itemInfos[i].ItemCount = item.Count;
 			}
@@ -86,8 +93,6 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 		itemInfoArray.Items = itemInfos;
 		return itemInfoArray;
 	}
-
-
 
 	public void UpdateInventoryUI()
 	{

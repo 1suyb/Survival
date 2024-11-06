@@ -3,20 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDamageIbe
+public class PlayerCondition : MonoBehaviour, IDamagable
 {
-    void TakePhysicalDamage(int damage);
-}
+    public UICondition uiCondition;
 
-public class PlayerCondition : MonoBehaviour
-{
-    public UICondition condition;
+    Condition health { get { return uiCondition.health; } }
+    Condition hunger { get { return uiCondition.hunger; } }
+    Condition stamina { get { return uiCondition.stamina; } }
+    Condition moisture { get { return uiCondition.moisture; } }
+    Condition temperature { get { return uiCondition.temperature; } }
 
-    Condition health { get { return condition.health; } }
-    Condition hunger { get { return condition.hunger; } }
-    Condition stamina { get { return condition.stamina; } }
+    private float _noHungerHealth = 1.0f;
 
-    public float noHungerHealth;
+    private float _noMoistureHealth = 2.0f;
 
     public event Action onTakeDamage;
 
@@ -24,10 +23,16 @@ public class PlayerCondition : MonoBehaviour
     void Update()
     {
         hunger.Subtract(hunger.passiveValue * Time.deltaTime);
+        moisture.Subtract(moisture.passiveValue * Time.deltaTime);
         stamina.Add(stamina.passiveValue * Time.deltaTime);
         if (hunger.curValue == 0)
         {
-            health.Subtract(noHungerHealth * Time.deltaTime);
+            health.Subtract(_noHungerHealth * Time.deltaTime);
+        }
+
+        if (moisture.curValue == 0)
+        {
+            health.Subtract(_noMoistureHealth * Time.deltaTime);
         }
 
         if (health.curValue == 0)
@@ -46,10 +51,19 @@ public class PlayerCondition : MonoBehaviour
     {
         hunger.Add(amout);
     }
-
-    public void UseStamina()
+    public void Drink(float amout)
     {
-        stamina.Subtract(stamina.passiveValue * 0.05f);
+        moisture.Add(amout);
+    }
+
+    public bool UseStamina(float useStamina)
+    {
+        if (stamina.curValue >= useStamina)
+        {
+            stamina.Subtract(useStamina);
+            return true;
+        }
+        return false;
     }
 
     public float StaminaCheck()
@@ -59,12 +73,12 @@ public class PlayerCondition : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Die");
+         PlayerManager.Instance.Player.controller.Die();
     }
 
-    public void TakePhysicalDamage(int damage)
-    {
-        health.Subtract(damage);
-        onTakeDamage?.Invoke();
-    }
+	public void TakeDamage(int damage)
+	{
+		health.Subtract(damage);
+		onTakeDamage?.Invoke();
+	}
 }

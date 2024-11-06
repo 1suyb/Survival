@@ -40,13 +40,13 @@ public class PoolingSystem
 		}
 	}
 
-	private GameObject CreatePooledItem()
+	private void CreatePooledItem()
 	{
 		GameObject go = ResourceManager.Instantiate(_targetObject,_poolManagerTransform);
 		Poolable poolable = go.AddUniqueComponent<Poolable>();
+		_poolSize++;
 		poolable.Init(this, _id);
-		go.SetActive(false);
-		return go;
+		_pool.Push(go);
 	}
 
 	public GameObject TakeFromPool()
@@ -63,17 +63,12 @@ public class PoolingSystem
 
 	public void Release(GameObject item)
 	{
-		if (_poolSize == MAXSIZE)
+		if (_poolSize > MAXSIZE)
 		{
+			_poolSize--;
 			GameObject.Destroy(item.gameObject);
 			return;
 		}
-		Push(item);
-	}
-
-	private void Push(GameObject item)
-	{
-		_poolSize++;
 		_pool.Push(item);
 	}
 }

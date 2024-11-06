@@ -5,33 +5,28 @@ using UnityEngine;
 
 public class ItemObjectTest : MonoBehaviour
 {
-	private Vector3 mousePosition;
-	private IInteractable interactable;
+	private IInteractable _interactable;
+	[SerializeField] private ResourceObject _resouceObject;
+	private int _itemid;
 
 	private void Start()
 	{
 		SpawnManager.Instance.SpawnItem(102, this.transform.position);
-		mousePosition = new Vector3(Screen.width / 2, Screen.height / 2);
 	}
 
-	private void Update()
+	void OnGUI()
 	{
+		// Make a background box
+		GUI.Box(new Rect(10, 10, 300, 100), "Loader Menu");
 
-		Debug.DrawRay(Camera.main.transform.position,Camera.main.transform.forward*10,Color.white,1f);
-		if (Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition),out RaycastHit hit)) 
+		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
+		if (GUI.Button(new Rect(20, 40, 150, 50), "Spawn"))
 		{
-			if(hit.collider != null)
-			{
-				if(hit.collider.gameObject.TryGetComponent<IInteractable>(out IInteractable ib))
-				{
-					if(interactable!= ib)
-					{
-						interactable = ib;
-						ib.ShowPrompt();
-					}
-				}
-			}
-			
+			SpawnManager.Instance.SpawnItem(_itemid, this.transform.position);
 		}
+
+		_itemid = int.Parse(GUI.TextField(new Rect(20, 110, 150, 50), _itemid.ToString()));
 	}
+
+
 }

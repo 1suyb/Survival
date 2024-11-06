@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public interface IInteractable
-{
-	public void ShowPrompt();
-	public void Interact();
-	public void ClosePrompt();
-}
 
 
 public class ItemObject : MonoBehaviour, ILoadable, IInteractable
@@ -33,13 +27,19 @@ public class ItemObject : MonoBehaviour, ILoadable, IInteractable
 		ResourceManager.Instantiate(_data.PrefabPath,this.transform);
 	}
 
+	public void SetCount(int count)
+	{
+		_count = count;
+	}
+
 	public void Interact()
 	{
-
+		PlayerManager.Instance.Inventory.AddItem(_data, _count);
+		this.gameObject.SetActive(false);
+		ClosePrompt();
 	}
 	public void ShowPrompt()
 	{
-		// 플레이어의 인벤토리로 아이템을 추가하기
 		UIInfoDisplay infoUI = UIManager.Instance.OpenUI<UIInfoDisplay>("ItemPrompt");
 		infoUI.Init(_data.Name, "인터렉션 키를 눌러 줍기");
 	}

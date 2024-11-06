@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIBuildInventorySlot : Slot,
-	IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler,
+	IBeginDragHandler, IDragHandler, IEndDragHandler,
 	IPointerDownHandler, IPointerUpHandler,
 	IPointerEnterHandler, IPointerExitHandler
 {
@@ -64,10 +64,7 @@ public class UIBuildInventorySlot : Slot,
 		_icon.transform.position = this.transform.position;
 	}
 
-	public void OnDrop(PointerEventData eventData)
-	{
-		_inventoryUI.SwapSlot(this);
-	}
+
 
 	public void OnPointerExit(PointerEventData eventData)
 	{

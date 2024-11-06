@@ -20,7 +20,7 @@ MonoBehaviour:
     ResourceGetType: 0
     Durability: 0
     DropCount: 1
-    PrefabPath: 
+    PrefabPath: ResourceObject/101
   - ID: 102
     Name: "\uBB3C"
     Description: "\uBB3C\uC785\uB2C8\uB2E4"
@@ -36,7 +36,7 @@ MonoBehaviour:
     ResourceGetType: 1
     Durability: 5
     DropCount: 1
-    PrefabPath: 
+    PrefabPath: ResourceObject/201
   - ID: 210
     Name: "\uB3CC"
     Description: "\uB3CC\uC785\uB2C8\uB2E4"
@@ -44,4 +44,4 @@ MonoBehaviour:
     ResourceGetType: 1
     Durability: 5
     DropCount: 1
-    PrefabPath: 
+    PrefabPath: ResourceObject/210

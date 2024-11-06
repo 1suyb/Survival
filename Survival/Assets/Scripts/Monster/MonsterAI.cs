@@ -138,7 +138,7 @@ public class MonsterAI : MonoBehaviour
                 break;
             case AIState.Death:
                 Debug.Log("죽었다!");
-                _animator.SetBool("Die", true);
+                _animator.SetTrigger("Death");
                 break;
         }
     } // 상태에 따른 동작과 애니메이션 기능

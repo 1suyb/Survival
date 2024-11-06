@@ -52,6 +52,7 @@ public class MonsterAI : MonoBehaviour
     {
         _animator = GetComponentInChildren<Animator>();
         SetState(AIState.Move);
+        StartCoroutine(AIUpdate());
     }  
 
     private void IdleAnimation()
@@ -83,32 +84,41 @@ public class MonsterAI : MonoBehaviour
 
 	private IEnumerator AIUpdate()
     {
-		yield return _wait;
-		_playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
-		_playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
-		if (_monsterController.IsDie())
-		{
-			SetState(AIState.Death);
-		}
-		else if ((Vector3.Distance(transform.position, _monster.SavedPosition()) > _returnDistance))
-		{
-			SetState(AIState.Return);
-		}
-		else if(_playerDistance < _attackDistance)
-		{
-			SetState(AIState.Attack);
-		}
-		else if (_playerDistance < _detectDistance)
-		{
-			SetState(AIState.Run);
-		}
-		else if (aiState == AIState.Move && _monsterController.HasReachedDestination())
-		{
-			SetState(AIState.Idle);
-		}
-		else if (aiState != AIState.Move && _playerDistance > _detectDistance)
-		{
-			SetState(AIState.Move);
+        while (true)
+        {
+			yield return _wait;
+			_playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
+			_playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
+			if (_monsterController.IsDie())
+			{
+				Debug.Log("A");
+				SetState(AIState.Death);
+			}
+			else if ((Vector3.Distance(transform.position, _monster.SavedPosition()) > _returnDistance))
+			{
+				Debug.Log("B");
+				SetState(AIState.Return);
+			}
+			else if (_playerDistance < _attackDistance)
+			{
+				Debug.Log("C");
+				SetState(AIState.Attack);
+			}
+			else if (_playerDistance < _detectDistance)
+			{
+				Debug.Log("D");
+				SetState(AIState.Run);
+			}
+			else if (_monsterController.HasReachedDestination())
+			{
+				Debug.Log("E");
+				SetState(AIState.Idle);
+			}
+			else if (aiState != AIState.Move && _playerDistance > _detectDistance)
+			{
+				Debug.Log("F");
+				SetState(AIState.Move);
+			}
 		}
 
 	}
@@ -169,8 +179,9 @@ public class MonsterAI : MonoBehaviour
                 _animator.SetBool("isAttack", false);
                 break;
             case AIState.Death:
-                Debug.Log("죽었다!");
-                _animator.SetBool("Die", true);
+                this.gameObject.SetActive(false);
+                //Debug.Log("죽었다!");
+                //_animator.SetBool("Die", true);
                 break;
         }
     } // 상태에 따른 동작과 애니메이션 기능

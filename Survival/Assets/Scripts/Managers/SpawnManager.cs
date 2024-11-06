@@ -27,7 +27,11 @@ public class SpawnManager : Singleton<SpawnManager>
 	private PoolingSystem CreatePool(string path, int id = 0 , int maxSize = 10)
 	{
 		GameObject targetObject = ResourceManager.Load(path);
-		_pools.Add(path, new Dictionary<int, PoolingSystem>());
+		if(!_pools.ContainsKey(path))
+		{
+			_pools.Add(path, new Dictionary<int, PoolingSystem>());
+
+		}
 		_pools[path].Add(id, new PoolingSystem(targetObject, maxSize: maxSize, id: id));
 		return _pools[path][id];
 	}

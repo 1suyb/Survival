@@ -25,6 +25,7 @@ public class ItemData
 	public int AttackPower;
 	public float MoveSpeed;
 	public float JumpForce;
+	public int Duration;
 
 	public bool ISStackable;
 	public int MaxQuantity;

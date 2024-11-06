@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class ItemObjectTest : MonoBehaviour
 {
-	private IInteractable interactable;
-	[SerializeField] private ResourceObject resouceObject;
+	private IInteractable _interactable;
+	[SerializeField] private ResourceObject _resouceObject;
+	private int _itemid;
 
 	private void Start()
 	{
@@ -21,8 +22,10 @@ public class ItemObjectTest : MonoBehaviour
 		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
 		if (GUI.Button(new Rect(20, 40, 150, 50), "Spawn"))
 		{
-			SpawnManager.Instance.SpawnItem(102, this.transform.position);
+			SpawnManager.Instance.SpawnItem(_itemid, this.transform.position);
 		}
+
+		_itemid = int.Parse(GUI.TextField(new Rect(20, 110, 150, 50), _itemid.ToString()));
 	}
 
 

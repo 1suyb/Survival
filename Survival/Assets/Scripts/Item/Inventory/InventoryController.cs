@@ -62,13 +62,7 @@ public class InventoryController : MonoBehaviour, IUIUpdater<ItemInfoArray>
 
 	public void UseItem(int index)
 	{
-		InventoryItem item = _inventory.At(index);
-		item.Use();
-		if (item.IsEquiped && _equipedItem!=-1)
-		{
-			_inventory.At(_equipedItem).Use();
-		}
-		_equipedItem = index;
+		_inventory.UseAtItem(index);
 		UpdateInventoryUI();
 	}
 

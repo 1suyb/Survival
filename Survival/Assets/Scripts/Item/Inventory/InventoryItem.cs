@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Data.Common;
+using UnityEngine;
 
 public class InventoryItem
 {
@@ -30,7 +32,7 @@ public class InventoryItem
 	}
 	public void AddCount(int count)
 	{
-		if (!_data.ISStackable)
+		if (_data.MaxQuantity==1)
 		{
 			Debug.LogError("쌓을 수 없는 아이템!");
 			return;
@@ -54,13 +56,23 @@ public class InventoryItem
 
 	public void Use()
 	{
+		PlayerData playerdata = PlayerManager.Instance.Player.data;
 		if (Data.Type == ItemUseType.Weapon)
 		{
 			IsEquiped = !IsEquiped;
+
+			if (IsEquiped)
+			{
+				playerdata.ChangeAttackPower(playerdata.AttackPower() + Data.AttackPower);
+			}
+			else
+			{
+				playerdata.ChangeAttackPower(playerdata.AttackPower() - Data.AttackPower);
+			}
 		}
 		if(Data.Type == ItemUseType.Consumable)
 		{
-			PlayerData playerdata = PlayerManager.Instance.Player.data;
+
 			if (Data.Health > 0)
 				PlayerManager.Instance.Player.condition.Heal(Data.Health);
 			if(Data.Water > 0)
@@ -73,6 +85,22 @@ public class InventoryItem
 				playerdata.ChangeSpeed(playerdata.Speed() + Data.MoveSpeed);
 			if(Data.JumpForce > 0) 
 				playerdata.ChangeJumpPower(playerdata.JumpPower() + Data.JumpForce);
+			if (Data.Duration > 0)
+				playerdata.StartCoroutine(EndItemEffect(_data));
 		}
+	}
+	public IEnumerator EndItemEffect(ItemData data)
+	{
+		yield return new WaitForSeconds(Data.Duration);
+		PlayerData playerdata = PlayerManager.Instance.Player.data;
+
+
+		if (Data.AttackPower > 0)
+			playerdata.ChangeAttackPower(playerdata.AttackPower() - Data.AttackPower);
+		if (Data.MoveSpeed > 0)
+			playerdata.ChangeSpeed(playerdata.Speed() - Data.MoveSpeed);
+		if (Data.JumpForce > 0)
+			playerdata.ChangeJumpPower(playerdata.JumpPower() - Data.JumpForce);
+
 	}
 }

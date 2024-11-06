@@ -6,7 +6,8 @@ public class Inventory
 {
 	private ClassPoolSystem<InventoryItem> pool = new ClassPoolSystem<InventoryItem>(minSize:GameConfig.INVENTORYSIZE);
 	private InventoryItem[] _inventoryItems = new InventoryItem[GameConfig.INVENTORYSIZE];
-	public InventoryItem[] InventoryItems => _inventoryItems;
+
+	private int _equipedWeapon = -1;
 
 	public int Size => GameConfig.INVENTORYSIZE;
 	public bool IsFull => IndexOfEmptySlot() == -1;
@@ -97,7 +98,7 @@ public class Inventory
 	{
 		if (HasThisItem(itemData))
 		{
-			if (itemData.ISStackable)
+			if (itemData.MaxQuantity>1)
 			{
 				count = DistributeItemQuantity(itemData, count);
 				if(count == 0)
@@ -184,12 +185,34 @@ public class Inventory
 			Debug.Log("잘못된 개수 요청");
 			return;
 		}
-		item.SubtractCount(count);
-		if(item.Count == 0)
+		SubtractItemCount(index, count);
+	}
+
+	public void UseAtItem(int index)
+	{
+		At(index).Use();
+		if(At(index).Data.Type == ItemUseType.Weapon)
 		{
-			pool.Relase(item);
+			if (At(index).IsEquiped && _equipedWeapon != -1)
+			{
+				At(_equipedWeapon).Use();
+			}
+			_equipedWeapon = index;
 		}
-		_inventoryItems[index]=null;
+		if(At(index).Data.Type == ItemUseType.Consumable)
+		{
+			SubtractItemCount(index, 1);
+		}
+		
+	}
+	private void SubtractItemCount(int index, int count)
+	{
+		At(index).SubtractCount(count);
+		if (At(index).Count == 0)
+		{
+			pool.Relase(At(index));
+			_inventoryItems[index] = null;
+		}
 	}
 
 	public void SwapItem(int i, int j)

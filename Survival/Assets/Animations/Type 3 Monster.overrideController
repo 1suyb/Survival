@@ -8,4 +8,14 @@ AnimatorOverrideController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Type 3 Monster
   m_Controller: {fileID: 9100000, guid: d8ff1d9d80687b149bd76315aa912f67, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 5807546945967862971, guid: 26a5ea023529de54e9b69e178a00178f, type: 3}
+    m_OverrideClip: {fileID: 3805685717080202810, guid: a0fd3e22eaa8dfa4bb1601fe8b25d953, type: 3}
+  - m_OriginalClip: {fileID: -3723231039007847258, guid: 26a5ea023529de54e9b69e178a00178f, type: 3}
+    m_OverrideClip: {fileID: -5260203128266656945, guid: 6bcc76aebcc27f641a1ba39f7e8e5fe6, type: 3}
+  - m_OriginalClip: {fileID: -892218410653054595, guid: 26a5ea023529de54e9b69e178a00178f, type: 3}
+    m_OverrideClip: {fileID: -5802973623661493375, guid: 6bcc76aebcc27f641a1ba39f7e8e5fe6, type: 3}
+  - m_OriginalClip: {fileID: -6964540043655662866, guid: 26a5ea023529de54e9b69e178a00178f, type: 3}
+    m_OverrideClip: {fileID: 4876630066056293116, guid: 6bcc76aebcc27f641a1ba39f7e8e5fe6, type: 3}
+  - m_OriginalClip: {fileID: 1845330551170060835, guid: 26a5ea023529de54e9b69e178a00178f, type: 3}
+    m_OverrideClip: {fileID: 1369745789714782098, guid: a0fd3e22eaa8dfa4bb1601fe8b25d953, type: 3}

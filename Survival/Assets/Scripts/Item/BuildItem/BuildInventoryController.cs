@@ -44,6 +44,7 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
             UIBuildInventory inventoryUI = UIManager.Instance.OpenUI<UIBuildInventory>();
             inventoryUI.Init(this);
 
+            inventoryUI.OnUseEvent -= UseItem;  // 먼저 해제
             inventoryUI.OnUseEvent += UseItem;
             
             UpdateInventoryUI();
@@ -65,6 +66,7 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 		item.Use();
 
         PlayerManager.Instance.Player.controller.ToggleCursor();
+
         _isInventoryUIOpened = false;
         UIManager.Instance.CloseUI<UIBuildInventory>();
         OnDataUpdateEvent = null;

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 6219470744245638828}
   - component: {fileID: -3141776233631277530}
   - component: {fileID: -5546158336802099156}
-  - component: {fileID: -2619990602545367112}
   - component: {fileID: -8466482341095016199}
+  - component: {fileID: 6921964898062526428}
   m_Layer: 0
   m_Name: Type 3 Monster Object
   m_TagString: Untagged
@@ -57,6 +57,7 @@ MonoBehaviour:
   type: 0
   Name: 
   DropPrefab: {fileID: 0}
+  Dropitem: 0
 --- !u!114 &6219470744245638828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +96,8 @@ MonoBehaviour:
   _agent: {fileID: 0}
   _fieldOfView: 120
   _attackDistance: 20
+  _isDamageTaken: 0
+  _isDie: 0
   _monsterAI: {fileID: 0}
 --- !u!54 &-5546158336802099156
 Rigidbody:
@@ -121,29 +124,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &-2619990602545367112
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7162877999985610890}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 3}
-  m_Center: {x: 0, y: 1, z: 0.1}
 --- !u!195 &-8466482341095016199
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -166,3 +148,26 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &6921964898062526428
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7162877999985610890}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7170944
+  m_Height: 3.1543431
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: -0.40000007}

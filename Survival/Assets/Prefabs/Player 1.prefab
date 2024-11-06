@@ -116,6 +116,8 @@ GameObject:
   - component: {fileID: 5820692461577030342}
   - component: {fileID: 7099315206722322995}
   - component: {fileID: 9159372218456867934}
+  - component: {fileID: 5420769276505518007}
+  - component: {fileID: 60955654358702229}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Untagged
@@ -155,6 +157,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   condition: {fileID: 0}
   data: {fileID: 0}
+  preview: {fileID: 0}
 --- !u!114 &7011040376203978337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,7 +171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCondition: {fileID: 0}
-  noHungerHealth: 0
 --- !u!114 &54046706766235061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +187,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _camera: {fileID: 1033949549130222093}
+  _endPanel: {fileID: 0}
   cameraContainer: {fileID: 1219075276812077531}
   canLook: 1
 --- !u!114 &475404383147031384
@@ -466,6 +469,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43efc45adaf68e941a69fe7db46a18cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5420769276505518007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668864870662568892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 570963f1184a21f4989999d3967dd710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &60955654358702229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668864870662568892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31e32af4af2705428b1bc916d7e67fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _goPreview: {fileID: 0}
+  _tfPlayer: {fileID: 3691125966881522351}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  range: 10
+  isPreview: 0
 --- !u!1 &2264929909249580398
 GameObject:
   m_ObjectHideFlags: 0

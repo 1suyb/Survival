@@ -462,9 +462,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 359918432974277510, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4002925820306809725, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
       propertyPath: m_Name
       value: BackGround
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780851770907880182, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8641163912988242662, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -665,6 +673,18 @@ PrefabInstance:
       propertyPath: _endPanel
       value: 
       objectReference: {fileID: 772571769}
+    - target: {fileID: 475404383147031384, guid: cdeddf235eb8ecd49ade578b89fdc7b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475404383147031384, guid: cdeddf235eb8ecd49ade578b89fdc7b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475404383147031384, guid: cdeddf235eb8ecd49ade578b89fdc7b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1668864870662568892, guid: cdeddf235eb8ecd49ade578b89fdc7b4, type: 3}
       propertyPath: m_Name
       value: Player 1

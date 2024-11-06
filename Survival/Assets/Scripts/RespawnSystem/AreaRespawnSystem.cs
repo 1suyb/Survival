@@ -56,10 +56,4 @@ public class AreaRespawnSystem : MonoBehaviour
 	{
 		return Random.Range(-_spawnAreaRadius, _spawnAreaRadius);
 	}
-	void OnDrawGizmos()
-	{
-		// Draw a yellow sphere at the transform's position
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawSphere(transform.position, _spawnAreaRadius);
-	}
 }

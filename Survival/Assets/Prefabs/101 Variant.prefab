@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4692897212025063760, guid: 42f006efe74f81942a98eb54d04411b7, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7992715529498131577, guid: 42f006efe74f81942a98eb54d04411b7, type: 3}
       propertyPath: m_Name
       value: 101 Variant

@@ -171,7 +171,7 @@ MonoBehaviour:
     Duration: 0
     ISStackable: 0
     MaxQuantity: 30
-    SpritePath: Sprites/Item/202
+    SpritePath: Sprites/Item/210
     PrefabPath: ItemPrefabs/210
   - ID: 301
     Name: "\uBA54\uC774\uC2A4"

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -179,6 +181,7 @@ public class PlayerController : CharacterController
         {
             if (hit.collider.TryGetComponent(out IDamagable monster))
             {
+                Debug.Log("À×");
                 monster.TakeDamage((int)PlayerManager.Instance.Player.data.Damage());
             }
         }

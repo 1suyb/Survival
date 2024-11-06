@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class ReStartButton : MonoBehaviour
 {
-    public void OnClickButton()
+    public void OnReStartButton()
     {
+        Debug.Log("¿ÁΩ√¿€");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

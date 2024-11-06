@@ -58,7 +58,7 @@ public class PlayerCondition : MonoBehaviour, IDamagable
 
     public bool UseStamina(float useStamina)
     {
-        if (stamina.curValue < useStamina)
+        if (stamina.curValue >= useStamina)
         {
             stamina.Subtract(useStamina);
             return true;

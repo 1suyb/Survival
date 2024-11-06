@@ -37,6 +37,7 @@ public class PlayerController : CharacterController
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        Time.timeScale = 1f;
         isAlive = true;
     }
     // Start is called before the first frame update
@@ -66,7 +67,7 @@ public class PlayerController : CharacterController
     {
         if (isDash)
         {
-            if (!PlayerManager.Instance.Player.condition.UseStamina(0.1f))
+            if (!PlayerManager.Instance.Player.condition.UseStamina(0.2f))
             {
                 isDash = false;
                 PlayerManager.Instance.Player.data.ChangeSpeed(PlayerManager.Instance.Player.data.Speed() / 2);
@@ -125,9 +126,8 @@ public class PlayerController : CharacterController
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded() && isAlive && PlayerManager.Instance.Player.condition.StaminaCheck() > 10.0f)
+        if (context.phase == InputActionPhase.Started && IsGrounded() && isAlive && PlayerManager.Instance.Player.condition.UseStamina(10.0f))
         {
-            PlayerManager.Instance.Player.condition.UseStamina(10.0f);
             _rigidbody.AddForce(Vector2.up * PlayerManager.Instance.Player.data.JumpPower(), ForceMode.Impulse);
         }
     }
@@ -201,8 +201,8 @@ public class PlayerController : CharacterController
 
     public override void Die()
     {
-        Cursor.lockState = CursorLockMode.None;
-       isAlive = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        isAlive = false;
         canLook = false;
         _endPanel.SetActive(true);
         StartCoroutine(ScaleUpEndPanel());
@@ -251,5 +251,6 @@ public class PlayerController : CharacterController
 
             yield return null;
         }
+        Time.timeScale = 0f;
     }
 }

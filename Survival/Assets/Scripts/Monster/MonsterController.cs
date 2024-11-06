@@ -4,12 +4,13 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.AI;
 using System.Collections;
+using System;
 
 public class MonsterController : CharacterController, IDamagable
 {
     [Header("Move")]
-    [SerializeField] private float _minWanderDistance; // 최소 거리
-    [SerializeField] private float _maxWanderDistance; // 최대 거리 
+    [SerializeField] private float _minWanderDistance = 10; // 최소 거리
+    [SerializeField] private float _maxWanderDistance = 10; // 최대 거리 
     [SerializeField] private float _rotationSpeed = 3f; // 회전 속도
 
     [SerializeField] private NavMeshAgent _agent;
@@ -45,14 +46,15 @@ public class MonsterController : CharacterController, IDamagable
     Vector3 GetWanderLocation() // 새로운 위치 생성 
     {
         NavMeshHit hit;
-        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(_minWanderDistance, _maxWanderDistance)),
+        NavMesh.SamplePosition(transform.position + (UnityEngine.Random.onUnitSphere * UnityEngine.Random.Range(_minWanderDistance, _maxWanderDistance)),
                                out hit, _maxWanderDistance, NavMesh.AllAreas);
 
         return hit.position;
     }
     public void Run() // 타겟 추적 
     {
-        if (_monsterAI.PlayerDistance > _attackDistance || !IsPlayerInFieldOfView())
+        Debug.Log($"{_monsterAI.PlayerDistance} + {_attackDistance}");
+        if (_monsterAI.PlayerDistance < _attackDistance || !IsPlayerInFieldOfView())
         {
             _agent.isStopped = false;
 
@@ -93,7 +95,7 @@ public class MonsterController : CharacterController, IDamagable
         {
             Debug.LogWarning("플레이어가 없습니다.");
         }
-    } 
+    }  // 오류 발생 
     public void StopAttack()
     {
         if (_attackCoroutine != null)

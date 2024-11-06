@@ -40,7 +40,6 @@ public class MonsterAI : MonoBehaviour
     private Monster _monster;
     private void Awake()
     {
-        //_animator = GetComponentInChildren<Animator>();
         _monsterController = GetComponent<MonsterController>();
         _monster = GetComponent<Monster>();
     }  
@@ -54,8 +53,7 @@ public class MonsterAI : MonoBehaviour
         // 매 프레임마다 거리 체크 
         _playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
 
-        float returnposition = Vector3.Distance(transform.position, _monster.SavedPosition());
-
+        //float returnposition = Vector3.Distance(transform.position, _monster.SavedPosition());
         //Debug.Log($"리스폰과 현재 거리 사이값 : {returnposition}");
 
         // 리스폰 구역에서 너무 벗어나면 

@@ -53,7 +53,6 @@ public class MonsterController : CharacterController, IDamagable
     }
     public void Run() // 타겟 추적 
     {
-        Debug.Log($"{_monsterAI.PlayerDistance} + {_attackDistance}");
         if (_monsterAI.PlayerDistance < _attackDistance || !IsPlayerInFieldOfView())
         {
             _agent.isStopped = false;
@@ -82,19 +81,11 @@ public class MonsterController : CharacterController, IDamagable
     } // 공격
     private IEnumerator AttackRoutine()
     {
-        var player = PlayerManager.Instance?.Player;
-        if (player != null)
-        {
-            var playerCondition = player.GetComponent<IDamagable>();
+        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
 
-            if (playerCondition != null)
-                playerCondition.TakeDamage(_monster.AttackPower); 
-            yield return new WaitForSeconds(_monster.AttackSpeed); 
-        }
-        else
-        {
-            Debug.LogWarning("플레이어가 없습니다.");
-        }
+        if (playerCondition != null)
+            playerCondition.TakeDamage(_monster.AttackPower);
+        yield return new WaitForSeconds(_monster.AttackSpeed);
     }  // 오류 발생 
     public void StopAttack()
     {
@@ -112,17 +103,24 @@ public class MonsterController : CharacterController, IDamagable
     public override void Die()
     {
         if (_monster.Health <= 0)
-        {  
-           // 아이템 드롭 
-           // 오브젝트 파괴
+        {
+            // 아이템 드롭 
+            // 오브젝트 파괴
         }
     }
     public override void Look()
     {
-        // 타겟 방향으로 회전 
-    } 
-	public void TakeDamage(int damage) // 피격 시 
-	{
+        // 미사용 
+    }
+
+    public void ApplyPlayerDamage() // 데미지 적용 
+    {
+        int playerAttackPower = PlayerManager.Instance.Player.GetComponent<PlayerData>().AttackPower();
+        TakeDamage(playerAttackPower);
+    }
+    public void TakeDamage(int damage) // 피격 시 
+    {
+        Debug.Log($"현재 몬스터 체력 : {_monster.Health} 들어온 플레이어 데미지 : {damage}");
         _monster.Health -= damage;
     }
 }

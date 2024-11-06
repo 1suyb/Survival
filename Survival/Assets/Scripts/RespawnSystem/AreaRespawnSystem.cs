@@ -49,11 +49,17 @@ public class AreaRespawnSystem : MonoBehaviour
 
 	private Vector3 GetRandomPosition()
 	{
-		return new Vector3(GetRandomValue(), _standardHeight+this.transform.position.y, GetRandomValue());
+		return new Vector3(GetRandomValue() + this.transform.position.x, _standardHeight+this.transform.position.y, GetRandomValue()+this.transform.position.z);
 	}
 
 	private float GetRandomValue()
 	{
-		return Random.Range(-_spawnAreaRadius+this.transform.position.x, _spawnAreaRadius+this.transform.position.z);
+		return Random.Range(-_spawnAreaRadius, _spawnAreaRadius);
+	}
+	void OnDrawGizmos()
+	{
+		// Draw a yellow sphere at the transform's position
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawSphere(transform.position, _spawnAreaRadius);
 	}
 }

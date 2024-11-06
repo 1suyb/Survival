@@ -37,7 +37,7 @@ public class MonsterController : CharacterController, IDamagable
         _agent = GetComponent<NavMeshAgent>();
         _monsterAI = GetComponent<MonsterAI>();
         _monster = GetComponent<Monster>();
-		_animator = GetComponent<Animator>();  
+		_animator = GetComponentInChildren<Animator>();  
 		_path = new NavMeshPath();
     } // 초기화 
     public override void Move()  // 목적지에 도달하면 
@@ -48,7 +48,7 @@ public class MonsterController : CharacterController, IDamagable
     }
     public bool HasReachedDestination() // 도착했는지 확인
     {
-        return _agent.remainingDistance < 0.1f;
+        return _agent.remainingDistance < 0.2f;
     }
     Vector3 GetWanderLocation() // 새로운 위치 생성 
     {

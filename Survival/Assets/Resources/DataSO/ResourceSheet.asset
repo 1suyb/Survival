@@ -45,3 +45,11 @@ MonoBehaviour:
     Durability: 5
     DropCount: 1
     PrefabPath: ResourceObject/210
+  - ID: 103
+    Name: "\uB2F9\uADFC"
+    Description: "\uB2F9\uADFC\uC785\uB2C8\uB2E4. \uB2F9\uADFC\uB2F9\uADFC \uBC14\uB2C8\uBC14\uB2C8"
+    DropItemID: 112
+    ResourceGetType: 0
+    Durability: 0
+    DropCount: 1
+    PrefabPath: ResourceObject/103

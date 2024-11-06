@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     }
     private Player player;
     private InventoryController _inventoryController;
+    private BuildInventoryController _buildInventoryController;
     public Player Player
     {
         get { return player; }
@@ -28,6 +29,13 @@ public class PlayerManager : MonoBehaviour
         get  { return _inventoryController; }
         set  { _inventoryController = value; }
     }
+    public BuildInventoryController BuildInventory
+    {
+        get { return _buildInventoryController; }
+        set { _buildInventoryController = value; }
+    }
+
+
     void Awake()
     {
         if (instance == null)

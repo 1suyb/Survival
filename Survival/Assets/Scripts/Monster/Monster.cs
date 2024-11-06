@@ -41,9 +41,10 @@ public class Monster : CharacterData, ILoadable
 
     public GameObject DropPrefab;
 
+    public int Dropitem;
+
     private void OnEnable()
     {
-        Debug.Log("생성됨!");
         _spawnPosition = this.transform.position;
     }
 
@@ -64,26 +65,12 @@ public class Monster : CharacterData, ILoadable
             AttackPower = _data.AttackPower;
             AttackSpeed = _data.AttackSpeed;
             DropPrefab = _data.DropPrefab;
+            Dropitem = _data.Dropitem; 
 
             if (DropPrefab != null)
             {
                 GameObject instantiatedMonster = Instantiate(DropPrefab, _spawnPosition, Quaternion.identity);
-                instantiatedMonster.transform.SetParent(this.transform); // 나를 부모로 설정  
-
-                //Transform childTransform = instantiatedMonster.transform.Find($"{DropPrefab}");
-
-                //if (childTransform != null)
-                //{
-                //    Animator childAnimator = childTransform.GetComponent<Animator>();
-                //    if (childAnimator != null)
-                //    {
-                //        childAnimator.enabled = true;
-                //    }
-                //    else
-                //    {
-                //        Debug.LogError("자식 오브젝트가 없어요.");
-                //    }
-                //}
+                instantiatedMonster.transform.SetParent(this.transform); // 나를 부모로 설정 
             }
         }
     }

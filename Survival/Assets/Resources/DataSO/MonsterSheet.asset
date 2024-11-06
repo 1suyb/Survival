@@ -21,6 +21,7 @@ MonoBehaviour:
     AttackPower: 10
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/1/Blue
+    Dropitem: 104
   - Id: 2
     type: 1
     Name: PachycephalaGreen
@@ -29,6 +30,7 @@ MonoBehaviour:
     AttackPower: 20
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/1/Green
+    Dropitem: 104
   - Id: 3
     type: 1
     Name: PachycephalaRed
@@ -37,6 +39,7 @@ MonoBehaviour:
     AttackPower: 30
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/1/Red
+    Dropitem: 104
   - Id: 4
     type: 2
     Name: StegaBlue
@@ -45,6 +48,7 @@ MonoBehaviour:
     AttackPower: 40
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/2/Blue
+    Dropitem: 103
   - Id: 5
     type: 2
     Name: StegaGreen
@@ -53,6 +57,7 @@ MonoBehaviour:
     AttackPower: 50
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/2/Green
+    Dropitem: 103
   - Id: 6
     type: 2
     Name: StegaPurple
@@ -61,6 +66,7 @@ MonoBehaviour:
     AttackPower: 60
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/2/Purple
+    Dropitem: 103
   - Id: 7
     type: 3
     Name: RaptoBlue
@@ -69,6 +75,7 @@ MonoBehaviour:
     AttackPower: 70
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/3/Blue
+    Dropitem: 102
   - Id: 8
     type: 3
     Name: RaptoGreen
@@ -77,6 +84,7 @@ MonoBehaviour:
     AttackPower: 80
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/3/Green
+    Dropitem: 102
   - Id: 9
     type: 3
     Name: RaptoOrange
@@ -85,3 +93,4 @@ MonoBehaviour:
     AttackPower: 90
     AttackSpeed: 10
     PrefabPath: Prefabs/Monster/3/Orange
+    Dropitem: 121

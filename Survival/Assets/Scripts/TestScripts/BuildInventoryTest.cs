@@ -15,24 +15,6 @@ public class BuildInventoryTest : MonoBehaviour
         presenter.OpenUI();
 	}
 
-    public void AddItemInventoryTest()
-    {
-        BuildItemData data = new BuildItemData();
-     
-		presenter.AddItem(data, 5);
-    }
-
-	public void AddItemInventoryTest2()
-	{
-        BuildItemData data = new BuildItemData();
-	
-
-		presenter.AddItem(data, 1);
-	}
-	public void AddItemInventoryTest3()
-	{
-		
-	}
 
 	public void ShowInventoryList()
     {

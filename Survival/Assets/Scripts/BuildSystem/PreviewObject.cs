@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class PreviewObject : MonoBehaviour
 {
@@ -10,79 +12,108 @@ public class PreviewObject : MonoBehaviour
     [SerializeField]
     private GameObject _goPreview;
 
+    public GameObject GoPreview
+    {
+        get => _goPreview;
+        set => _goPreview = value;
+    }
+
+    private InstallableItem _item;
+
+
     // 플레이어 위치
     [SerializeField]
     private Transform _tfPlayer;
+
+
+    public Transform TfPlayer
+    {
+        get => _tfPlayer;
+        private set => _tfPlayer = value;
+    }
+
+    public InstallableItem Item
+    {
+        get => _item;
+        set => _item = value;
+    }
+
 
     private RaycastHit hitInfo;
 
     [SerializeField]
     private LayerMask _layerMask;
 
-    //아이템 설치 위치
-    [SerializeField]
-    Vector3 _location;
+   
 
     [SerializeField]
     private float range;
 
     public bool isPreview;
 
+    private Camera _camera;
 
-    void Start()
+
+    public void Start()
     {
+        _camera = Camera.main;
 
-        _goPreview = Instantiate(_goPreview, _tfPlayer.position + _tfPlayer.forward * 10, Quaternion.identity);
-   
+ 
     }
 
 
-    public void SlotClick(int itemnum)
+    public void OnCancle(InputAction.CallbackContext context)
     {
+        if (context.phase == InputActionPhase.Started && isPreview)
+        {
 
+            isPreview = false;
+            Destroy(_goPreview);
+            _goPreview = null;
 
-        // 클릭시 설치해야.
-        //Instantiate(, _location, Quaternion.identity);
-
-
-
+        }
     }
 
-
-    public void Cancle()
+    public void Oninstall(InputAction.CallbackContext context)
     {
-        // 인풋시스템에서 키 취소
+
+        //아이템이 설치 가능할 때
+        if (context.phase == InputActionPhase.Started && _goPreview.GetComponent<InstallableItem>().isBuildable())
+        {
+
+            
+            isPreview = false;
+            _item.isInstall = true;
+            _item.RestoreOriginalMaterials();
+           _goPreview =null;
 
 
-        isPreview = false;
+        }
     }
 
 
     void Update()
     {
 
+        if(isPreview)
         PreviewPostionUpdate();
 
 
     }
 
 
-  
-
-
     private void PreviewPostionUpdate()
     {
 
-   
-        Debug.Log(hitInfo.transform);
-        Debug.DrawRay(_tfPlayer.position, _tfPlayer.forward, Color.red);
 
-        if (Physics.Raycast(_tfPlayer.position, _tfPlayer.forward, out hitInfo, range, _layerMask))
+        Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+
+        if (Physics.Raycast(ray, out hitInfo, range, _layerMask))
         {
 
             if (hitInfo.transform != null)
             {
-                _location = hitInfo.point;
+               Vector3 _location = hitInfo.point;
                 _goPreview.transform.position = _location; 
             }
         }

@@ -349,15 +349,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a3b735ef5a70ff4ca1782ebc6f4b4b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterAI: {fileID: 0}
-  AttackPower: 0
-  AttackSpeed: 0
-  _TestTarget: {fileID: 0}
   _minWanderDistance: 10
   _maxWanderDistance: 10
   _rotationSpeed: 5
+  _agent: {fileID: 0}
   _fieldOfView: 120
   _attackDistance: 2
+  _monsterAI: {fileID: 0}
 --- !u!114 &7165589818714292401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,8 +383,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fc91d9f7f6c7a45b210497613b7465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _detectDistance: 20
   _minWanderWaitTime: 10
   _maxWanderWaitTime: 10
+  aiState: 0
+  _monsterController: {fileID: 0}
+  _animator: {fileID: 0}
+  _attackDistance: 3
+  _returnDistance: 40
 --- !u!195 &5056905358240724897
 NavMeshAgent:
   m_ObjectHideFlags: 0

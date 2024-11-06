@@ -23,7 +23,7 @@ public class MonsterData
             if (_dropPrefab == null)
             {
                 _dropPrefab = Resources.Load(PrefabPath) as GameObject;
-
+                Debug.Log("프리펩을 찾았다!: " + PrefabPath); // 찾았습니다. 
             }
 
             return _dropPrefab;

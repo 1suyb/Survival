@@ -84,7 +84,7 @@ public class UIBuildInventory : UI
 		   _useButtonLabel.text = "설치하기";
 					
 		} 
-		_clickedButtonsParentTransform.position = _selectedSlot.transform.position+ new Vector3(-50,-50,0);
+		_clickedButtonsParentTransform.position = _selectedSlot.transform.position+ new Vector3(-100,-200,0);
 		_clickedButtonsParentTransform.gameObject.SetActive(true);
 	}
 	public void CloseItemButtons()

@@ -5,11 +5,29 @@ using UnityEngine;
 public class BuildInventory
 {
 	private ClassPoolSystem<BuildInventoryItem> pool = new ClassPoolSystem<BuildInventoryItem>(minSize:GameConfig.INVENTORYSIZE);
-	private BuildInventoryItem[] _inventoryItems = new BuildInventoryItem[GameConfig.INVENTORYSIZE];
+	private BuildInventoryItem[] _inventoryItems = new BuildInventoryItem[GameConfig.BUILDINVENTORYSIZE];
 	public BuildInventoryItem[] InventoryItems => _inventoryItems;
 
 	public int Size => GameConfig.INVENTORYSIZE;
 	public bool IsFull => IndexOfEmptySlot() == -1;
+
+
+	public BuildInventory()
+	{
+        var enumerator = BuildItemDB.Instance.DbEnumerator() as IEnumerator<KeyValuePair<int, BuildItemData>>;
+
+        if (enumerator != null)
+        {
+            int index = 0;
+            while (enumerator.MoveNext() && index < _inventoryItems.Length)
+            {
+                var currentItem = enumerator.Current;
+				_inventoryItems[index] = new BuildInventoryItem(currentItem.Value, 1);
+                index++;
+            }
+        }
+
+    }
 
 
 	public bool HasThisItem(BuildInventoryItem item)

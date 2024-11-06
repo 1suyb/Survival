@@ -11,11 +11,16 @@ public class ResourceRespawnSystem : MonoBehaviour
 	{
 		_resources = gameObject.GetComponentsInChildren<ResourceObject>();
 	}
+	private void Start()
+	{
+		DayNightCycle.Instance.OnChangeDayEvent += Spawn;
+	}
 	public void Spawn()
 	{
 		foreach (ResourceObject resource in _resources)
 		{
-			resource.gameObject.SetActive(true);
+			if(!resource.gameObject.activeSelf)
+				resource.gameObject.SetActive(true);
 		}
 	}
 }

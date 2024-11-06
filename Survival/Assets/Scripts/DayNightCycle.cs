@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DayNightCycle : MonoBehaviour
+public class DayNightCycle : Singleton<DayNightCycle>
 {
     [Range(0.0f, 1.0f)]
     public float time;
@@ -24,6 +25,8 @@ public class DayNightCycle : MonoBehaviour
     public AnimationCurve lightingIntensityMulyiplier;
     public AnimationCurve reflectIntensityMulyiplier;
 
+    public event Action OnChangeDayEvent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +38,10 @@ public class DayNightCycle : MonoBehaviour
     void Update()
     {
         time = (time + timeRate * Time.deltaTime) % 1.0f;
+        if (time < 0.001f)
+        {
+            OnChangeDayEvent?.Invoke();
+        }
         UpdateLighting(sun, sunColor, sunIntensity);
         UpdateLighting(moon, moonColor, moonIntensity);
 

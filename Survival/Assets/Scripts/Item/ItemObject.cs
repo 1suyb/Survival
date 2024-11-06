@@ -23,7 +23,6 @@ public class ItemObject : MonoBehaviour, ILoadable, IInteractable
 	{
 		_data = ItemDB.Instance.Get(id);
 		_count = 1;
-		Debug.Log(_data.PrefabPath);
 		ResourceManager.Instantiate(_data.PrefabPath,this.transform);
 	}
 

@@ -5,6 +5,8 @@ using System.IO;
 using UnityEngine.AI;
 using System.Collections;
 using System;
+using Random = UnityEngine.Random;
+
 
 public class MonsterController : CharacterController, IDamagable
 {
@@ -22,6 +24,8 @@ public class MonsterController : CharacterController, IDamagable
 
     [Header("Attack")]
     [SerializeField] private Coroutine _attackCoroutine;
+    [SerializeField] private bool _isDamageTaken = false;
+
 
     public MonsterAI _monsterAI;
     private Monster _monster;
@@ -79,14 +83,14 @@ public class MonsterController : CharacterController, IDamagable
         if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
         _attackCoroutine = StartCoroutine(AttackRoutine());
     } // 공격
-    private IEnumerator AttackRoutine()
+    private IEnumerator AttackRoutine() // 공격 시작 
     {
-        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
+        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>(); 
 
         if (playerCondition != null)
             playerCondition.TakeDamage(_monster.AttackPower);
         yield return new WaitForSeconds(_monster.AttackSpeed);
-    }  // 오류 발생 
+    }  
     public void StopAttack()
     {
         if (_attackCoroutine != null)
@@ -104,24 +108,30 @@ public class MonsterController : CharacterController, IDamagable
     {
         if (_monster.Health <= 0)
         {
-            // 아이템 드롭 
-            // 오브젝트 파괴
+            int randomValue = Random.Range(1, 6);
+            SpawnManager.Instance.SpawnItem(_monster.Dropitem, this.transform.position, randomValue); // 아이템을 드롭
+            gameObject.SetActive(false);
         }
-    }
-    public override void Look()
+    } // 사망  
+    public override void Look() // 미사용
     {
-        // 미사용 
+   
     }
-
     public void ApplyPlayerDamage() // 데미지 적용 
     {
         int playerAttackPower = PlayerManager.Instance.Player.GetComponent<PlayerData>().AttackPower();
         TakeDamage(playerAttackPower);
     }
-    public void TakeDamage(int damage) // 피격 시 
+    public void TakeDamage(int damage) // 피격 시 // 플레이어가 몬스터를 공격하면 호출됩니다 
     {
         Debug.Log($"현재 몬스터 체력 : {_monster.Health} 들어온 플레이어 데미지 : {damage}");
+        _isDamageTaken = true;
         _monster.Health -= damage;
+    }
+
+    public bool IsDamageTaken()
+    {
+        return _isDamageTaken;
     }
 }
 

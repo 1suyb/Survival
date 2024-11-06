@@ -41,6 +41,8 @@ public class Monster : CharacterData, ILoadable
 
     public GameObject DropPrefab;
 
+    public int Dropitem;
+
     private void OnEnable()
     {
         _spawnPosition = this.transform.position;
@@ -63,6 +65,7 @@ public class Monster : CharacterData, ILoadable
             AttackPower = _data.AttackPower;
             AttackSpeed = _data.AttackSpeed;
             DropPrefab = _data.DropPrefab;
+            Dropitem = _data.Dropitem; 
 
             if (DropPrefab != null)
             {

@@ -92,7 +92,7 @@ public class MonsterAI : MonoBehaviour
         aiState = newState;
         EnterState(aiState);
     }
-    private void EnterState(AIState state) // ���¿� �ʿ��� ���
+    private void EnterState(AIState state) 
     {
         switch (state)
         {
@@ -111,15 +111,20 @@ public class MonsterAI : MonoBehaviour
                 Debug.Log("쫓아가자!");
                 _animator.SetBool("isRunning", true);
                 _monsterController.Run();
-                break;
-            case AIState.Attack:
+                break; 
+            case AIState.Attack: 
                 Debug.Log("때리자!");
+                _animator.SetBool("isRunning", false);
                 if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
                 {
                     _animator.SetTrigger("Attack");
                 }
                 _monsterController.Attack();
-                _animator.SetBool("isRunning", false);
+
+                if (_monsterController.IsDamageTaken()) // 피격 당했다면 
+                {
+                    _animator.SetTrigger("Damage"); 
+                }
                 break;
             case AIState.Return:
                 Debug.Log("너무 멀리왔다!");

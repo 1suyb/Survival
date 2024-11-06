@@ -5,9 +5,9 @@ using UnityEngine;
 public class InstallableItem : MonoBehaviour
 {
     // 충돌한 오브젝트의 컬라이더
-    private List<Collider> colliderList = new List<Collider> ();
+    private List<Collision> colliderList = new List<Collision>();
 
-    [SerializeField]
+     [SerializeField]
     private int layerGround; // 지상 레이어
    
     private MeshRenderer[] meshRenderers;
@@ -62,18 +62,21 @@ public class InstallableItem : MonoBehaviour
 
 
 
-    private void OnTriggerEnter(Collider other)
-    {
 
-        if(other.gameObject.layer != layerGround)
-        colliderList.Add(other);
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        if(collision.gameObject.layer != layerGround)
+            colliderList.Add(collision);
 
     }
 
-    private void OnTriggerExit(Collider other)
+
+    private void OnCollisionExit(Collision collision)
     {
-        if (other.gameObject.layer != layerGround)
-            colliderList.Remove(other);
+
+        if (collision.gameObject.layer != layerGround)
+            colliderList.Remove(collision);
 
     }
 

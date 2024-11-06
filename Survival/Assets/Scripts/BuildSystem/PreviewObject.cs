@@ -70,7 +70,7 @@ public class PreviewObject : MonoBehaviour
             isPreview = false;
             Destroy(_goPreview);
             _goPreview = null;
-            PlayerManager.Instance.Player.controller.ToggleCursor();
+          
 
         }
     }
@@ -86,8 +86,7 @@ public class PreviewObject : MonoBehaviour
             _item.isInstall = true;
             _item.RestoreOriginalMaterials();
             _goPreview =null;
-            PlayerManager.Instance.Player.controller.ToggleCursor();
-
+           
         }
     }
 
@@ -113,16 +112,30 @@ public class PreviewObject : MonoBehaviour
 
             if (hitInfo.transform != null)
             {
-               Vector3 _location = hitInfo.point;
-                _goPreview.transform.position = _location; 
+                Vector3 _location = hitInfo.point;
+                _goPreview.transform.position = _location;
+            }
+
+        }
+        else
+        {
+            // range 거리만큼 떨어진 지점 계산
+            Vector3 rangeEndPoint = ray.origin + ray.direction * range;
+
+            // 그 지점에서 아래로 Raycast를 쏨
+            Ray downRay = new Ray(rangeEndPoint, Vector3.down);
+            if (Physics.Raycast(downRay, out RaycastHit downHit, 100f, _layerMask))
+            {
+                _goPreview.transform.position = downHit.point;
+            }
+            else
+            {
+                // 아래로 쏜 Ray도 충돌하지 않을 경우의 처리
+                _goPreview.transform.position = rangeEndPoint;
             }
         }
-       
 
-    
     }
-
-
 
 
 }

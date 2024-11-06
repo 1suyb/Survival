@@ -462,9 +462,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 359918432974277510, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351516556916760307, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351516556916760307, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351516556916760307, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351516556916760307, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069113416099258766, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474459626002391809, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4002925820306809725, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
       propertyPath: m_Name
       value: BackGround
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099710649269065751, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780851770907880182, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8641163912988242662, guid: fef5d2846f0de134eb7ca03373018a2a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -676,6 +712,10 @@ PrefabInstance:
       propertyPath: _endPanel
       value: 
       objectReference: {fileID: 772571769}
+    - target: {fileID: 60955654358702229, guid: cdeddf235eb8ecd49ade578b89fdc7b4, type: 3}
+      propertyPath: range
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 461352932735976587, guid: cdeddf235eb8ecd49ade578b89fdc7b4, type: 3}
       propertyPath: m_Layer
       value: 8

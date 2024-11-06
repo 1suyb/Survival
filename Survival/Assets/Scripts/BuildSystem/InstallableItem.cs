@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChanageMaterial : MonoBehaviour
+public class InstallableItem : MonoBehaviour
 {
-
+    // 충돌한 오브젝트의 컬라이더
     private List<Collider> colliderList = new List<Collider> ();
 
-
+    [SerializeField]
+    private int layerGround; // 지상 레이어
+   
     private MeshRenderer[] meshRenderers;
     private Material[] originalMaterials;
 
@@ -15,6 +17,7 @@ public class ChanageMaterial : MonoBehaviour
     private Color Red = new Color(1.0f, 0.6f, 0.6f);
     private Color Green = new Color(0f, 1f, 0f);
 
+    public bool isInstall = false;
 
     private void Start()
     {
@@ -23,6 +26,8 @@ public class ChanageMaterial : MonoBehaviour
 
         SaveOriginalMaterials();
 
+
+        Debug.Log(colliderList.Count);
     }
 
     private void SaveOriginalMaterials()
@@ -43,13 +48,36 @@ public class ChanageMaterial : MonoBehaviour
         }
     }
 
+    public void Update()
+    {
+        if (!isInstall)
+        {
+
+            if (colliderList.Count > 0)
+                InstallPosible(Red);
+            else
+                InstallPosible(Green);
+
+        }
+
+
+    }
+
+ 
+
     private void OnTriggerEnter(Collider other)
     {
 
-        
-        InstallPosible(Red);
+        if(other.gameObject.layer != layerGround)
+        colliderList.Add(other);
 
-      
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer != layerGround)
+            colliderList.Remove(other);
+
     }
 
 
@@ -60,6 +88,12 @@ public class ChanageMaterial : MonoBehaviour
 
     }
 
+    public bool isBuildable()
+    {
 
+     
+        return colliderList.Count == 0;
+    
+    }
   
 }

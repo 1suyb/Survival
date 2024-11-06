@@ -58,10 +58,9 @@ public class InstallableItem : MonoBehaviour
 
         }
 
-
     }
 
- 
+
 
     private void OnTriggerEnter(Collider other)
     {

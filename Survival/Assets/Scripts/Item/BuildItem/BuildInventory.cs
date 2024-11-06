@@ -20,7 +20,7 @@ public class BuildInventory
         if (enumerator != null)
         {
 			int index = 0;
-			foreach(var item in enumerator.Values)
+				foreach(var item in enumerator.Values)
 			{
 				_inventoryItems[index++] = new BuildInventoryItem(item, 1);
 			}

@@ -1,6 +1,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoArray>
@@ -60,11 +61,12 @@ public class BuildInventoryController : MonoBehaviour, IUIUpdater<BuildItemInfoA
 	{
 		BuildInventoryItem item = _buildInventory.At(index);
 		item.Use();
-		//UpdateInventoryUI();
+
 
         _isInventoryUIOpened = false;
         UIManager.Instance.CloseUI<UIBuildInventory>();
         OnDataUpdateEvent = null;
+		
     }
 
 

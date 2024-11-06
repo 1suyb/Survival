@@ -63,7 +63,7 @@ public class MonsterAI : MonoBehaviour
         }
 
         // 공격 거리 밖이고 추적 거리 안이라면 추적
-        else if (_playerDistance > _attackDistance && _playerDistance < _detectDistance)
+        else if (_playerDistance < _detectDistance)
         {
             SetState(AIState.Run);
         }
@@ -75,22 +75,10 @@ public class MonsterAI : MonoBehaviour
         }
 
         // 추적 거리 밖이라면 순찰 
-        else if (_playerDistance > _detectDistance)
+        else if (aiState != AIState.Move && _playerDistance > _detectDistance)
         {
             SetState(AIState.Move);
         }
-
-        //// 목적지에 도착했고 Move 상태라면 대기 
-        //else if (aiState == AIState.Move && _monsterController.HasReachedDestination())
-        //{
-        //    SetState(AIState.Idle);
-        //}
-
-        //// 그 외 Move 상태로
-        //else if (_playerDistance >= _detectDistance)
-        //{
-        //    SetState(AIState.Move);
-        //}
     } 
     private void SetState(AIState newState)
     {

@@ -11,7 +11,7 @@ public class Condition : MonoBehaviour
     public float passiveValue;
     public Image uiBar;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         curValue = startValue;
     }

@@ -5,7 +5,7 @@ public class AreaRespawnSystem : MonoBehaviour
 {
 	[Tooltip("리스폰 반경")]
 	[SerializeField] private float _spawnAreaRadius;
-	[Tooltip("기준 높이. 지형이 평평하지 않을 경우 넉넉하게 높게 설정해주세요.")]
+	[Tooltip("생성 높이. 지형이 평평하지 않을 경우 넉넉하게 높게 설정해주세요.")]
 	[SerializeField] private float _standardHeight = 10;
 	[Tooltip("해당 위치에 스폰될 오브젝트")]
 	[SerializeField] private GameObject _targetObject;
@@ -24,6 +24,10 @@ public class AreaRespawnSystem : MonoBehaviour
 									id:_id,
 									poolManagerTransform:this.transform);
 
+	}
+	private void Start()
+	{
+		DayNightCycle.Instance.OnChangeDayEvent += Spawn;
 	}
 
 	public void Spawn()

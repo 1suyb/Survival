@@ -44,7 +44,6 @@ public class Interaction : MonoBehaviour
             {
                 if(curInteractGameObject != null)
                 {
-                    Debug.Log("loos target");
                     interactable.ClosePrompt();
                 }
 				curInteractGameObject = null;

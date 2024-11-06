@@ -51,7 +51,6 @@ public class PoolingSystem
 
 	public GameObject TakeFromPool()
 	{
-		Debug.Log(_pool.Count);
 		if(IsPoolEmpty)
 		{
 			CreatePooledItem();

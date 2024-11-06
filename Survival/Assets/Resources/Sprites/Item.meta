@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Survival/Assets/Resources/Prefabs/UI/UIBuildInventory.prefab.meta
+guid: 0fb8767aab6a4cf41be538edb936be4c
+PrefabImporter:
+========
 guid: cfe9e8277bd967842acedb53db8b7d4f
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> Dev:Survival/Assets/Resources/Sprites/Item.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

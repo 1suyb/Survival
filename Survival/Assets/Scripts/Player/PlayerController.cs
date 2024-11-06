@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : CharacterController
 {
@@ -12,6 +14,7 @@ public class PlayerController : CharacterController
     private Vector2 _curMovementInput;
     public LayerMask groundLayerMask;
     [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject _endPanel;
 
     private Rigidbody _rigidbody;
     private Animator _animator;
@@ -25,6 +28,7 @@ public class PlayerController : CharacterController
     private Vector2 _mouseDelta;
     public bool canLook = true;
     private bool isDash = false;
+    private bool isAlive = true;
 
     public Action inventory;
     public Action buildinventory;
@@ -33,6 +37,8 @@ public class PlayerController : CharacterController
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        Time.timeScale = 1f;
+        isAlive = true;
     }
     // Start is called before the first frame update
     void Start()
@@ -43,7 +49,10 @@ public class PlayerController : CharacterController
     // Update is called once per frame
     void FixedUpdate()
     {
-        Move();
+        if (isAlive)
+        {
+            Move();
+        }
     }
 
     private void LateUpdate()
@@ -58,7 +67,11 @@ public class PlayerController : CharacterController
     {
         if (isDash)
         {
-            PlayerManager.Instance.Player.condition.UseStamina(0.1f);
+            if (!PlayerManager.Instance.Player.condition.UseStamina(0.2f))
+            {
+                isDash = false;
+                PlayerManager.Instance.Player.data.ChangeSpeed(PlayerManager.Instance.Player.data.Speed() / 2);
+            }
         }
         Vector3 dir = transform.forward * _curMovementInput.y + transform.right * _curMovementInput.x;
         dir *= PlayerManager.Instance.Player.data.Speed();
@@ -98,7 +111,10 @@ public class PlayerController : CharacterController
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            PlayerManager.Instance.Player.data.ChangeSpeed(PlayerManager.Instance.Player.data.Speed() / 2);
+            if (isDash)
+            {
+                PlayerManager.Instance.Player.data.ChangeSpeed(PlayerManager.Instance.Player.data.Speed() / 2);
+            }
             isDash = false;
         }
     }
@@ -110,9 +126,8 @@ public class PlayerController : CharacterController
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded() && PlayerManager.Instance.Player.condition.StaminaCheck() > 10.0f)
+        if (context.phase == InputActionPhase.Started && IsGrounded() && isAlive && PlayerManager.Instance.Player.condition.UseStamina(10.0f))
         {
-            PlayerManager.Instance.Player.condition.UseStamina(10.0f);
             _rigidbody.AddForce(Vector2.up * PlayerManager.Instance.Player.data.JumpPower(), ForceMode.Impulse);
         }
     }
@@ -140,7 +155,7 @@ public class PlayerController : CharacterController
 
     public void OnInventory(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started && isAlive)
         {
             inventory?.Invoke();
             ToggleCursor();
@@ -149,7 +164,7 @@ public class PlayerController : CharacterController
 
     public void OnBuildInventory(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started && isAlive)
         {
             buildinventory?.Invoke();
             ToggleCursor();
@@ -165,7 +180,7 @@ public class PlayerController : CharacterController
 
     public void OnAttackInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started && isAlive)
         {
             _animator.SetTrigger("Attack");
         }
@@ -186,6 +201,56 @@ public class PlayerController : CharacterController
 
     public override void Die()
     {
-        throw new System.NotImplementedException();
+        Cursor.lockState = CursorLockMode.Confined;
+        isAlive = false;
+        canLook = false;
+        _endPanel.SetActive(true);
+        StartCoroutine(ScaleUpEndPanel());
+    }
+
+    private IEnumerator ScaleUpEndPanel()
+    {
+        float duration = 3f; // 페이드 인 시간
+        float elapsed = 0f;
+
+        List<Image> images = new List<Image>(_endPanel.GetComponentsInChildren<Image>());
+        List<TextMeshProUGUI> tmpTexts = new List<TextMeshProUGUI>(_endPanel.GetComponentsInChildren<TextMeshProUGUI>());
+
+        foreach (var image in images)
+        {
+            Color color = image.color;
+            color.a = 0f;
+            image.color = color;
+        }
+        foreach (var tmpText in tmpTexts)
+        {
+            Color color = tmpText.color;
+            color.a = 0f;
+            tmpText.color = color;
+        }
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alphaImage = Mathf.Clamp01(elapsed / duration) * 0.7f;
+            float alphaText = Mathf.Clamp01(elapsed / duration);
+
+            foreach (var image in images)
+            {
+                Color color = image.color;
+                color.a = alphaImage;
+                image.color = color;
+            }
+
+            foreach (var tmpText in tmpTexts)
+            {
+                Color color = tmpText.color;
+                color.a = alphaText;
+                tmpText.color = color;
+            }
+
+            yield return null;
+        }
+        Time.timeScale = 0f;
     }
 }

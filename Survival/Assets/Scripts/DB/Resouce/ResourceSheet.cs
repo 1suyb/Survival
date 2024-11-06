@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExcelAsset]
+[ExcelAsset(AssetPath = "Resources/DataSO")]
 public class ResourceSheet : ScriptableObject
 {
-	public List<ResouceData> ResourceData; // Replace 'EntityType' to an actual type that is serializable.
+	public List<ResourceData> ResourceData; // Replace 'EntityType' to an actual type that is serializable.
 
 }

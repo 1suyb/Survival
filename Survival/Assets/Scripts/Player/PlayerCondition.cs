@@ -13,7 +13,9 @@ public class PlayerCondition : MonoBehaviour, IDamagable
     Condition moisture { get { return uiCondition.moisture; } }
     Condition temperature { get { return uiCondition.temperature; } }
 
-    public float noHungerHealth;
+    private float _noHungerHealth = 1.0f;
+
+    private float _noMoistureHealth = 2.0f;
 
     public event Action onTakeDamage;
 
@@ -21,11 +23,16 @@ public class PlayerCondition : MonoBehaviour, IDamagable
     void Update()
     {
         hunger.Subtract(hunger.passiveValue * Time.deltaTime);
-        moisture.Subtract(hunger.passiveValue * Time.deltaTime);
+        moisture.Subtract(moisture.passiveValue * Time.deltaTime);
         stamina.Add(stamina.passiveValue * Time.deltaTime);
         if (hunger.curValue == 0)
         {
-            health.Subtract(noHungerHealth * Time.deltaTime);
+            health.Subtract(_noHungerHealth * Time.deltaTime);
+        }
+
+        if (moisture.curValue == 0)
+        {
+            health.Subtract(_noMoistureHealth * Time.deltaTime);
         }
 
         if (health.curValue == 0)
@@ -49,9 +56,14 @@ public class PlayerCondition : MonoBehaviour, IDamagable
         moisture.Add(amout);
     }
 
-    public void UseStamina(float useStamina)
+    public bool UseStamina(float useStamina)
     {
-        stamina.Subtract(useStamina);
+        if (stamina.curValue >= useStamina)
+        {
+            stamina.Subtract(useStamina);
+            return true;
+        }
+        return false;
     }
 
     public float StaminaCheck()
@@ -61,7 +73,7 @@ public class PlayerCondition : MonoBehaviour, IDamagable
 
     public void Die()
     {
-        Debug.Log("Die");
+         PlayerManager.Instance.Player.controller.Die();
     }
 
 	public void TakeDamage(int damage)

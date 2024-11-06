@@ -57,7 +57,7 @@ public class Monster : CharacterData, ILoadable
 
         if (_data != null)
         {
-            type = _data.type;  
+            type = _data.type;
             Name = _data.Name;
             Health = _data.Health;
             Speed = _data.Speed;
@@ -65,15 +65,27 @@ public class Monster : CharacterData, ILoadable
             AttackSpeed = _data.AttackSpeed;
             DropPrefab = _data.DropPrefab;
 
-            if (_data.PrefabPath != null)
+            if (DropPrefab != null)
             {
-                GameObject loadedPrefab = Resources.Load<GameObject>(_data.PrefabPath);
-                if (loadedPrefab != null)
-                {
-                    GameObject instantiatedMonster = Instantiate(loadedPrefab, _spawnPosition, Quaternion.identity);
-                    instantiatedMonster.transform.SetParent(this.transform.parent);
-                }
+                GameObject instantiatedMonster = Instantiate(DropPrefab, _spawnPosition, Quaternion.identity);
+                instantiatedMonster.transform.SetParent(this.transform); // 나를 부모로 설정  
+
+                //Transform childTransform = instantiatedMonster.transform.Find($"{DropPrefab}");
+
+                //if (childTransform != null)
+                //{
+                //    Animator childAnimator = childTransform.GetComponent<Animator>();
+                //    if (childAnimator != null)
+                //    {
+                //        childAnimator.enabled = true;
+                //    }
+                //    else
+                //    {
+                //        Debug.LogError("자식 오브젝트가 없어요.");
+                //    }
+                //}
             }
         }
     }
 }
+

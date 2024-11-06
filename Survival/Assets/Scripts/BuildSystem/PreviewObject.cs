@@ -78,7 +78,7 @@ public class PreviewObject : MonoBehaviour
     {
 
         //아이템이 설치 가능할 때
-        if (context.phase == InputActionPhase.Started && _goPreview.GetComponent<InstallableItem>().isBuildable())
+        if (context.phase == InputActionPhase.Started && _goPreview != null && _goPreview.GetComponent<InstallableItem>().isBuildable())
         {
 
             

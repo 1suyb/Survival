@@ -20,7 +20,6 @@ public enum ItemType
 public class BuildItemData
 {
 
-
     // ¿¢¼¿ ³»ºÎ ³»¿ë°ú µ¿ÀÏ
 
     public int Id;

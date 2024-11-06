@@ -36,13 +36,14 @@ public class BuildInventoryItem
 	public void Use()
 	{
 
-        // 아이템 플레이어 한테 할당 소환 
+		// 아이템 플레이어 한테 할당 소환 
 
-        //아이템 사용 버튼 클릭 시 활성화.
+		//아이템 사용 버튼 클릭 시 활성화.
 
-		//Preview.GoPreview = Object.Instantiate(, PlayerTransform.position + PlayerTransform.forward, Quaternion.identity);
+
+		Preview.GoPreview = Object.Instantiate(_data.DropPrefab, PlayerTransform.position + PlayerTransform.forward, Quaternion.identity);
         Preview.GoPreview.GetComponent<GameObject>();
         Preview.Item = Preview.GoPreview.GetComponent<InstallableItem>();
-
+        Preview.isPreview = true;
     }
 }

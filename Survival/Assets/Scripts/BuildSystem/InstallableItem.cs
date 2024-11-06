@@ -26,8 +26,6 @@ public class InstallableItem : MonoBehaviour
 
         SaveOriginalMaterials();
 
-
-        Debug.Log(colliderList.Count);
     }
 
     private void SaveOriginalMaterials()

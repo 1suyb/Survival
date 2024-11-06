@@ -1,17 +1,6 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
-<<<<<<<< HEAD:Survival/Assets/Scripts/DB/BuildItem.meta
-guid: 646263eac99dba44d821585574ebcec8
-folderAsset: yes
-=======
-<<<<<<<< HEAD:Survival/Assets/Resources/DataSO/ResourceSheet.xlsx.meta
-guid: c0d73838ec50c1446a386967da241688
->>>>>>> Stashed changes
-DefaultImporter:
-========
-guid: 6d10b14cbd4e72d4d8c4c87be432a5e3
+guid: 4a52a3165964f3a42a6c2638badfb286
 NativeFormatImporter:
->>>>>>>> Dev:Survival/Assets/Resources/DataSO/MonsterSheet.asset.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 

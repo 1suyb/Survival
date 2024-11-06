@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PlayerController : CharacterController
@@ -180,7 +181,7 @@ public class PlayerController : CharacterController
 
     public void OnAttackInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && isAlive)
+        if (context.phase == InputActionPhase.Started && isAlive && !EventSystem.current.IsPointerOverGameObject())
         {
             _animator.SetTrigger("Attack");
         }

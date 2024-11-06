@@ -13,6 +13,7 @@ public class MonsterData
     public int AttackPower;
     public float AttackSpeed;
     public string PrefabPath;
+    public int Dropitem;
     // 아이템 
 
     private GameObject _dropPrefab;
@@ -23,7 +24,7 @@ public class MonsterData
             if (_dropPrefab == null)
             {
                 _dropPrefab = Resources.Load(PrefabPath) as GameObject;
-
+                Debug.Log("프리펩을 찾았다!: " + PrefabPath); // 찾았습니다. 
             }
 
             return _dropPrefab;

@@ -20,7 +20,8 @@ MonoBehaviour:
     Speed: 10
     AttackPower: 10
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Blue'
+    PrefabPath: Prefabs/Monster/1/Blue
+    Dropitem: 104
   - Id: 2
     type: 1
     Name: PachycephalaGreen
@@ -28,7 +29,8 @@ MonoBehaviour:
     Speed: 10
     AttackPower: 20
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Green'
+    PrefabPath: Prefabs/Monster/1/Green
+    Dropitem: 104
   - Id: 3
     type: 1
     Name: PachycephalaRed
@@ -36,7 +38,8 @@ MonoBehaviour:
     Speed: 10
     AttackPower: 30
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Red'
+    PrefabPath: Prefabs/Monster/1/Red
+    Dropitem: 104
   - Id: 4
     type: 2
     Name: StegaBlue
@@ -44,23 +47,26 @@ MonoBehaviour:
     Speed: 10
     AttackPower: 40
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Red'
+    PrefabPath: Prefabs/Monster/2/Blue
+    Dropitem: 103
   - Id: 5
     type: 2
-    Name: StegaBlue
+    Name: StegaGreen
     Health: 100
     Speed: 10
     AttackPower: 50
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Red'
+    PrefabPath: Prefabs/Monster/2/Green
+    Dropitem: 103
   - Id: 6
     type: 2
-    Name: StegaBlue
+    Name: StegaPurple
     Health: 100
     Speed: 10
     AttackPower: 60
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Red'
+    PrefabPath: Prefabs/Monster/2/Purple
+    Dropitem: 103
   - Id: 7
     type: 3
     Name: RaptoBlue
@@ -68,20 +74,23 @@ MonoBehaviour:
     Speed: 10
     AttackPower: 70
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Red'
+    PrefabPath: Prefabs/Monster/3/Blue
+    Dropitem: 102
   - Id: 8
     type: 3
-    Name: RaptoBlue
+    Name: RaptoGreen
     Health: 200
     Speed: 10
     AttackPower: 80
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Red'
+    PrefabPath: Prefabs/Monster/3/Green
+    Dropitem: 102
   - Id: 9
     type: 3
-    Name: RaptoBlue
+    Name: RaptoOrange
     Health: 200
     Speed: 10
     AttackPower: 90
     AttackSpeed: 10
-    PrefabPath: ' Monster/1/Red'
+    PrefabPath: Prefabs/Monster/3/Orange
+    Dropitem: 121

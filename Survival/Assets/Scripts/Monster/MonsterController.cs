@@ -4,16 +4,15 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.AI;
 using System.Collections;
+using System;
+using Random = UnityEngine.Random;
+
 
 public class MonsterController : CharacterController, IDamagable
 {
-
-    [Tooltip("테스트 타겟입니다.")] // Player.Instance 사용 시 null 오류 
-    public GameObject _TestTarget;
-
     [Header("Move")]
-    [SerializeField] private float _minWanderDistance; // 최소 거리
-    [SerializeField] private float _maxWanderDistance; // 최대 거리 
+    [SerializeField] private float _minWanderDistance = 10; // 최소 거리
+    [SerializeField] private float _maxWanderDistance = 10; // 최대 거리 
     [SerializeField] private float _rotationSpeed = 3f; // 회전 속도
 
     [SerializeField] private NavMeshAgent _agent;
@@ -25,6 +24,9 @@ public class MonsterController : CharacterController, IDamagable
 
     [Header("Attack")]
     [SerializeField] private Coroutine _attackCoroutine;
+    [SerializeField] private bool _isDamageTaken = false;
+
+    [SerializeField] private bool _isDie = false;
 
     public MonsterAI _monsterAI;
     private Monster _monster;
@@ -35,9 +37,6 @@ public class MonsterController : CharacterController, IDamagable
         _monsterAI = GetComponent<MonsterAI>();
         _monster = GetComponent<Monster>();
         _path = new NavMeshPath();
-
-        // 몬스터 data 값 받아오기 
-
     } // 초기화 
     public override void Move()  // 목적지에 도달하면 
     {
@@ -52,14 +51,14 @@ public class MonsterController : CharacterController, IDamagable
     Vector3 GetWanderLocation() // 새로운 위치 생성 
     {
         NavMeshHit hit;
-        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(_minWanderDistance, _maxWanderDistance)),
+        NavMesh.SamplePosition(transform.position + (UnityEngine.Random.onUnitSphere * UnityEngine.Random.Range(_minWanderDistance, _maxWanderDistance)),
                                out hit, _maxWanderDistance, NavMesh.AllAreas);
 
         return hit.position;
     }
     public void Run() // 타겟 추적 
     {
-        if (_monsterAI.PlayerDistance > _attackDistance || !IsPlayerInFieldOfView())
+        if (_monsterAI.PlayerDistance < _attackDistance || !IsPlayerInFieldOfView())
         {
             _agent.isStopped = false;
 
@@ -76,7 +75,7 @@ public class MonsterController : CharacterController, IDamagable
     }
     bool IsPlayerInFieldOfView() // 시야가 있는지 
     {
-        Vector3 directionToPlayer = _TestTarget.transform.position - transform.position;
+        Vector3 directionToPlayer = PlayerManager.Instance.Player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         return angle < _fieldOfView * 0.5f;
     }
@@ -84,15 +83,14 @@ public class MonsterController : CharacterController, IDamagable
     {
         if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
         _attackCoroutine = StartCoroutine(AttackRoutine());
-    }
-    private IEnumerator AttackRoutine()
+    } // 공격
+    private IEnumerator AttackRoutine() // 공격 시작 
     {
         var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
+
         if (playerCondition != null)
-        {
-            playerCondition.TakeDamage(_monster.AttackPower); 
-            yield return new WaitForSeconds(_monster.AttackSpeed); 
-        }
+            playerCondition.TakeDamage(_monster.AttackPower);
+        yield return new WaitForSeconds(_monster.AttackSpeed);
     }
     public void StopAttack()
     {
@@ -101,23 +99,51 @@ public class MonsterController : CharacterController, IDamagable
             StopCoroutine(_attackCoroutine);
             _attackCoroutine = null;
         }
-    }
+    } // 공격 정지 
     public void Return()
     {
-        // 원래 자리로 돌아가다
-    }
+        Vector3 returnposition = _monster.SavedPosition();
+        _agent.SetDestination(returnposition);
+    } // 돌아가기 
     public override void Die()
     {
-        // 오브젝트 파괴
-    }
-    public override void Look()
+        int randomValue = Random.Range(1, 6);
+        SpawnManager.Instance.SpawnItem(_monster.Dropitem, this.transform.position, randomValue); // 아이템을 드롭
+        gameObject.SetActive(false);
+    } // 사망  
+    public bool IsDie()
     {
-        // 타겟 방향으로 회전 
+        if (_monster.Health <= 0)
+        {
+            _isDie = true;
+        }
+        return _isDie;
+    }
+    public override void Look() // 미사용
+    {
+
+    }
+    public void ApplyPlayerDamage() // 데미지 적용 
+    {
+        int playerAttackPower = PlayerManager.Instance.Player.GetComponent<PlayerData>().AttackPower();
+        TakeDamage(playerAttackPower);
+    }
+    public void TakeDamage(int damage) // 피격 시 // 플레이어가 몬스터를 공격하면 호출됩니다 
+    {
+        Debug.Log($"현재 몬스터 체력 : {_monster.Health} 들어온 플레이어 데미지 : {damage}");
+
+        _isDamageTaken = true;
+        _monster.Health -= damage;
+
+        if (IsDie())
+        {
+            Die();
+        }
     }
 
-	public void TakeDamage(int damage)
-	{
-        Debug.Log("맞았음!");
-	}
+    public bool IsDamageTaken() // 피격 상태 체크
+    {
+        return _isDamageTaken;
+    }
 }
 

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6399560786918694794}
   - component: {fileID: -8430305285539906141}
   - component: {fileID: 8409699445677443071}
-  - component: {fileID: -4335004070050248561}
+  - component: {fileID: -6033971664920996881}
   m_Layer: 0
   m_Name: Type 2 Monster Object
   m_TagString: Untagged
@@ -57,6 +57,7 @@ MonoBehaviour:
   type: 0
   Name: 
   DropPrefab: {fileID: 0}
+  Dropitem: 0
 --- !u!114 &2296654257801683842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +96,8 @@ MonoBehaviour:
   _agent: {fileID: 0}
   _fieldOfView: 120
   _attackDistance: 20
+  _isDamageTaken: 0
+  _isDie: 0
   _monsterAI: {fileID: 0}
 --- !u!195 &-8430305285539906141
 NavMeshAgent:
@@ -143,10 +146,10 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &-4335004070050248561
-BoxCollider:
+--- !u!136 &-6033971664920996881
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -163,6 +166,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2, y: 4, z: 9}
-  m_Center: {x: 0, y: 2, z: -1}
+  serializedVersion: 2
+  m_Radius: 1.7350466
+  m_Height: 6.5191207
+  m_Direction: 1
+  m_Center: {x: 0.11629355, y: 2.7595603, z: -0.70310235}

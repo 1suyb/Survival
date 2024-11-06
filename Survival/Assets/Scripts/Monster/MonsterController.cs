@@ -11,8 +11,8 @@ using Random = UnityEngine.Random;
 public class MonsterController : CharacterController, IDamagable
 {
     [Header("Move")]
-    [SerializeField] private float _minWanderDistance = 10; // 최소 거리
-    [SerializeField] private float _maxWanderDistance = 10; // 최대 거리 
+    [SerializeField] private float _minWanderDistance = 10f; // 최소 거리
+    [SerializeField] private float _maxWanderDistance = 10f; // 최대 거리 
     [SerializeField] private float _rotationSpeed = 3f; // 회전 속도
 
     [SerializeField] private NavMeshAgent _agent;
@@ -58,10 +58,12 @@ public class MonsterController : CharacterController, IDamagable
     }
     public void Run() // 타겟 추적 
     {
+        // 플레이어와의 거리값이 20보다 작고 시야각에 보일 때
         if (_monsterAI.PlayerDistance < _attackDistance || !IsPlayerInFieldOfView())
         {
             _agent.isStopped = false;
 
+            // 플레이어 위치로 이동 
             if (_agent.CalculatePath(PlayerManager.Instance.Player.transform.position, _path))
             {
                 _agent.SetDestination(PlayerManager.Instance.Player.transform.position);
@@ -81,8 +83,12 @@ public class MonsterController : CharacterController, IDamagable
     }
     public override void Attack()
     {
-        if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
-        _attackCoroutine = StartCoroutine(AttackRoutine());
+        Debug.Log("공격했다!");
+        if (_attackCoroutine == null)
+        {
+            // 실행
+            _attackCoroutine = StartCoroutine(AttackRoutine());
+        }
     } // 공격
     private IEnumerator AttackRoutine() // 공격 시작 
     {
@@ -91,6 +97,8 @@ public class MonsterController : CharacterController, IDamagable
         if (playerCondition != null)
             playerCondition.TakeDamage(_monster.AttackPower);
         yield return new WaitForSeconds(_monster.AttackSpeed);
+        // 이걸 한 번 실행하고 나서 다시 null로 만든다 
+        _attackCoroutine = null;
     }
     public void StopAttack()
     {

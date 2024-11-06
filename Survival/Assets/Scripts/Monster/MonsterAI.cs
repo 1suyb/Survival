@@ -23,15 +23,15 @@ public class MonsterAI : MonoBehaviour
     } 
 
     [Header("Idle")]
-    [SerializeField] private float _minWanderWaitTime = 10;
-    [SerializeField] private float _maxWanderWaitTime = 10;
+    [SerializeField] private float _minWanderWaitTime = 10f;
+    [SerializeField] private float _maxWanderWaitTime = 10f;
 
     [Header("Run")]
-    [SerializeField] private float _detectDistance = 20;
+    [SerializeField] private float _detectDistance = 20f;
 
     [Header("Attack")]
-    [SerializeField] private int _attackDistance = 3;
-    [SerializeField] private int _returnDistance = 40;
+    [SerializeField] private float _attackDistance = 3f;
+    [SerializeField] private float _returnDistance = 400f;
 
 
     [SerializeField] private AIState aiState;
@@ -54,9 +54,7 @@ public class MonsterAI : MonoBehaviour
         // 매 프레임마다 거리 체크 
         _playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
 
-        //float returnposition = Vector3.Distance(transform.position, _monster.SavedPosition());
-        //Debug.Log($"리스폰과 현재 거리 사이값 : {returnposition}");
-
+        //Debug.Log($"플레이어 거리 : {_playerDistance} 공격 범위 거리 : {_attackDistance}");
         if (_monsterController.IsDie())
         {
             SetState(AIState.Death);
@@ -67,7 +65,7 @@ public class MonsterAI : MonoBehaviour
         {
             SetState(AIState.Return);
         }
-
+       
         // 공격 거리 안이라면 공격
         if (_playerDistance < _attackDistance)
         {
@@ -133,7 +131,7 @@ public class MonsterAI : MonoBehaviour
                 break;
             case AIState.Return:
                 Debug.Log("너무 멀리왔다!");
-                _monsterController.Attack();
+                _monsterController.Return();
                 _animator.SetBool("isMoving", true);
                 break;
             case AIState.Death:

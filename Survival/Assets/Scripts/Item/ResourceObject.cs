@@ -27,7 +27,10 @@ public class ResourceObject : MonoBehaviour, IInteractable, IDamagable, ILoadabl
 		if(_data.ResourceGetType == ResourceGetType.Gatherable)
 		{
 			PlayerManager.Instance.Inventory.AddItem(ItemDB.Instance.Get(_data.DropItemID),_data.DropCount);
-			this.gameObject.SetActive(false);
+			if (_data.ID != 102)
+			{
+				this.gameObject.SetActive(false);
+			}
 		}
 		ClosePrompt();
 	}
@@ -51,13 +54,14 @@ public class ResourceObject : MonoBehaviour, IInteractable, IDamagable, ILoadabl
 		if (_durability == 0)
 		{
 			DropItem();
+			ClosePrompt();
 			this.gameObject.SetActive(false);
 		}
 	}
 
 	private void DropItem()
 	{
-		SpawnManager.Instance.SpawnItem(_data.DropItemID, this.transform.position,_data.DropCount);
+		SpawnManager.Instance.SpawnItem(_data.DropItemID, this.transform.position+transform.up*1f,_data.DropCount);
 	}
 
 	public void Load(int id)

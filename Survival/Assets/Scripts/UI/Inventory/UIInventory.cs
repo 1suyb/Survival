@@ -100,6 +100,7 @@ public class UIInventory : UI
 
 		if(_selectedSlot.Index == index)
 		{
+			_useButton.gameObject.SetActive(true);
 			switch(itemInfo.Type)
 			{
 				case "Weapon":
@@ -115,7 +116,8 @@ public class UIInventory : UI
 				case "Consumable":
 					_useButtonLabel.text = "사용하기";
 					break;
-				default: 
+				default:
+					_useButton.gameObject.SetActive(false);
 					break;
 			}
 		} 

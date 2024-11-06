@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -210,7 +212,7 @@ public class PlayerController : CharacterController
 
     private IEnumerator ScaleUpEndPanel()
     {
-        float duration = 3f; // ÆäÀÌµå ÀÎ ½Ã°£
+        float duration = 3f; // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ ï¿½Ã°ï¿½
         float elapsed = 0f;
 
         List<Image> images = new List<Image>(_endPanel.GetComponentsInChildren<Image>());

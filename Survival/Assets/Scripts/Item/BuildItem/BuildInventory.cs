@@ -4,27 +4,26 @@ using UnityEngine;
 
 public class BuildInventory
 {
-	private ClassPoolSystem<BuildInventoryItem> pool = new ClassPoolSystem<BuildInventoryItem>(minSize:GameConfig.INVENTORYSIZE);
+	private ClassPoolSystem<BuildInventoryItem> pool = new ClassPoolSystem<BuildInventoryItem>(minSize:GameConfig.BUILDINVENTORYSIZE); // 이것도... 빌드인벤토리에선 필요없어용...
 	private BuildInventoryItem[] _inventoryItems = new BuildInventoryItem[GameConfig.BUILDINVENTORYSIZE];
 	public BuildInventoryItem[] InventoryItems => _inventoryItems;
 
-	public int Size => GameConfig.INVENTORYSIZE;
+	public int Size => GameConfig.BUILDINVENTORYSIZE;
 	public bool IsFull => IndexOfEmptySlot() == -1;
 
 
 	public BuildInventory()
 	{
-        var enumerator = BuildItemDB.Instance.DbEnumerator() as IEnumerator<KeyValuePair<int, BuildItemData>>;
+		BuildItemDB.Instance.ItemDB();
+		var enumerator = BuildItemDB.Instance.DbEnumerator();
 
         if (enumerator != null)
         {
-            int index = 0;
-            while (enumerator.MoveNext() && index < _inventoryItems.Length)
-            {
-                var currentItem = enumerator.Current;
-				_inventoryItems[index] = new BuildInventoryItem(currentItem.Value, 1);
-                index++;
-            }
+			int index = 0;
+			foreach(var item in enumerator.Values)
+			{
+				_inventoryItems[index++] = new BuildInventoryItem(item, 1);
+			}
         }
 
     }

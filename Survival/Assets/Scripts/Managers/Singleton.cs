@@ -21,10 +21,22 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 						go = new GameObject("Manager");
 						DontDestroyOnLoad(go);
 					}
-					s_instance = go.AddComponent<T>();
+					s_instance = go.AddUniqueComponent<T>();
 				}
 			}
 			return s_instance;
+		}
+	}
+	private void Awake()
+	{
+		if(s_instance == null)
+		{
+			s_instance = this as T;
+			DontDestroyOnLoad (this.gameObject);
+		}
+		else
+		{
+			Destroy(this.gameObject);
 		}
 	}
 }

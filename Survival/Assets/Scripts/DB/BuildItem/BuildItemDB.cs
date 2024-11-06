@@ -15,7 +15,6 @@ public class BuildItemDB : Singleton<BuildItemDB>
         ItemDB();
     }
 
-
     public void ItemDB()
     {
             
@@ -43,23 +42,17 @@ public class BuildItemDB : Singleton<BuildItemDB>
         }
        
     }
-
-
     //ø¢ºø µ•¿Ã≈Õ Ω∫≈©∏≥∆Æ 
     public BuildItemData Get(int id)
     {
-
         if(_itmes.ContainsKey(id))
             return _itmes[id];
 
         return null;
     }
-
-
-    public IEnumerator DbEnumerator()
+    public Dictionary<int, BuildItemData> DbEnumerator()
     {
-
-        return _itmes.GetEnumerator();
+        return _itmes;
     }
 
 }

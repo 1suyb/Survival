@@ -26,6 +26,7 @@ public class MonsterController : CharacterController, IDamagable
     [SerializeField] private Coroutine _attackCoroutine;
     [SerializeField] private bool _isDamageTaken = false;
 
+    [SerializeField] private bool _isDie = false;
 
     public MonsterAI _monsterAI;
     private Monster _monster;
@@ -85,12 +86,12 @@ public class MonsterController : CharacterController, IDamagable
     } // 공격
     private IEnumerator AttackRoutine() // 공격 시작 
     {
-        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>(); 
+        var playerCondition = PlayerManager.Instance.Player.GetComponent<IDamagable>();
 
         if (playerCondition != null)
             playerCondition.TakeDamage(_monster.AttackPower);
         yield return new WaitForSeconds(_monster.AttackSpeed);
-    }  
+    }
     public void StopAttack()
     {
         if (_attackCoroutine != null)
@@ -106,16 +107,21 @@ public class MonsterController : CharacterController, IDamagable
     } // 돌아가기 
     public override void Die()
     {
+        int randomValue = Random.Range(1, 6);
+        SpawnManager.Instance.SpawnItem(_monster.Dropitem, this.transform.position, randomValue); // 아이템을 드롭
+        gameObject.SetActive(false);
+    } // 사망  
+    public bool IsDie()
+    {
         if (_monster.Health <= 0)
         {
-            int randomValue = Random.Range(1, 6);
-            SpawnManager.Instance.SpawnItem(_monster.Dropitem, this.transform.position, randomValue); // 아이템을 드롭
-            gameObject.SetActive(false);
+            _isDie = true;
         }
-    } // 사망  
+        return _isDie;
+    }
     public override void Look() // 미사용
     {
-   
+
     }
     public void ApplyPlayerDamage() // 데미지 적용 
     {
@@ -125,11 +131,17 @@ public class MonsterController : CharacterController, IDamagable
     public void TakeDamage(int damage) // 피격 시 // 플레이어가 몬스터를 공격하면 호출됩니다 
     {
         Debug.Log($"현재 몬스터 체력 : {_monster.Health} 들어온 플레이어 데미지 : {damage}");
+
         _isDamageTaken = true;
         _monster.Health -= damage;
+
+        if (IsDie())
+        {
+            Die();
+        }
     }
 
-    public bool IsDamageTaken()
+    public bool IsDamageTaken() // 피격 상태 체크
     {
         return _isDamageTaken;
     }

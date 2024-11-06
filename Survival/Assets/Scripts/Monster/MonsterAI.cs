@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 public enum AIState
@@ -55,6 +56,11 @@ public class MonsterAI : MonoBehaviour
 
         //float returnposition = Vector3.Distance(transform.position, _monster.SavedPosition());
         //Debug.Log($"리스폰과 현재 거리 사이값 : {returnposition}");
+
+        if (_monsterController.IsDie())
+        {
+            SetState(AIState.Death);
+        }
 
         // 리스폰 구역에서 너무 벗어나면 
         if ((Vector3.Distance(transform.position, _monster.SavedPosition()) > _returnDistance))
@@ -120,7 +126,6 @@ public class MonsterAI : MonoBehaviour
                     _animator.SetTrigger("Attack");
                 }
                 _monsterController.Attack();
-
                 if (_monsterController.IsDamageTaken()) // 피격 당했다면 
                 {
                     _animator.SetTrigger("Damage"); 
@@ -131,8 +136,12 @@ public class MonsterAI : MonoBehaviour
                 _monsterController.Attack();
                 _animator.SetBool("isMoving", true);
                 break;
+            case AIState.Death:
+                Debug.Log("죽었다!");
+                _animator.SetBool("Die", true);
+                break;
         }
-    }
+    } // 상태에 따른 동작과 애니메이션 기능
     private void ExitState(AIState state)
     {
         switch (state)
@@ -146,7 +155,7 @@ public class MonsterAI : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(_minWanderWaitTime, _maxWanderWaitTime));
         SetState(AIState.Move);
-    }
+    } // 랜덤 시간 동안 대기 상태 
 }
 
 

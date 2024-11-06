@@ -29,7 +29,6 @@ public class BuildInventory
 
     }
 
-
 	public bool HasThisItem(BuildInventoryItem item)
 	{
 		return HasThisItem(item.Data.Id);
@@ -111,92 +110,6 @@ public class BuildInventory
 
 	private bool IsNull(int i) { return _inventoryItems[i] == null; }
 
-	public void AddItem(BuildItemData itemData,int count)
-	{
-		if (HasThisItem(itemData))
-		{
-			if (itemData.MaxStackAmount > 0)
-			{
-				count = DistributeItemQuantity(itemData, count);
-				if(count == 0)
-				{
-					return;
-				}
-			}
-		}
 
-		if(IsFull)
-		{
-			Debug.Log("주울 수 없음!");
-		}
-		else
-		{
-			AddNewItem(itemData, count);
-		}
-	}
-
-	private int DistributeItemQuantity(BuildItemData itemData, int count)
-	{
-		List<int> indices = Indices(itemData.Id);
-		for (int i = 0; i < indices.Count; i++)
-		{
-			
-			
-		}
-		return count;
-	}
-
-	private void AddItemQuantity(int index, int count)
-	{
-		_inventoryItems[index].AddCount(count);
-	}
-	private void AddNewItem(BuildItemData data,int count)
-	{
-		int index = IndexOfEmptySlot();
-		if (IsNull(index))
-		{
-			_inventoryItems[index] = pool.TakeFromPool();
-			_inventoryItems[index].Init(data,count);
-			if (count > data.MaxStackAmount)
-			{
-				count -= data.MaxStackAmount;
-			}
-			count = 0;
-		}
-		else
-		{
-			_inventoryItems[index].SetData(data);
-			count--;
-		}
-		
-		if(count > 0)
-		{
-			
-			
-		}
-	}
-	public void DropItem(int index, int count)
-	{
-		BuildInventoryItem item = _inventoryItems[index];
-		if (item.Count < count)
-		{
-			Debug.Log("잘못된 개수 요청");
-			return;
-		}
-		item.SubtractCount(count);
-		if(item.Count == 0)
-		{
-			pool.Relase(item);
-		}
-		_inventoryItems[index]=null;
-		
-	}
-
-	public void SwapItem(int i, int j)
-	{
-		BuildInventoryItem tempItem = _inventoryItems[i];
-		_inventoryItems[i] = _inventoryItems[j];
-		_inventoryItems[j] = tempItem;
-	}
 
 }

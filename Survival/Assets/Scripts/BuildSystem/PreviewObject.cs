@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Progress;
+
 
 public class PreviewObject : MonoBehaviour
 {
@@ -12,6 +12,11 @@ public class PreviewObject : MonoBehaviour
     [SerializeField]
     private GameObject _goPreview;
 
+    public GameObject GoPreview
+    {
+        get => _goPreview;
+        set => _goPreview = value;
+    }
 
     private InstallableItem _item;
 
@@ -19,6 +24,20 @@ public class PreviewObject : MonoBehaviour
     // 플레이어 위치
     [SerializeField]
     private Transform _tfPlayer;
+
+
+    public Transform TfPlayer
+    {
+        get => _tfPlayer;
+        private set => _tfPlayer = value;
+    }
+
+    public InstallableItem Item
+    {
+        get => _item;
+        set => _item = value;
+    }
+
 
     private RaycastHit hitInfo;
 
@@ -39,11 +58,7 @@ public class PreviewObject : MonoBehaviour
     {
         _camera = Camera.main;
 
-        //Todo : 이 부분을 아이템 사용 버튼 클릭 시 활성화 되도록 해야 함.
-
-        _goPreview = Instantiate(_goPreview, _tfPlayer.position + _tfPlayer.forward, Quaternion.identity);
-        _goPreview.GetComponent<GameObject>();
-        _item = _goPreview.GetComponent<InstallableItem>();
+ 
     }
 
 

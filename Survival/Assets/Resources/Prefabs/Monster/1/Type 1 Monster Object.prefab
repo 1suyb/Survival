@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7407340069931478811}
   - component: {fileID: 7448400696624399806}
   - component: {fileID: 7038502332214572241}
-  - component: {fileID: 7680889223787720044}
   - component: {fileID: 7521000103358651894}
   - component: {fileID: 4681141062396414442}
+  - component: {fileID: 4009779271487033790}
   m_Layer: 0
   m_Name: Type 1 Monster Object
   m_TagString: Untagged
@@ -71,6 +71,8 @@ MonoBehaviour:
   _agent: {fileID: 0}
   _fieldOfView: 120
   _attackDistance: 20
+  _isDamageTaken: 0
+  _isDie: 0
   _monsterAI: {fileID: 0}
 --- !u!195 &7448400696624399806
 NavMeshAgent:
@@ -121,27 +123,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &7680889223787720044
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772353503318334649}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 3}
-  m_Center: {x: 0, y: 1, z: -0.3}
 --- !u!114 &7521000103358651894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +143,7 @@ MonoBehaviour:
   type: 0
   Name: 
   DropPrefab: {fileID: 0}
+  Dropitem: 0
 --- !u!114 &4681141062396414442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,3 +164,26 @@ MonoBehaviour:
   aiState: 0
   _monsterController: {fileID: 0}
   _animator: {fileID: 0}
+--- !u!136 &4009779271487033790
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772353503318334649}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.64103836
+  m_Height: 2.4790587
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0.24103825}

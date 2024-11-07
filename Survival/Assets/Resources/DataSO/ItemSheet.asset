@@ -1,0 +1,212 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a11f897853a4908489d367d6f1807b95, type: 3}
+  m_Name: ItemSheet
+  m_EditorClassIdentifier: 
+  ItemData:
+  - ID: 101
+    Name: "\uBB3C"
+    Description: "\uBB3C\uC785\uB2C8\uB2E4. \uC218\uBD84\uC744 10 \uC81C\uACF5\uD569\uB2C8\uB2E4."
+    Type: 1
+    Health: 0
+    Stamina: 0
+    Hunger: 0
+    Water: 10
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 10
+    SpritePath: Sprites/Item/101
+    PrefabPath: ItemPrefabs/101
+  - ID: 102
+    Name: "\uB7A9\uD130\uACE0\uAE30"
+    Description: "\uB7A9\uD130\uC758 \uACE0\uAE30\uC785\uB2C8\uB2E4. \uD5C8\uAE30\uB97C
+      10 \uC81C\uACF5\uD569\uB2C8\uB2E4"
+    Type: 1
+    Health: 0
+    Stamina: 0
+    Hunger: 10
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 5
+    SpritePath: Sprites/Item/102
+    PrefabPath: ItemPrefabs/102
+  - ID: 103
+    Name: "\uC2A4\uD14C\uACE0\uC0AC\uC6B0\uB974\uC2A4"
+    Description: "\uC2A4\uD14C\uACE0\uC0AC\uC6B0\uB974\uC2A4\uC758 \uACE0\uAE30\uC785\uB2C8\uB2E4.
+      \uD5C8\uAE30\uB97C 10 \uC81C\uACF5\uD569\uB2C8\uB2E4"
+    Type: 1
+    Health: 0
+    Stamina: 0
+    Hunger: 10
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 5
+    SpritePath: Sprites/Item/103
+    PrefabPath: ItemPrefabs/103
+  - ID: 104
+    Name: "\uD30C\uD0A4\uCF00\uD314\uB85C\uC0AC\uC6B0\uB8E8\uC2A4"
+    Description: "\uD30C\uD0A4\uCF00\uD314\uB85C\uC0AC\uC6B0\uB8E8\uC2A4\uC758 \uACE0\uAE30\uC785\uB2C8\uB2E4.
+      \uD5C8\uAE30\uB97C 10 \uC81C\uACF5\uD569\uB2C8\uB2E4"
+    Type: 1
+    Health: 0
+    Stamina: 0
+    Hunger: 10
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 5
+    SpritePath: Sprites/Item/104
+    PrefabPath: ItemPrefabs/104
+  - ID: 111
+    Name: "\uD480"
+    Description: "\uD480\uC785\uB2C8\uB2E4. \uBA39\uC744 \uC21C \uC788\uC9C0\uB9CC
+      \uB9DB\uC740 \uC5C6\uC2B5\uB2C8\uB2E4. \uD5C8\uAE30\uB97C 1 \uC81C\uACF5\uD569\uB2C8\uB2E4."
+    Type: 1
+    Health: 0
+    Stamina: 0
+    Hunger: 1
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 10
+    SpritePath: Sprites/Item/111
+    PrefabPath: ItemPrefabs/111
+  - ID: 112
+    Name: "\uB2F9\uADFC"
+    Description: "\uB2F9\uADFC\uC785\uB2C8\uB2E4. \uB9DB\uC788\uC5B4 \uBCF4\uC774\uB124\uC694.
+      \uD5C8\uAE30\uB97C 5, \uC774\uB3D9\uC18D\uB3C4\uB97C 1 \uC99D\uAC00\uC2DC\uCF1C\uC90D\uB2C8\uB2E4."
+    Type: 1
+    Health: 0
+    Stamina: 0
+    Hunger: 5
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 1
+    JumpForce: 0
+    Duration: 10
+    ISStackable: 0
+    MaxQuantity: 10
+    SpritePath: Sprites/Item/112
+    PrefabPath: ItemPrefabs/112
+  - ID: 121
+    Name: "\uC798\uAD6C\uC6B4 \uB7A9\uD130\uACE0\uAE30"
+    Description: "\uC798 \uAD6C\uC6CC\uC9C4 \uB7A9\uD130 \uACE0\uAE30\uC785\uB2C8\uB2E4.
+      \uD5C8\uAE30\uB97C 20 \uC81C\uACF5\uD569\uB2C8\uB2E4. \uCCB4\uC628\uC744 1\uB3C4
+      \uC62C\uB824\uC90D\uB2C8\uB2E4."
+    Type: 1
+    Health: 0
+    Stamina: 0
+    Hunger: 20
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 5
+    SpritePath: Sprites/Item/121
+    PrefabPath: ItemPrefabs/121
+  - ID: 201
+    Name: "\uB098\uBB34"
+    Description: "\uB098\uBB34\uC785\uB2C8\uB2E4."
+    Type: 2
+    Health: 0
+    Stamina: 0
+    Hunger: 0
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 30
+    SpritePath: Sprites/Item/201
+    PrefabPath: ItemPrefabs/201
+  - ID: 210
+    Name: "\uB3CC"
+    Description: "\uB3CC\uC785\uB2C8\uB2E4."
+    Type: 2
+    Health: 0
+    Stamina: 0
+    Hunger: 0
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 0
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 30
+    SpritePath: Sprites/Item/210
+    PrefabPath: ItemPrefabs/210
+  - ID: 301
+    Name: "\uBA54\uC774\uC2A4"
+    Description: "\uBA54\uC774\uC2A4 \uC785\uB2C8\uB2E4. \uC678\uD615\uC740 \uBCC0\uD558\uC9C0
+      \uC54A\uC9C0\uB9CC \uACF5\uACA9\uB825\uC774 10 \uC0C1\uC2B9\uD569\uB2C8\uB2E4."
+    Type: 3
+    Health: 0
+    Stamina: 0
+    Hunger: 0
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 10
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 1
+    SpritePath: Sprites/Item/301
+    PrefabPath: ItemPrefabs/301
+  - ID: 302
+    Name: "\uC880\uB354\uC388\uBA54\uC774\uC2A4"
+    Description: "\uADF8\uB0E5 \uBA54\uC774\uC2A4\uBCF4\uB2E4 \uCABC\uB054 \uB354
+      \uC388 \uBA54\uC774\uC2A4\uC785\uB2C8\uB2E4. \uC598\uB3C4 \uC678\uD615\uC740
+      \uC548\uBCC0\uD558\uC9C0\uB9CC \uACF5\uACA9\uB825\uC774 15\uC99D\uAC00\uD569\uB2C8\uB2E4"
+    Type: 3
+    Health: 0
+    Stamina: 0
+    Hunger: 0
+    Water: 0
+    BodyTemperture: 0
+    AttackPower: 15
+    MoveSpeed: 0
+    JumpForce: 0
+    Duration: 0
+    ISStackable: 0
+    MaxQuantity: 1
+    SpritePath: Sprites/Item/302
+    PrefabPath: ItemPrefabs/302

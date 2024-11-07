@@ -23,15 +23,15 @@ public class MonsterAI : MonoBehaviour
     } 
 
     [Header("Idle")]
-    [SerializeField] private float _minWanderWaitTime = 10f;
-    [SerializeField] private float _maxWanderWaitTime = 10f;
+    [SerializeField] private float _minWanderWaitTime = 10;
+    [SerializeField] private float _maxWanderWaitTime = 10;
 
     [Header("Run")]
-    [SerializeField] private float _detectDistance = 20f;
+    [SerializeField] private float _detectDistance = 20;
 
     [Header("Attack")]
-    [SerializeField] private float _attackDistance = 5f;
-    [SerializeField] private float _returnDistance = 400f;
+    [SerializeField] private int _attackDistance = 3;
+    [SerializeField] private int _returnDistance = 40;
 
 
     [SerializeField] private AIState aiState;
@@ -39,11 +39,7 @@ public class MonsterAI : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     private Monster _monster;
-
-    private Coroutine _idleCoroutine;
-	private WaitForSeconds _wait = new WaitForSeconds(0.5f);
-
-	private void Awake()
+    private void Awake()
     {
         _monsterController = GetComponent<MonsterController>();
         _monster = GetComponent<Monster>();
@@ -52,136 +48,91 @@ public class MonsterAI : MonoBehaviour
     {
         _animator = GetComponentInChildren<Animator>();
         SetState(AIState.Move);
-        StartCoroutine(AIUpdate());
     }  
-
-    private void IdleAnimation()
+    private void Update() // 상태 전환 
     {
-		_animator.SetBool("isRunning", false);
-		_animator.SetBool("isMoving", false);
-		_animator.SetBool("isAttack", false);
-	}
+        // 매 프레임마다 거리 체크 
+        _playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
 
-	private void MoveAnimation()
-	{
-		_animator.SetBool("isRunning", false);
-		_animator.SetBool("isMoving", true);
-		_animator.SetBool("isAttack", false);
-	}
-	private void RunAnimation()
-	{
-		_animator.SetBool("isRunning", false);
-		_animator.SetBool("isMoving", true);
-		_animator.SetBool("isAttack", false);
-	}
+        //float returnposition = Vector3.Distance(transform.position, _monster.SavedPosition());
+        //Debug.Log($"리스폰과 현재 거리 사이값 : {returnposition}");
 
-    private void AttackAnimation()
-    {
-		_animator.SetBool("isRunning", false);
-		_animator.SetBool("isMoving", false);
-		_animator.SetBool("isAttack", true);
-	}
-
-	private IEnumerator AIUpdate()
-    {
-        while (true)
+        if (_monsterController.IsDie())
         {
-			yield return _wait;
-			_playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
-			_playerDistance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
-			if (_monsterController.IsDie())
-			{
-				Debug.Log("A");
-				SetState(AIState.Death);
-			}
-			else if ((Vector3.Distance(transform.position, _monster.SavedPosition()) > _returnDistance))
-			{
-				Debug.Log("B");
-				SetState(AIState.Return);
-			}
-			else if (_playerDistance < _attackDistance)
-			{
-				Debug.Log("C");
-				SetState(AIState.Attack);
-			}
-			else if (_playerDistance < _detectDistance)
-			{
-				Debug.Log("D");
-				SetState(AIState.Run);
-			}
-			else if (_monsterController.HasReachedDestination())
-			{
-				Debug.Log("E");
-				SetState(AIState.Idle);
-			}
-			else if (aiState != AIState.Move && _playerDistance > _detectDistance)
-			{
-				Debug.Log("F");
-				SetState(AIState.Move);
-			}
-		}
+            SetState(AIState.Death);
+        }
 
-	}
+        // 리스폰 구역에서 너무 벗어나면 
+        if ((Vector3.Distance(transform.position, _monster.SavedPosition()) > _returnDistance))
+        {
+            SetState(AIState.Return);
+        }
 
+        // 공격 거리 안이라면 공격
+        if (_playerDistance < _attackDistance)
+        {
+            SetState(AIState.Attack);
+        }
+
+        // 공격 거리 밖이고 추적 거리 안이라면 추적
+        else if (_playerDistance < _detectDistance)
+        {
+            SetState(AIState.Run);
+        }
+
+        // 목적지에 도착했고 Move 상태라면 대기 
+        else if (aiState == AIState.Move && _monsterController.HasReachedDestination())
+        {
+            SetState(AIState.Idle);
+        }
+
+        // 추적 거리 밖이라면 순찰 
+        else if (aiState != AIState.Move && _playerDistance > _detectDistance)
+        {
+            SetState(AIState.Move);
+        }
+    } 
     private void SetState(AIState newState)
     {
-
-			ExitState(aiState);
-			aiState = newState;
-			EnterState(aiState);
-
+        ExitState(aiState);
+        aiState = newState;
+        EnterState(aiState);
     }
     private void EnterState(AIState state) 
     {
         switch (state)
         {
             case AIState.Idle:
-                Debug.Log("대기!");
-				_idleCoroutine = StartCoroutine(IdleRoutine());
+                StartCoroutine(IdleRoutine());
                 _animator.SetBool("isMoving", false);
                 break;
             case AIState.Move:
-                Debug.Log("순찰!");
                 _monsterController.Move();
                 _animator.SetBool("isRunning", false);
                 _animator.SetBool("isMoving", true);
-                _animator.SetBool("isAttack", false);
                 break;
             case AIState.Run:
-                Debug.Log("쫓아가자!");
                 _animator.SetBool("isRunning", true);
-                _animator.SetBool("isMoving", false);
-                _animator.SetBool("isAttack", false);
                 _monsterController.Run();
-                if (_idleCoroutine != null)
-                {
-                    StopCoroutine(_idleCoroutine);
-                    _idleCoroutine = null;
-                }
                 break; 
             case AIState.Attack: 
-                Debug.Log("때리자!");
                 _animator.SetBool("isRunning", false);
-                _animator.SetBool("isMoving", false);
-				_animator.SetBool("isAttack", true);
-				_monsterController.Attack();
-				if (_idleCoroutine != null)
-				{
-					StopCoroutine(_idleCoroutine);
-					_idleCoroutine = null;
-				}
-				break;
+                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+                {
+                    _animator.SetTrigger("Attack");
+                }
+                _monsterController.Attack();
+                if (_monsterController.IsDamageTaken()) // 피격 당했다면 
+                {
+                    _animator.SetTrigger("Damage"); 
+                }
+                break;
             case AIState.Return:
-                Debug.Log("너무 멀리왔다!");
                 _monsterController.Return();
                 _animator.SetBool("isMoving", true);
-                _animator.SetBool("isRunning", false);
-                _animator.SetBool("isAttack", false);
                 break;
             case AIState.Death:
-                this.gameObject.SetActive(false);
-                //Debug.Log("죽었다!");
-                //_animator.SetBool("Die", true);
+                _animator.SetTrigger("Death");
                 break;
         }
     } // 상태에 따른 동작과 애니메이션 기능
@@ -198,7 +149,6 @@ public class MonsterAI : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(_minWanderWaitTime, _maxWanderWaitTime));
         SetState(AIState.Move);
-        _idleCoroutine = null;
     } // 랜덤 시간 동안 대기 상태 
 }
 

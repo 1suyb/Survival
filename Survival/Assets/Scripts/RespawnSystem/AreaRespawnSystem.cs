@@ -41,8 +41,7 @@ public class AreaRespawnSystem : MonoBehaviour
         foreach (Vector3 position in positions)
         {
 			if (_pool.IsPoolEmpty) { break; }
-			GameObject go = _pool.TakeFromPool();
-			go.transform.position = position;
+			GameObject go = _pool.TakeFromPool(position);
 		}
 
 	}

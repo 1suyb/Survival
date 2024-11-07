@@ -49,13 +49,14 @@ public class PoolingSystem
 		_pool.Push(go);
 	}
 
-	public GameObject TakeFromPool()
+	public GameObject TakeFromPool(Vector3 position = default)
 	{
 		if(IsPoolEmpty)
 		{
 			CreatePooledItem();
 		}
 		GameObject item = _pool.Pop();
+		item.transform.position = position;
 		item.SetActive(true);
 		return item;
 	}
